@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+@theme {
+  /* Charte IFJ — bleu profond institutionnel + orange éditorial + or en accent */
+  --color-primary-50: #eef3fb;
+  --color-primary-100: #d8e3f5;
+  --color-primary-200: #b0c6e9;
+  --color-primary-300: #7fa2d8;
+  --color-primary-400: #4f7cc2;
+  --color-primary-500: #2f5aa0;
+  --color-primary-600: #234a87;
+  --color-primary-700: #1b3a6b;
+  --color-primary-800: #142c52;
+  --color-primary-900: #0d1f3c;
+  --color-primary-950: #081428;
+
+  --color-accent-50: #fef4ea;
+  --color-accent-100: #fde3c8;
+  --color-accent-200: #facd9d;
+  --color-accent-300: #f6a35c;
+  --color-accent-400: #f08a30;
+  --color-accent-500: #e8720c;
+  --color-accent-600: #c95f06;
+  --color-accent-700: #a34a05;
+  --color-accent-800: #7d3906;
+  --color-accent-900: #612d08;
+
+  --color-gold: #f2b705;
+
+  --color-ink: #16181d;
+  --color-paper: #ffffff;
+  --color-mist: #f4f6f9;
+
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display), var(--font-body), ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-paper text-ink antialiased;
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+}
+
+/* Direction arabe : ajustements typographiques */
+[dir="rtl"] {
+  letter-spacing: 0 !important;
+}
+
+::selection {
+  background: var(--color-accent-500);
+  color: #fff;
+}
+
+/* Marquee partenaires */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+[dir="rtl"] .animate-marquee {
+  animation-direction: reverse;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee { animation: none; }
+}
+
+/* Apparition douce au scroll (progressive enhancement, CSS only) */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+    @keyframes reveal-up {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: none; }
+    }
+  }
+}
+
+/* Accordéon FAQ natif */
+details.faq summary::-webkit-details-marker { display: none; }
+details.faq[open] .faq-icon { transform: rotate(45deg); }
+.faq-icon { transition: transform 0.2s ease; }
+
+/* Zones tactiles confortables (≥ 44px) */
+.tap {
+  min-height: 44px;
+  min-width: 44px;
+}
