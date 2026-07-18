@@ -27,7 +27,7 @@ export default async function GalleryPage({ params }: { params: Promise<{ locale
           >
             <div className="relative aspect-[4/3] overflow-hidden">
               <div className="h-full w-full transition-transform duration-500 group-hover:scale-105">
-                <EditorialVisual tone={album.tone} label={t(album.title, l)} />
+                <EditorialVisual tone={album.tone} src={album.image} label={t(album.title, l)} />
               </div>
               <span className="absolute bottom-3 end-3 rounded-sm bg-primary-950/80 px-2 py-1 text-xs font-semibold text-white">
                 {album.count} {t(ui.labels.photos, l)}

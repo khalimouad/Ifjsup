@@ -26,7 +26,7 @@ export default async function InstitutePage({ params }: { params: Promise<{ loca
     <>
       <Section tone="dark" className="relative overflow-hidden">
         <div className="absolute inset-0 opacity-30">
-          <EditorialVisual tone={1} />
+          <EditorialVisual tone={1} src="/images/background.webp" eager />
         </div>
         <div className="relative">
           <SectionHeading dark kicker={t(ui.institute.kicker, l)} title={t(ui.institute.title, l)} text={t(ui.institute.intro, l)} />
@@ -50,7 +50,7 @@ export default async function InstitutePage({ params }: { params: Promise<{ loca
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div className="reveal overflow-hidden rounded-sm">
             <div className="aspect-[4/3]">
-              <EditorialVisual tone={4} />
+              <EditorialVisual tone={4} src="/images/presentation.webp" />
             </div>
           </div>
           <div className="reveal">

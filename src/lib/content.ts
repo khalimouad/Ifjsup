@@ -43,6 +43,7 @@ export type Campus = {
   mobile?: string;
   email: string;
   mapQuery: string;
+  image: string;
   hours: L;
   intro: L;
   highlights: L[];
@@ -60,6 +61,7 @@ export const campuses: Campus[] = [
     phones: ["0522-44-29-94", "0522-44-58-49"],
     email: "casablanca@ifjsup.ma",
     mapQuery: "IFJ+Sup+97+Bd+Hassan+Seghir+Derb+Omar+Casablanca",
+    image: "/images/plateau-tp.webp",
     hours: {
       fr: "Lun – Ven : 9h00 – 18h00 · Sam : 9h00 – 13h00",
       ar: "الاثنين – الجمعة: 9:00 – 18:00 · السبت: 9:00 – 13:00",
@@ -86,6 +88,7 @@ export const campuses: Campus[] = [
     mobile: "0661-96-27-04",
     email: "marrakech@ifjsup.ma",
     mapQuery: "IFJ+Marrakech+23+Angle+Yacoub+Mansour+Gueliz+Marrakech",
+    image: "/images/hero-plateau.webp",
     hours: {
       fr: "Lun – Ven : 9h00 – 18h00 · Sam : 9h00 – 13h00",
       ar: "الاثنين – الجمعة: 9:00 – 18:00 · السبت: 9:00 – 13:00",
@@ -111,6 +114,7 @@ export type Program = {
   degree: L;
   duration: L;
   accredited: boolean;
+  image: string;
   excerpt: L;
   description: L;
   careers: L[];
@@ -119,6 +123,7 @@ export type Program = {
 export const programs: Program[] = [
   {
     slug: "journalisme",
+    image: "/images/plateau-tp.webp",
     name: { fr: "Journalisme", ar: "الصحافة" },
     access: { fr: "BAC", ar: "الباكالوريا" },
     degree: { fr: "Diplôme de Journalisme BAC+3", ar: "دبلوم الصحافة باك+3" },
@@ -141,6 +146,7 @@ export const programs: Program[] = [
   },
   {
     slug: "ingenierie-audiovisuelle",
+    image: "/images/regie.webp",
     name: {
       fr: "Ingénierie en Technologie de l'Information Audiovisuelle",
       ar: "هندسة تكنولوجيا المعلومات السمعية البصرية",
@@ -166,6 +172,7 @@ export const programs: Program[] = [
   },
   {
     slug: "medias-numeriques",
+    image: "/images/montage.webp",
     name: { fr: "Médias Numériques", ar: "الإعلام الرقمي" },
     access: { fr: "BAC+3 / Licence", ar: "باك+3 / الإجازة" },
     degree: { fr: "Diplôme Médias Numériques", ar: "دبلوم الإعلام الرقمي" },
@@ -188,6 +195,7 @@ export const programs: Program[] = [
   },
   {
     slug: "diplomatie-sportive",
+    image: "/images/background.webp",
     name: { fr: "Diplomatie Sportive", ar: "الدبلوماسية الرياضية" },
     access: { fr: "BAC+3 / Licence", ar: "باك+3 / الإجازة" },
     degree: { fr: "Diplôme de Diplomatie Sportive", ar: "دبلوم الدبلوماسية الرياضية" },
@@ -209,6 +217,7 @@ export const programs: Program[] = [
   },
   {
     slug: "technicien-journalisme",
+    image: "/images/prompteur.webp",
     name: { fr: "Technicien en Journalisme", ar: "تقني في الصحافة" },
     access: { fr: "Niveau BAC", ar: "مستوى الباكالوريا" },
     degree: { fr: "Diplôme de Technicien en Journalisme", ar: "دبلوم تقني في الصحافة" },
@@ -230,6 +239,7 @@ export const programs: Program[] = [
   },
   {
     slug: "technicien-audiovisuel",
+    image: "/images/plateau-tav.webp",
     name: { fr: "Technicien en Audiovisuel", ar: "تقني في السمعي البصري" },
     access: { fr: "Niveau BAC", ar: "مستوى الباكالوريا" },
     degree: { fr: "Diplôme de Technicien en Audiovisuel", ar: "دبلوم تقني في السمعي البصري" },
@@ -260,6 +270,7 @@ export type Article = {
   category: L;
   date: string;
   archive?: boolean;
+  image: string;
   excerpt: L;
   body: L[];
 };
@@ -267,6 +278,7 @@ export type Article = {
 export const articles: Article[] = [
   {
     slug: "nouveau-site-ifj-2026",
+    image: "/images/background.webp",
     title: {
       fr: "L'IFJ fait peau neuve : nouveau site, nouvelle ambition pour ses deux campus",
       ar: "المعهد العالي للصحافة يتجدد: موقع جديد وطموح جديد لحرميه",
@@ -290,6 +302,7 @@ export const articles: Article[] = [
   },
   {
     slug: "partenariat-institut-aljazeera",
+    image: "/images/partenariat.webp",
     title: {
       fr: "Partenariat avec l'Institut Aljazeera des Médias : formation « Présentateur TV »",
       ar: "شراكة مع معهد الجزيرة للإعلام: تكوين «مقدّم تلفزيوني»",
@@ -310,6 +323,7 @@ export const articles: Article[] = [
   },
   {
     slug: "conseil-national-presse",
+    image: "/images/plateau-tav.webp",
     title: {
       fr: "L'IFJ partenaire des travaux du Conseil national de la presse",
       ar: "المعهد شريك في أشغال المجلس الوطني للصحافة",
@@ -330,6 +344,7 @@ export const articles: Article[] = [
   },
   {
     slug: "trophee-deontologie",
+    image: "/images/news-aljazeera.webp",
     title: {
       fr: "Trophée de la déontologie : l'éthique au cœur de la formation",
       ar: "جائزة أخلاقيات المهنة: الأخلاقيات في صميم التكوين",
@@ -350,6 +365,7 @@ export const articles: Article[] = [
   },
   {
     slug: "soutenances-pfe",
+    image: "/images/montage.webp",
     title: {
       fr: "Soutenances des projets de fin d'études : le grand oral des futurs journalistes",
       ar: "مناقشات مشاريع نهاية الدراسة: الاختبار الكبير لصحافيي الغد",
@@ -469,11 +485,11 @@ export const faq: { q: L; a: L }[] = [
 
 /* ---------- Galerie ---------- */
 
-export const galleryAlbums: { slug: string; title: L; campus: L; count: number; tone: number }[] = [
-  { slug: "plateaux-tv", title: { fr: "Plateaux TV", ar: "الاستوديوهات التلفزية" }, campus: { fr: "Casablanca", ar: "الدار البيضاء" }, count: 18, tone: 0 },
-  { slug: "regies", title: { fr: "Régies de direct", ar: "قاعات التحكم" }, campus: { fr: "Casablanca", ar: "الدار البيضاء" }, count: 12, tone: 1 },
-  { slug: "studios-son", title: { fr: "Studios son & sonorisation", ar: "استوديوهات الصوت" }, campus: { fr: "Casablanca", ar: "الدار البيضاء" }, count: 9, tone: 2 },
-  { slug: "montage", title: { fr: "Salles de montage", ar: "قاعات المونتاج" }, campus: { fr: "Marrakech", ar: "مراكش" }, count: 10, tone: 3 },
-  { slug: "evenements", title: { fr: "Événements & conférences", ar: "تظاهرات وندوات" }, campus: { fr: "Deux campus", ar: "الحرمان معًا" }, count: 24, tone: 4 },
-  { slug: "projets-etudiants", title: { fr: "Projets étudiants", ar: "مشاريع الطلبة" }, campus: { fr: "Deux campus", ar: "الحرمان معًا" }, count: 16, tone: 5 },
+export const galleryAlbums: { slug: string; title: L; campus: L; count: number; tone: number; image: string }[] = [
+  { slug: "plateaux-tv", image: "/images/hero-plateau.webp", title: { fr: "Plateaux TV", ar: "الاستوديوهات التلفزية" }, campus: { fr: "Casablanca", ar: "الدار البيضاء" }, count: 18, tone: 0 },
+  { slug: "regies", image: "/images/regie.webp", title: { fr: "Régies de direct", ar: "قاعات التحكم" }, campus: { fr: "Casablanca", ar: "الدار البيضاء" }, count: 12, tone: 1 },
+  { slug: "studios-son", image: "/images/regie-emission.webp", title: { fr: "Studios son & sonorisation", ar: "استوديوهات الصوت" }, campus: { fr: "Casablanca", ar: "الدار البيضاء" }, count: 9, tone: 2 },
+  { slug: "montage", image: "/images/montage.webp", title: { fr: "Salles de montage", ar: "قاعات المونتاج" }, campus: { fr: "Marrakech", ar: "مراكش" }, count: 10, tone: 3 },
+  { slug: "evenements", image: "/images/partenariat.webp", title: { fr: "Événements & conférences", ar: "تظاهرات وندوات" }, campus: { fr: "Deux campus", ar: "الحرمان معًا" }, count: 24, tone: 4 },
+  { slug: "projets-etudiants", image: "/images/prompteur.webp", title: { fr: "Projets étudiants", ar: "مشاريع الطلبة" }, campus: { fr: "Deux campus", ar: "الحرمان معًا" }, count: 16, tone: 5 },
 ];

@@ -13,7 +13,7 @@ export function ProgramCard({ program, locale, tone }: { program: Program; local
     >
       <div className="relative aspect-[8/5] overflow-hidden">
         <div className="h-full w-full transition-transform duration-500 group-hover:scale-105">
-          <EditorialVisual tone={tone} />
+          <EditorialVisual tone={tone} src={program.image} label={t(program.name, locale)} />
         </div>
         {program.accredited && (
           <span className="absolute top-3 start-3 rounded-sm bg-gold px-2 py-1 text-xs font-bold text-primary-950">
@@ -51,7 +51,7 @@ export function NewsCard({ article, locale, tone }: { article: Article; locale: 
     >
       <div className="relative aspect-video overflow-hidden">
         <div className="h-full w-full transition-transform duration-500 group-hover:scale-105">
-          <EditorialVisual tone={tone} />
+          <EditorialVisual tone={tone} src={article.image} label={t(article.title, locale)} />
         </div>
         <span className="absolute top-3 start-3 rounded-sm bg-accent-500 px-2 py-1 text-xs font-bold text-white">
           {t(article.category, locale)}

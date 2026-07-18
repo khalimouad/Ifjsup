@@ -1,16 +1,23 @@
 /**
- * Visuel éditorial vectoriel (duotone bleu/orange) utilisé en attendant
- * la séance photo professionnelle recommandée par le cahier des charges.
- * Chaque "tone" donne une composition différente pour éviter la répétition.
+ * Visuel éditorial duotone bleu/orange.
+ * - Avec `src` : photo réelle (reprise d'ifjsup.ma) sous les calques
+ *   graphiques — dégradé duotone, grille, ondes broadcast, point focal.
+ * - Sans `src` : fond dégradé vectoriel (placeholder en attendant la
+ *   séance photo professionnelle du CDC).
+ * Chaque "tone" varie la composition pour éviter la répétition.
  */
 export function EditorialVisual({
   tone = 0,
+  src,
   className = "",
   label,
+  eager = false,
 }: {
   tone?: number;
+  src?: string;
   className?: string;
   label?: string;
+  eager?: boolean;
 }) {
   const palettes = [
     ["#1b3a6b", "#0d1f3c", "#e8720c"],
@@ -21,15 +28,15 @@ export function EditorialVisual({
     ["#081428", "#234a87", "#e8720c"],
   ];
   const [c1, c2, accent] = palettes[tone % palettes.length];
-  const id = `ev-${tone}`;
+  const id = `ev-${tone}${src ? "-p" : ""}`;
 
-  return (
+  const overlay = (
     <svg
       viewBox="0 0 800 500"
-      role={label ? "img" : "presentation"}
-      aria-label={label}
-      aria-hidden={label ? undefined : true}
-      className={`h-full w-full object-cover ${className}`}
+      role={label && !src ? "img" : "presentation"}
+      aria-label={!src ? label : undefined}
+      aria-hidden={label && !src ? undefined : true}
+      className="absolute inset-0 h-full w-full"
       preserveAspectRatio="xMidYMid slice"
     >
       <defs>
@@ -42,7 +49,7 @@ export function EditorialVisual({
           <stop offset="60%" stopColor={accent} stopOpacity="0" />
         </radialGradient>
       </defs>
-      <rect width="800" height="500" fill={`url(#${id}-bg)`} />
+      {!src && <rect width="800" height="500" fill={`url(#${id}-bg)`} />}
       <rect width="800" height="500" fill={`url(#${id}-glow)`} />
       {/* grille éditoriale discrète */}
       <g stroke="#ffffff" strokeOpacity="0.08">
@@ -64,5 +71,28 @@ export function EditorialVisual({
       <circle cx={620 - (tone % 3) * 60} cy={140 + (tone % 2) * 40} r="46" fill="none" stroke={accent} strokeWidth="3" />
       <circle cx={620 - (tone % 3) * 60} cy={140 + (tone % 2) * 40} r="8" fill={accent} />
     </svg>
+  );
+
+  return (
+    <div className={`relative h-full w-full overflow-hidden ${className}`}>
+      {src && (
+        <>
+          <img
+            src={src}
+            alt={label ?? ""}
+            loading={eager ? "eager" : "lazy"}
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          {/* teinte duotone : le dégradé de la charte par-dessus la photo */}
+          <div
+            aria-hidden
+            className="absolute inset-0 mix-blend-multiply"
+            style={{ background: `linear-gradient(135deg, ${c1}cc, ${c2}d9)` }}
+          />
+        </>
+      )}
+      {overlay}
+    </div>
   );
 }

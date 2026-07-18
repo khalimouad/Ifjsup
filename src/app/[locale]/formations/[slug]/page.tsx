@@ -49,7 +49,7 @@ export default async function ProgramPage({
     <>
       <section className="relative overflow-hidden bg-primary-950 text-white">
         <div className="absolute inset-0 opacity-40">
-          <EditorialVisual tone={index} />
+          <EditorialVisual tone={index} src={program.image} eager />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-primary-950 via-primary-950/60 to-transparent" />
         <div className="relative mx-auto max-w-7xl px-4 pb-14 pt-24 sm:px-6 lg:px-8 lg:pb-20 lg:pt-32">

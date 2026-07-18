@@ -46,7 +46,7 @@ export default async function ArticlePage({
       <article>
         <header className="relative overflow-hidden bg-primary-950 text-white">
           <div className="absolute inset-0 opacity-40">
-            <EditorialVisual tone={index} />
+            <EditorialVisual tone={index} src={article.image} eager />
           </div>
           <div className="absolute inset-0 bg-gradient-to-t from-primary-950 via-primary-950/60 to-transparent" />
           <div className="relative mx-auto max-w-4xl px-4 pb-14 pt-24 sm:px-6 lg:pb-20 lg:pt-32">

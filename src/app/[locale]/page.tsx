@@ -19,7 +19,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       {/* ===== Héro éditorial ===== */}
       <section className="relative overflow-hidden bg-primary-950 text-white">
         <div className="absolute inset-0 opacity-60">
-          <EditorialVisual tone={0} />
+          <EditorialVisual tone={0} src="/images/hero-plateau.webp" eager />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-primary-950 via-primary-950/70 to-primary-950/30" />
         <div className="relative mx-auto flex min-h-[85svh] max-w-7xl flex-col justify-end px-4 pb-16 pt-28 sm:px-6 lg:px-8 lg:pb-24">
@@ -105,7 +105,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               className="reveal group relative overflow-hidden rounded-sm"
             >
               <div className="aspect-[16/9] transition-transform duration-500 group-hover:scale-105">
-                <EditorialVisual tone={i + 2} />
+                <EditorialVisual tone={i + 2} src={c.image} label={t(c.name, l)} />
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-primary-950/95 via-primary-950/30 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-6">
