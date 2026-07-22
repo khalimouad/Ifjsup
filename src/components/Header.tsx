@@ -40,71 +40,73 @@ export function Header({ locale }: { locale: Locale }) {
     href === base ? pathname === base : pathname.startsWith(href);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-primary-100 bg-white/90 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:h-20 lg:px-8">
-        <Link href={base} className="tap flex items-center gap-3" aria-label="IFJ">
-          <span className="grid h-10 w-10 place-items-center rounded-sm bg-primary-700 font-display text-lg font-black text-white">
-            IFJ
-          </span>
-          <span className="hidden flex-col leading-tight sm:flex">
-            <span className="font-display text-sm font-bold tracking-wide text-primary-800">
-              {locale === "fr" ? "Institut Supérieur de Journalisme" : "المعهد العالي للصحافة والإعلام"}
+    <>
+      <header className="sticky top-0 z-50 border-b border-primary-100 bg-white/90 backdrop-blur-md">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:h-20 lg:px-8">
+          <Link href={base} className="tap flex items-center gap-3" aria-label="IFJ">
+            <span className="grid h-10 w-10 place-items-center rounded-sm bg-primary-700 font-display text-lg font-black text-white">
+              IFJ
             </span>
-            <span className="text-xs text-ink/60">
-              {locale === "fr" ? "Casablanca · Marrakech" : "الدار البيضاء · مراكش"}
+            <span className="hidden flex-col leading-tight sm:flex">
+              <span className="font-display text-sm font-bold tracking-wide text-primary-800">
+                {locale === "fr" ? "Institut Supérieur de Journalisme" : "المعهد العالي للصحافة والإعلام"}
+              </span>
+              <span className="text-xs text-ink/60">
+                {locale === "fr" ? "Casablanca · Marrakech" : "الدار البيضاء · مراكش"}
+              </span>
             </span>
-          </span>
-        </Link>
+          </Link>
 
-        {/* Navigation desktop */}
-        <nav className="hidden items-center gap-1 lg:flex" aria-label="Navigation principale">
-          {links.slice(0, 7).map((l) => (
+          {/* Navigation desktop */}
+          <nav className="hidden items-center gap-1 lg:flex" aria-label="Navigation principale">
+            {links.slice(0, 7).map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className={`tap flex items-center rounded-sm px-3 text-sm font-medium transition-colors ${
+                  isActive(l.href)
+                    ? "text-accent-600"
+                    : "text-primary-800 hover:bg-primary-50 hover:text-primary-600"
+                }`}
+              >
+                {l.label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-2">
             <Link
-              key={l.href}
-              href={l.href}
-              className={`tap flex items-center rounded-sm px-3 text-sm font-medium transition-colors ${
-                isActive(l.href)
-                  ? "text-accent-600"
-                  : "text-primary-800 hover:bg-primary-50 hover:text-primary-600"
-              }`}
+              href={switchedPath}
+              className="tap flex items-center rounded-sm border border-primary-200 px-3 text-sm font-semibold text-primary-700 transition-colors hover:border-primary-400"
+              lang={otherLocale}
+              aria-label={otherLocale === "ar" ? "النسخة العربية" : "Version française"}
             >
-              {l.label}
+              {t(ui.langSwitch, locale)}
             </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-2">
-          <Link
-            href={switchedPath}
-            className="tap flex items-center rounded-sm border border-primary-200 px-3 text-sm font-semibold text-primary-700 transition-colors hover:border-primary-400"
-            lang={otherLocale}
-            aria-label={otherLocale === "ar" ? "النسخة العربية" : "Version française"}
-          >
-            {t(ui.langSwitch, locale)}
-          </Link>
-          <Link
-            href={`${base}/admission`}
-            className="tap hidden items-center rounded-sm bg-accent-500 px-4 text-sm font-bold text-white transition-colors hover:bg-accent-600 md:flex"
-          >
-            {t(ui.cta.apply, locale)}
-          </Link>
-          <button
-            type="button"
-            onClick={() => setOpen(!open)}
-            aria-expanded={open}
-            aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
-            className="tap grid place-items-center rounded-sm border border-primary-200 text-primary-800 lg:hidden"
-          >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              {open ? (
-                <path d="M6 6l12 12M18 6L6 18" />
-              ) : (
-                <path d="M4 7h16M4 12h16M4 17h16" />
-              )}
-            </svg>
-          </button>
+            <Link
+              href={`${base}/admission`}
+              className="tap hidden items-center rounded-sm bg-accent-500 px-4 text-sm font-bold text-white transition-colors hover:bg-accent-600 md:flex"
+            >
+              {t(ui.cta.apply, locale)}
+            </Link>
+            <button
+              type="button"
+              onClick={() => setOpen(!open)}
+              aria-expanded={open}
+              aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
+              className="tap grid place-items-center rounded-sm border border-primary-200 text-primary-800 lg:hidden"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                {open ? (
+                  <path d="M6 6l12 12M18 6L6 18" />
+                ) : (
+                  <path d="M4 7h16M4 12h16M4 17h16" />
+                )}
+              </svg>
+            </button>
+          </div>
         </div>
-      </div>
+      </header>
 
       {/* Backdrop */}
       {open && (
@@ -145,6 +147,6 @@ export function Header({ locale }: { locale: Locale }) {
           </Link>
         </div>
       </nav>
-    </header>
+    </>
   );
 }
