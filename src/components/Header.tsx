@@ -57,7 +57,7 @@ export function Header({ locale }: { locale: Locale }) {
         </Link>
 
         {/* Navigation desktop */}
-        <nav className="hidden items-center gap-1 xl:flex" aria-label="Navigation principale">
+        <nav className="hidden items-center gap-1 lg:flex" aria-label="Navigation principale">
           {links.slice(0, 7).map((l) => (
             <Link
               key={l.href}
@@ -93,7 +93,7 @@ export function Header({ locale }: { locale: Locale }) {
             onClick={() => setOpen(!open)}
             aria-expanded={open}
             aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
-            className="tap grid place-items-center rounded-sm border border-primary-200 text-primary-800 xl:hidden"
+            className="tap grid place-items-center rounded-sm border border-primary-200 text-primary-800 lg:hidden"
           >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               {open ? (
@@ -109,7 +109,7 @@ export function Header({ locale }: { locale: Locale }) {
       {/* Backdrop */}
       {open && (
         <div
-          className="fixed inset-0 z-40 bg-black/50 xl:hidden"
+          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
           onClick={() => setOpen(false)}
         />
       )}
@@ -117,7 +117,7 @@ export function Header({ locale }: { locale: Locale }) {
       {/* Menu mobile sliding panel */}
       <nav
         aria-label="Navigation mobile"
-        className={`fixed left-0 top-16 bottom-0 z-50 w-80 overflow-y-auto bg-white shadow-2xl transition-transform duration-300 ease-in-out xl:hidden ${
+        className={`fixed left-0 top-16 bottom-0 z-50 w-80 overflow-y-auto bg-white shadow-2xl transition-transform duration-300 ease-in-out lg:hidden ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
