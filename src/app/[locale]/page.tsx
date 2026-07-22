@@ -53,12 +53,12 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       </section>
 
       {/* ===== Chiffres clés ===== */}
-      <section aria-label={t(ui.labels.keyFacts, l)} className="border-b border-primary-100 bg-white">
-        <dl className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-primary-100 px-4 sm:px-6 lg:grid-cols-4 lg:px-8">
+      <section aria-label={t(ui.labels.keyFacts, l)} className="border-b border-white/10 bg-primary-900">
+        <dl className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-white/10 px-4 sm:px-6 lg:grid-cols-4 lg:px-8">
           {stats.map((s) => (
             <div key={s.value} className="reveal flex flex-col items-center gap-1 px-4 py-8 text-center">
-              <dd className="font-display text-4xl font-black text-primary-800 lg:text-5xl">{s.value}</dd>
-              <dt className="text-sm font-medium text-ink/60">{t(s.label, l)}</dt>
+              <dd className="font-display text-4xl font-black text-white lg:text-5xl">{s.value}</dd>
+              <dt className="text-sm font-medium text-white/60">{t(s.label, l)}</dt>
             </div>
           ))}
         </dl>
@@ -72,16 +72,17 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       </div>
 
       {/* ===== Formations ===== */}
-      <Section tone="mist">
+      <Section tone="dark">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <SectionHeading
+            dark
             kicker={t(ui.programs.kicker, l)}
             title={t(ui.home.programsTitle, l)}
             text={t(ui.home.programsText, l)}
           />
           <Link
             href={`${base}/formations`}
-            className="tap hidden items-center gap-2 font-display font-bold text-accent-600 hover:text-accent-700 sm:flex"
+            className="tap hidden items-center gap-2 font-display font-bold text-accent-400 hover:text-accent-300 sm:flex"
           >
             {t(ui.cta.allPrograms, l)}
             <Arrow />
@@ -122,26 +123,26 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       </Section>
 
       {/* ===== Pourquoi l'IFJ ===== */}
-      <Section>
-        <SectionHeading kicker={t(ui.labels.since1994, l)} title={t(ui.home.servicesTitle, l)} />
-        <div className="mt-10 grid gap-px overflow-hidden rounded-sm border border-primary-100 bg-primary-100 sm:grid-cols-2 lg:grid-cols-3">
+      <Section tone="dark">
+        <SectionHeading dark kicker={t(ui.labels.since1994, l)} title={t(ui.home.servicesTitle, l)} />
+        <div className="mt-10 grid gap-px overflow-hidden rounded-sm border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((s, i) => (
-            <div key={i} className="reveal bg-white p-6">
-              <span className="font-display text-sm font-black text-accent-500">{String(i + 1).padStart(2, "0")}</span>
-              <h3 className="mt-2 font-display text-lg font-bold text-primary-900">{t(s.title, l)}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink/70">{t(s.text, l)}</p>
+            <div key={i} className="reveal bg-primary-900 p-6">
+              <span className="font-display text-sm font-black text-accent-400">{String(i + 1).padStart(2, "0")}</span>
+              <h3 className="mt-2 font-display text-lg font-bold text-white">{t(s.title, l)}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-white/70">{t(s.text, l)}</p>
             </div>
           ))}
         </div>
       </Section>
 
       {/* ===== Actualités ===== */}
-      <Section tone="mist">
+      <Section tone="dark">
         <div className="flex flex-wrap items-end justify-between gap-6">
-          <SectionHeading kicker={t(ui.news.kicker, l)} title={t(ui.home.newsTitle, l)} />
+          <SectionHeading dark kicker={t(ui.news.kicker, l)} title={t(ui.home.newsTitle, l)} />
           <Link
             href={`${base}/actualites`}
-            className="tap hidden items-center gap-2 font-display font-bold text-accent-600 hover:text-accent-700 sm:flex"
+            className="tap hidden items-center gap-2 font-display font-bold text-accent-400 hover:text-accent-300 sm:flex"
           >
             {t(ui.cta.allNews, l)}
             <Arrow />
@@ -155,8 +156,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       </Section>
 
       {/* ===== Partenaires ===== */}
-      <div className="bg-white pt-10">
-        <p className="text-center font-display text-sm font-bold uppercase tracking-widest text-ink/40">
+      <div className="bg-primary-900 pt-10">
+        <p className="text-center font-display text-sm font-bold uppercase tracking-widest text-white/40">
           {t(ui.labels.ourPartners, l)}
         </p>
         <div className="mt-6">

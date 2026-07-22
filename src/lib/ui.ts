@@ -47,8 +47,8 @@ export const ui = {
   },
   home: {
     heroKicker: { fr: "Casablanca · Marrakech — depuis 1994", ar: "الدار البيضاء · مراكش — منذ 1994" },
-    heroTitle1: { fr: "Le journalisme", ar: "الصحافة" },
-    heroTitle2: { fr: "s'apprend ici.", ar: "تُتعلَّم هنا." },
+    heroTitle1: { fr: "Devenez la voix", ar: "كن الصوت" },
+    heroTitle2: { fr: "de demain", ar: "المستقبل" },
     heroText: {
       fr: "Institut pionnier de la formation aux métiers du journalisme et de l'audiovisuel au Maroc. Filières accréditées, plateaux professionnels, enseignants du métier — sur deux campus, à Casablanca et Marrakech.",
       ar: "المعهد الرائد في التكوين في مهن الصحافة والسمعي البصري بالمغرب. مسالك معتمدة، استوديوهات احترافية، وأساتذة ممارسون — في حرمين جامعيين بالدار البيضاء ومراكش.",
