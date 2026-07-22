@@ -9,7 +9,7 @@ export function ProgramCard({ program, locale, tone }: { program: Program; local
   return (
     <Link
       href={`/${locale}/formations/${program.slug}`}
-      className="reveal group flex flex-col overflow-hidden rounded-sm border border-white/10 bg-primary-900 transition-shadow hover:shadow-xl hover:shadow-white/10"
+      className="reveal group flex flex-col overflow-hidden rounded-xl border border-white/10 bg-primary-900 transition-all hover:shadow-xl hover:shadow-white/10 hover:-translate-y-1"
     >
       <div className="relative aspect-[8/5] overflow-hidden">
         <div className="h-full w-full transition-transform duration-500 group-hover:scale-105">
@@ -47,7 +47,7 @@ export function NewsCard({ article, locale, tone }: { article: Article; locale: 
   return (
     <Link
       href={`/${locale}/actualites/${article.slug}`}
-      className="reveal group flex flex-col overflow-hidden rounded-sm border border-white/10 bg-primary-900 transition-shadow hover:shadow-xl hover:shadow-white/10"
+      className="reveal group flex flex-col overflow-hidden rounded-xl border border-white/10 bg-primary-900 transition-all hover:shadow-xl hover:shadow-white/10 hover:-translate-y-1"
     >
       <div className="relative aspect-video overflow-hidden">
         <div className="h-full w-full transition-transform duration-500 group-hover:scale-105">

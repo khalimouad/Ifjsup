@@ -83,7 +83,7 @@ export function Header({ locale }: { locale: Locale }) {
             </Link>
             <Link
               href={`${base}/admission`}
-              className="tap hidden items-center rounded-sm bg-accent-500 px-4 text-sm font-bold text-white transition-colors hover:bg-accent-600 md:flex"
+              className="tap hidden items-center rounded-sm bg-accent-500 px-5 py-2.5 text-sm font-bold text-white transition-all hover:bg-accent-600 hover:scale-105 md:flex"
             >
               {t(ui.cta.apply, locale)}
             </Link>

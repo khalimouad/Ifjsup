@@ -37,14 +37,14 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href={`${base}/admission`}
-              className="tap flex items-center gap-2 rounded-sm bg-accent-500 px-6 py-4 font-display font-bold text-white transition-colors hover:bg-accent-600"
+              className="tap flex items-center gap-2 rounded-lg bg-accent-500 px-8 py-4 font-display font-bold text-white transition-all hover:bg-accent-600 hover:scale-105"
             >
               {t(ui.cta.applyNow, l)}
               <Arrow />
             </Link>
             <Link
               href={`${base}/formations`}
-              className="tap flex items-center rounded-sm border border-white/30 px-6 py-4 font-display font-bold text-white transition-colors hover:border-white hover:bg-white/10"
+              className="tap flex items-center rounded-lg border-2 border-white/30 px-8 py-4 font-display font-bold text-white transition-all hover:border-white hover:bg-white/10 hover:scale-105"
             >
               {t(ui.cta.allPrograms, l)}
             </Link>

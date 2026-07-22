@@ -1,35 +1,35 @@
 @import "tailwindcss";
 
 @theme {
-  /* Charte IFJ — bleu profond institutionnel + orange éditorial + or en accent */
-  --color-primary-50: #eef3fb;
-  --color-primary-100: #d8e3f5;
-  --color-primary-200: #b0c6e9;
-  --color-primary-300: #7fa2d8;
-  --color-primary-400: #4f7cc2;
-  --color-primary-500: #2f5aa0;
-  --color-primary-600: #234a87;
-  --color-primary-700: #1b3a6b;
-  --color-primary-800: #142c52;
-  --color-primary-900: #0d1f3c;
-  --color-primary-950: #081428;
+  /* Dark theme matching mockup - deep black background + vibrant orange accent */
+  --color-primary-50: #1a1a1a;
+  --color-primary-100: #2a2a2a;
+  --color-primary-200: #3a3a3a;
+  --color-primary-300: #4a4a4a;
+  --color-primary-400: #5a5a5a;
+  --color-primary-500: #6a6a6a;
+  --color-primary-600: #7a7a7a;
+  --color-primary-700: #8a8a8a;
+  --color-primary-800: #9a9a9a;
+  --color-primary-900: #0a0a0a;
+  --color-primary-950: #050505;
 
-  --color-accent-50: #fef4ea;
-  --color-accent-100: #fde3c8;
-  --color-accent-200: #facd9d;
-  --color-accent-300: #f6a35c;
-  --color-accent-400: #f08a30;
-  --color-accent-500: #e8720c;
-  --color-accent-600: #c95f06;
-  --color-accent-700: #a34a05;
-  --color-accent-800: #7d3906;
-  --color-accent-900: #612d08;
+  --color-accent-50: #fff7ed;
+  --color-accent-100: #ffedd5;
+  --color-accent-200: #fed7aa;
+  --color-accent-300: #fdba74;
+  --color-accent-400: #fb923c;
+  --color-accent-500: #f97316;
+  --color-accent-600: #ea580c;
+  --color-accent-700: #c2410c;
+  --color-accent-800: #9a3412;
+  --color-accent-900: #7c2d12;
 
-  --color-gold: #f2b705;
+  --color-gold: #fbbf24;
 
-  --color-ink: #16181d;
-  --color-paper: #ffffff;
-  --color-mist: #f4f6f9;
+  --color-ink: #ffffff;
+  --color-paper: #0a0a0a;
+  --color-mist: #1a1a1a;
 
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-display), var(--font-body), ui-sans-serif, system-ui, sans-serif;
@@ -40,7 +40,7 @@
 }
 
 body {
-  @apply bg-paper text-ink antialiased;
+  @apply bg-primary-950 text-ink antialiased;
   font-family: var(--font-sans);
   text-rendering: optimizeLegibility;
 }
