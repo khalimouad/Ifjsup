@@ -106,19 +106,29 @@ export function Header({ locale }: { locale: Locale }) {
         </div>
       </div>
 
-      {/* Menu mobile plein écran */}
+      {/* Backdrop */}
       {open && (
-        <nav
-          aria-label="Navigation mobile"
-          className="fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto bg-primary-900 px-6 py-8 xl:hidden"
-        >
+        <div
+          className="fixed inset-0 z-40 bg-black/50 xl:hidden"
+          onClick={() => setOpen(false)}
+        />
+      )}
+
+      {/* Menu mobile sliding panel */}
+      <nav
+        aria-label="Navigation mobile"
+        className={`fixed left-0 top-16 bottom-0 z-50 w-80 overflow-y-auto bg-white shadow-2xl transition-transform duration-300 ease-in-out xl:hidden ${
+          open ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="px-6 py-8">
           <ul className="flex flex-col gap-1">
             {links.map((l, i) => (
               <li key={l.href}>
                 <Link
                   href={l.href}
-                  className={`tap flex items-center border-b border-white/10 py-4 font-display text-xl font-bold ${
-                    isActive(l.href) ? "text-accent-400" : "text-white"
+                  className={`tap flex items-center border-b border-primary-100 py-4 font-display text-lg font-bold ${
+                    isActive(l.href) ? "text-accent-600" : "text-primary-800"
                   }`}
                   style={{ transitionDelay: `${i * 20}ms` }}
                 >
@@ -133,8 +143,8 @@ export function Header({ locale }: { locale: Locale }) {
           >
             {t(ui.cta.applyNow, locale)}
           </Link>
-        </nav>
-      )}
+        </div>
+      </nav>
     </header>
   );
 }
