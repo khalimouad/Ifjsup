@@ -9,7 +9,7 @@ export function ProgramCard({ program, locale, tone }: { program: Program; local
   return (
     <Link
       href={`/${locale}/formations/${program.slug}`}
-      className="reveal group flex flex-col overflow-hidden rounded-sm border border-primary-100 bg-white transition-shadow hover:shadow-xl hover:shadow-primary-900/10"
+      className="reveal group flex flex-col overflow-hidden rounded-sm border border-white/10 bg-primary-900 transition-shadow hover:shadow-xl hover:shadow-white/10"
     >
       <div className="relative aspect-[8/5] overflow-hidden">
         <div className="h-full w-full transition-transform duration-500 group-hover:scale-105">
@@ -22,14 +22,14 @@ export function ProgramCard({ program, locale, tone }: { program: Program; local
         )}
       </div>
       <div className="flex flex-1 flex-col p-5">
-        <p className="text-xs font-semibold uppercase tracking-wider text-accent-600">
+        <p className="text-xs font-semibold uppercase tracking-wider text-accent-400">
           {t(program.access, locale)} · {t(program.duration, locale)}
         </p>
-        <h3 className="mt-2 font-display text-lg font-bold leading-snug text-primary-900 group-hover:text-accent-600">
+        <h3 className="mt-2 font-display text-lg font-bold leading-snug text-white group-hover:text-accent-400">
           {t(program.name, locale)}
         </h3>
-        <p className="mt-2 flex-1 text-sm leading-relaxed text-ink/70">{t(program.excerpt, locale)}</p>
-        <span className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-primary-700 group-hover:text-accent-600">
+        <p className="mt-2 flex-1 text-sm leading-relaxed text-white/70">{t(program.excerpt, locale)}</p>
+        <span className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-white group-hover:text-accent-400">
           {t(ui.cta.discover, locale)}
           <Arrow />
         </span>
@@ -47,7 +47,7 @@ export function NewsCard({ article, locale, tone }: { article: Article; locale: 
   return (
     <Link
       href={`/${locale}/actualites/${article.slug}`}
-      className="reveal group flex flex-col overflow-hidden rounded-sm border border-primary-100 bg-white transition-shadow hover:shadow-xl hover:shadow-primary-900/10"
+      className="reveal group flex flex-col overflow-hidden rounded-sm border border-white/10 bg-primary-900 transition-shadow hover:shadow-xl hover:shadow-white/10"
     >
       <div className="relative aspect-video overflow-hidden">
         <div className="h-full w-full transition-transform duration-500 group-hover:scale-105">
@@ -57,20 +57,20 @@ export function NewsCard({ article, locale, tone }: { article: Article; locale: 
           {t(article.category, locale)}
         </span>
         {article.archive && (
-          <span className="absolute top-3 end-3 rounded-sm bg-primary-900/80 px-2 py-1 text-xs font-semibold text-white">
+          <span className="absolute top-3 end-3 rounded-sm bg-white/20 px-2 py-1 text-xs font-semibold text-white">
             {t(ui.labels.archive, locale)}
           </span>
         )}
       </div>
       <div className="flex flex-1 flex-col p-5">
-        <time dateTime={article.date} className="text-xs text-ink/50">
+        <time dateTime={article.date} className="text-xs text-white/50">
           {date}
         </time>
-        <h3 className="mt-2 font-display text-lg font-bold leading-snug text-primary-900 group-hover:text-accent-600">
+        <h3 className="mt-2 font-display text-lg font-bold leading-snug text-white group-hover:text-accent-400">
           {t(article.title, locale)}
         </h3>
-        <p className="mt-2 flex-1 text-sm leading-relaxed text-ink/70">{t(article.excerpt, locale)}</p>
-        <span className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-primary-700 group-hover:text-accent-600">
+        <p className="mt-2 flex-1 text-sm leading-relaxed text-white/70">{t(article.excerpt, locale)}</p>
+        <span className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-white group-hover:text-accent-400">
           {t(ui.cta.readMore, locale)}
           <Arrow />
         </span>
