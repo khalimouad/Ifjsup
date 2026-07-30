@@ -6,28 +6,30 @@ import { Icon } from "./Icon";
 export const THEME_KEY = "ifj-theme";
 
 /**
- * Script exécuté avant le premier rendu pour éviter le clignotement :
- * choix mémorisé s'il existe, sinon préférence du système.
- * Rendu tel quel dans le document — voir `layout.tsx`.
+ * Le sombre porte l'identité : il est le défaut pour tout le monde, et
+ * `data-theme="light"` est la variante que le visiteur choisit lui-même.
+ * On ne suit donc pas `prefers-color-scheme` — sinon la majorité des
+ * visiteurs verraient la variante plutôt que l'identité de l'école.
+ * Script exécuté avant le premier rendu pour éviter le clignotement.
  */
-export const themeBootstrap = `(function(){try{var s=localStorage.getItem("${THEME_KEY}");var d=s?s==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;if(d)document.documentElement.dataset.theme="dark";}catch(e){}})();`;
+export const themeBootstrap = `(function(){try{if(localStorage.getItem("${THEME_KEY}")==="light")document.documentElement.dataset.theme="light";}catch(e){}})();`;
 
 export function ThemeToggle({ label }: { label: string }) {
-  const [dark, setDark] = useState(false);
+  const [light, setLight] = useState(false);
 
   // Le thème est posé par `themeBootstrap` : on se cale dessus au montage.
   useEffect(() => {
-    setDark(document.documentElement.dataset.theme === "dark");
+    setLight(document.documentElement.dataset.theme === "light");
   }, []);
 
   function toggle() {
-    const next = !dark;
-    setDark(next);
+    const next = !light;
+    setLight(next);
     const root = document.documentElement;
-    if (next) root.dataset.theme = "dark";
+    if (next) root.dataset.theme = "light";
     else delete root.dataset.theme;
     try {
-      localStorage.setItem(THEME_KEY, next ? "dark" : "light");
+      localStorage.setItem(THEME_KEY, next ? "light" : "dark");
     } catch {
       /* navigation privée : le choix ne survit pas au rechargement */
     }
@@ -39,7 +41,7 @@ export function ThemeToggle({ label }: { label: string }) {
       onClick={toggle}
       className="icon-box"
       aria-label={label}
-      aria-pressed={dark}
+      aria-pressed={light}
       title={label}
     >
       <Icon name="theme" size={16} sw={1.7} />

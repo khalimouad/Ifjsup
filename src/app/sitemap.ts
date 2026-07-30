@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { locales } from "@/lib/i18n";
-import { articles, campuses, programs } from "@/lib/content";
+import { articles, campuses, galleryAlbums, programs } from "@/lib/content";
 
 const BASE = "https://www.ifjsup.ma";
 
@@ -20,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...campuses.map((c) => `/campus/${c.slug}`),
     ...programs.map((p) => `/formations/${p.slug}`),
     ...articles.map((a) => `/actualites/${a.slug}`),
+    ...galleryAlbums.map((a) => `/galerie/${a.slug}`),
   ];
 
   return locales.flatMap((locale) =>

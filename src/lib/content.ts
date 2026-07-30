@@ -612,11 +612,72 @@ export const testimonial = {
 
 /* ---------- Galerie ---------- */
 
-export const galleryAlbums: { slug: string; title: L; campus: L; count: number; tone: number; image: string }[] = [
-  { slug: "plateaux-tv", image: "/images/hero-plateau.webp", title: { fr: "Plateaux TV", ar: "الاستوديوهات التلفزية" }, campus: { fr: "Casablanca", ar: "الدار البيضاء" }, count: 18, tone: 0 },
-  { slug: "regies", image: "/images/regie.webp", title: { fr: "Régies de direct", ar: "قاعات التحكم" }, campus: { fr: "Casablanca", ar: "الدار البيضاء" }, count: 12, tone: 1 },
-  { slug: "studios-son", image: "/images/regie-emission.webp", title: { fr: "Studios son & sonorisation", ar: "استوديوهات الصوت" }, campus: { fr: "Casablanca", ar: "الدار البيضاء" }, count: 9, tone: 2 },
-  { slug: "montage", image: "/images/montage.webp", title: { fr: "Salles de montage", ar: "قاعات المونتاج" }, campus: { fr: "Marrakech", ar: "مراكش" }, count: 10, tone: 3 },
-  { slug: "evenements", image: "/images/partenariat.webp", title: { fr: "Événements & conférences", ar: "تظاهرات وندوات" }, campus: { fr: "Deux campus", ar: "الحرمان معًا" }, count: 24, tone: 4 },
-  { slug: "projets-etudiants", image: "/images/prompteur.webp", title: { fr: "Projets étudiants", ar: "مشاريع الطلبة" }, campus: { fr: "Deux campus", ar: "الحرمان معًا" }, count: 16, tone: 5 },
+export type GalleryPhoto = { src: string; caption: L };
+
+export type Album = {
+  slug: string;
+  title: L;
+  campus: L;
+  intro: L;
+  /** Photo de couverture — reprise de la première photo de l'album. */
+  image: string;
+  photos: GalleryPhoto[];
+};
+
+/* Les 18 photos disponibles réparties entre les six albums. `count` est dérivé
+   de `photos.length` (voir `albumCount`) : pas de compteur inventé. */
+/* Seules les 10 vraies photographies du fonds sont utilisées ici. Les fichiers
+   `filiere-*.webp` sont des affiches de filière (texte et maquette), pas des
+   photos : ils n'ont pas leur place dans une galerie. Une séance photo
+   professionnelle reste à programmer — voir le README. */
+export const galleryAlbums: Album[] = [
+  {
+    slug: "plateaux-tv",
+    title: { fr: "Plateaux TV", ar: "الاستوديوهات التلفزية" },
+    campus: { fr: "Casablanca", ar: "الدار البيضاء" },
+    intro: {
+      fr: "Le plateau principal et ses annexes : décor de journal, éclairage, prompteur et pupitres de présentation, dans les conditions d'une vraie chaîne.",
+      ar: "الاستوديو الرئيسي وملحقاته: ديكور النشرة، الإضاءة، الملقّن ومنصات التقديم، في ظروف قناة حقيقية.",
+    },
+    image: "/images/hero-plateau.webp",
+    photos: [
+      { src: "/images/hero-plateau.webp", caption: { fr: "Enregistrement d'une émission de plateau", ar: "تسجيل برنامج في الاستوديو" } },
+      { src: "/images/plateau-tp.webp", caption: { fr: "Tournage en conditions professionnelles, caméra et perche son", ar: "تصوير في ظروف احترافية، كاميرا وميكروفون" } },
+      { src: "/images/prompteur.webp", caption: { fr: "Exercice de présentation face caméra, au prompteur", ar: "تمرين التقديم أمام الكاميرا بالملقّن" } },
+      { src: "/images/news-aljazeera.webp", caption: { fr: "Pupitre de présentation du journal", ar: "منصة تقديم النشرة" } },
+    ],
+  },
+  {
+    slug: "regies-et-montage",
+    title: { fr: "Régies & salles de montage", ar: "قاعات التحكم والمونتاج" },
+    campus: { fr: "Casablanca", ar: "الدار البيضاء" },
+    intro: {
+      fr: "L'envers du plateau : régie multi-caméras, baies techniques, console son et postes de montage où se finissent les sujets.",
+      ar: "خلف الاستوديو: قاعة التحكم متعددة الكاميرات، الرفوف التقنية، منضدة الصوت ومحطات المونتاج.",
+    },
+    image: "/images/regie.webp",
+    photos: [
+      { src: "/images/regie.webp", caption: { fr: "Le pupitre de régie, en situation de direct", ar: "منصة التحكم أثناء البث المباشر" } },
+      { src: "/images/plateau-tav.webp", caption: { fr: "Atelier son : prise en main de la console", ar: "ورشة الصوت: التحكم في المنضدة" } },
+      { src: "/images/regie-emission.webp", caption: { fr: "Les baies techniques de la régie d'émission", ar: "الرفوف التقنية لقاعة التحكم" } },
+      { src: "/images/montage.webp", caption: { fr: "Salle de montage : postes de travail des étudiants", ar: "قاعة المونتاج: محطات عمل الطلبة" } },
+    ],
+  },
+  {
+    slug: "evenements",
+    title: { fr: "Événements & rencontres", ar: "تظاهرات ولقاءات" },
+    campus: { fr: "Deux campus", ar: "الحرمان معًا" },
+    intro: {
+      fr: "Partenariats, conférences et rencontres avec les professionnels des médias, sur les deux campus.",
+      ar: "شراكات وندوات ولقاءات مع مهنيي الإعلام، في الحرمين.",
+    },
+    image: "/images/partenariat.webp",
+    photos: [
+      { src: "/images/partenariat.webp", caption: { fr: "Rencontre de partenariat à l'institut", ar: "لقاء شراكة في المعهد" } },
+      { src: "/images/news-saadni.webp", caption: { fr: "Conférence avec le Syndicat national de la presse marocaine", ar: "ندوة مع النقابة الوطنية للصحافة المغربية" } },
+    ],
+  },
 ];
+
+/** Nombre réel de photos d'un album. */
+export const albumCount = (a: Album) => a.photos.length;

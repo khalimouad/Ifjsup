@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cairo, Manrope } from "next/font/google";
+import { Cairo, IBM_Plex_Mono, IBM_Plex_Sans, IBM_Plex_Sans_Condensed } from "next/font/google";
 import { notFound } from "next/navigation";
 import "../globals.css";
 import { dir, isLocale, locales, t, type Locale } from "@/lib/i18n";
@@ -10,11 +10,24 @@ import { Footer } from "@/components/Footer";
 import { Reveal } from "@/components/Reveal";
 import { themeBootstrap } from "@/components/Theme";
 
-/* Manrope porte le concept ; Cairo prend le relais pour l'arabe. */
-const manrope = Manrope({
+/* IBM Plex : Sans pour le texte, Sans Condensed pour les titres en capitales,
+   Mono pour les étiquettes. Cairo prend le relais pour l'arabe. */
+const plex = IBM_Plex_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-manrope",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-plex",
+  display: "swap",
+});
+const plexCondensed = IBM_Plex_Sans_Condensed({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-plex-cond",
+  display: "swap",
+});
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-plex-mono",
   display: "swap",
 });
 const cairo = Cairo({
@@ -102,10 +115,12 @@ export default async function LocaleLayout({
     <html
       lang={l}
       dir={dir(l)}
-      className={`${manrope.variable} ${cairo.variable}`}
+      className={`${plex.variable} ${plexCondensed.variable} ${plexMono.variable} ${cairo.variable}`}
       style={
         {
-          "--font-ui": l === "ar" ? "var(--font-cairo)" : "var(--font-manrope)",
+          "--font-ui": l === "ar" ? "var(--font-cairo)" : "var(--font-plex)",
+          "--font-head": l === "ar" ? "var(--font-cairo)" : "var(--font-plex-cond)",
+          "--font-mono": l === "ar" ? "var(--font-cairo)" : "var(--font-plex-mono)",
         } as React.CSSProperties
       }
       suppressHydrationWarning

@@ -1,46 +1,53 @@
 /* =========================================================
-   IFJ SUP 2027 — feuille de style unique
-   Jetons et mesures transcrits du concept « IFJ SUP 2027 ».
-   Thème clair : encre #0E1729, accent bleu #1B5FE3, or #F0801A.
-   Thème sombre : fond #080E1B, accent et or fusionnés en #E3B45C.
+   IFJ SUP — feuille de style unique
+   Langage visuel éditorial noir / blanc / rouge, dans l'esprit des écoles
+   d'arts visuels : IBM Plex Sans Condensed en capitales pour les titres,
+   IBM Plex Mono pour les étiquettes, angles très arrondis (pilules, 48 px).
+   Le thème sombre porte l'identité ; le thème clair en est la variante.
    ========================================================= */
 
 :root {
-  --bg: #ffffff;
-  --soft: #f6f8fc;
-  --surface: #ffffff;
-  --ink: #0e1729;
-  --muted: #5c6b84;
-  --line: #e4e9f2;
-  --accent: #1b5fe3;
-  --accent-soft: rgba(27, 95, 227, 0.1);
-  --gold: #f0801a;
-  --gold-soft: rgba(240, 128, 26, 0.12);
+  --bg: #0a0a0a;
+  --soft: #141414;
+  --surface: #1a1a1a;
+  --ink: #ffffff;
+  --muted: #a3a3a3;
+  --line: rgba(255, 255, 255, 0.14);
+  --accent: #eb2d2e;
+  --accent-soft: rgba(235, 45, 46, 0.14);
+  --gold: #eb2d2e;
+  --gold-soft: rgba(235, 45, 46, 0.14);
   --btn-ink: #ffffff;
-  --elev: 0 12px 32px rgba(14, 23, 41, 0.08);
-  --nav-bg: #ffffff;
-  --hero-bg: #ffffff;
+  --elev: 0 18px 48px rgba(0, 0, 0, 0.55);
+  --nav-bg: rgba(10, 10, 10, 0.88);
+  --hero-bg: #0a0a0a;
 
-  --wrap: 1500px;
-  --gut: 34px;
+  --wrap: 1440px;
+  --gut: 40px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Rayons : pilules et grands arrondis. */
+  --r-pill: 999rem;
+  --r-lg: 48px;
+  --r-md: 24px;
+  --r-sm: 16px;
 }
 
-html[data-theme="dark"] {
-  --bg: #080e1b;
-  --soft: #0c1424;
-  --surface: #111a2c;
-  --ink: #f2f5fb;
-  --muted: #93a2bc;
-  --line: rgba(255, 255, 255, 0.1);
-  --accent: #e3b45c;
-  --accent-soft: rgba(227, 180, 92, 0.14);
-  --gold: #e3b45c;
-  --gold-soft: rgba(227, 180, 92, 0.14);
-  --btn-ink: #15100a;
-  --elev: 0 12px 32px rgba(0, 0, 0, 0.5);
-  --nav-bg: #080e1b;
-  --hero-bg: #080e1b;
+html[data-theme="light"] {
+  --bg: #ffffff;
+  --soft: #f4f4f4;
+  --surface: #ffffff;
+  --ink: #111111;
+  --muted: #707070;
+  --line: #e4e4e4;
+  --accent: #eb2d2e;
+  --accent-soft: rgba(235, 45, 46, 0.08);
+  --gold: #eb2d2e;
+  --gold-soft: rgba(235, 45, 46, 0.08);
+  --btn-ink: #ffffff;
+  --elev: 0 18px 48px rgba(0, 0, 0, 0.1);
+  --nav-bg: rgba(255, 255, 255, 0.9);
+  --hero-bg: #ffffff;
 }
 
 /* ---------- base ---------- */
@@ -59,7 +66,9 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--font-ui), Manrope, Helvetica, Arial, sans-serif;
+  font-family: var(--font-ui), "IBM Plex Sans", Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   text-wrap: pretty;
 }
@@ -86,12 +95,37 @@ img {
   max-width: 100%;
 }
 
+/* Titres : condensé, gras, capitales, interlignage serré. */
 h1,
 h2,
 h3,
-h4 {
-  letter-spacing: -0.03em;
-  font-weight: 800;
+h4,
+.hero-h1,
+.h1,
+.h2 {
+  font-family: var(--font-head), "IBM Plex Sans Condensed", Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.02;
+  text-transform: uppercase;
+}
+
+/* Les titres au fil du texte (cartes, articles) restent en casse normale. */
+.ncard-t,
+.lcard-body h3,
+.pcard-t,
+.gcard-t,
+.album-t,
+.feat-body h2,
+.prose h2,
+.prose h3,
+.faq summary,
+.tile h3,
+.step h3,
+.testi p {
+  text-transform: none;
+  letter-spacing: -0.005em;
+  line-height: 1.2;
 }
 
 /* L'arabe ne supporte pas le crénage serré des titres latins. */
@@ -133,7 +167,7 @@ html[lang="ar"] .nav-link {
   background: var(--accent);
   color: var(--btn-ink);
   padding: 10px 16px;
-  border-radius: 8px;
+  border-radius: var(--r-pill);
   font-size: 13px;
   font-weight: 800;
 }
@@ -213,12 +247,18 @@ html[lang="ar"] .nav-link {
   background: var(--soft);
 }
 
+/* Étiquettes de section en monospace — la signature typographique du modèle. */
 .kicker {
-  font-size: 11.5px;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  color: var(--gold);
+  font-family: var(--font-mono), "IBM Plex Mono", monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--accent);
   text-transform: uppercase;
+}
+
+.kicker::before {
+  content: "— ";
 }
 
 .kicker-accent {
@@ -226,22 +266,17 @@ html[lang="ar"] .nav-link {
 }
 
 .h1 {
-  font-size: 44px;
-  line-height: 1.08;
-  letter-spacing: -0.035em;
-  font-weight: 800;
-  margin: 0 0 12px;
+  font-size: 50px;
+  margin: 0 0 16px;
 }
 
 .h2 {
-  font-size: 29px;
-  line-height: 1.15;
-  font-weight: 800;
-  margin: 14px 0 12px;
+  font-size: 34px;
+  margin: 14px 0 14px;
 }
 
 .lead {
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.6;
   color: var(--muted);
   margin: 0;
@@ -256,13 +291,14 @@ html[lang="ar"] .nav-link {
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   border: none;
-  border-radius: 9px;
-  padding: 15px 22px;
-  font-size: 12.5px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  border-radius: var(--r-pill);
+  padding: 16px 28px;
+  font-family: var(--font-head), "IBM Plex Sans Condensed", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   transition: transform 0.18s, box-shadow 0.18s, background 0.2s, border-color 0.2s,
     color 0.2s;
@@ -273,8 +309,8 @@ html[lang="ar"] .nav-link {
 }
 
 .btn-sm {
-  padding: 13px 20px;
-  font-size: 12px;
+  padding: 13px 22px;
+  font-size: 13px;
 }
 
 .btn-accent {
@@ -285,7 +321,7 @@ html[lang="ar"] .nav-link {
 .btn-accent:hover {
   color: var(--btn-ink);
   transform: translateY(-2px);
-  box-shadow: 0 12px 26px rgba(27, 95, 227, 0.32);
+  box-shadow: 0 12px 26px rgba(235, 45, 46, 0.35);
 }
 
 .btn-gold {
@@ -296,7 +332,7 @@ html[lang="ar"] .nav-link {
 .btn-gold:hover {
   color: var(--btn-ink);
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(240, 128, 26, 0.35);
+  box-shadow: 0 12px 26px rgba(235, 45, 46, 0.35);
 }
 
 .btn-outline {
@@ -400,28 +436,25 @@ html[lang="ar"] .nav-link {
 .card {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: var(--r-md);
   box-shadow: var(--elev);
 }
 
 .card-r14 {
-  border-radius: 14px;
+  border-radius: var(--r-md);
 }
 
 .tag {
   display: inline-block;
-  font-size: 9.5px;
-  font-weight: 800;
+  font-family: var(--font-mono), "IBM Plex Mono", monospace;
+  font-size: 10px;
+  font-weight: 500;
   letter-spacing: 0.1em;
-  padding: 5px 9px;
-  border-radius: 5px;
+  padding: 6px 12px;
+  border-radius: var(--r-pill);
   background: var(--accent);
   color: #fff;
   text-transform: uppercase;
-}
-
-html[data-theme="dark"] .tag {
-  color: var(--btn-ink);
 }
 
 .tag-gold {
@@ -436,14 +469,15 @@ html[data-theme="dark"] .tag {
 }
 
 .chip {
-  background: var(--surface);
+  background: transparent;
   border: 1px solid var(--line);
   color: var(--muted);
-  font-size: 11px;
-  font-weight: 800;
+  font-family: var(--font-head), "IBM Plex Sans Condensed", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
   letter-spacing: 0.06em;
-  padding: 11px 16px;
-  border-radius: 7px;
+  padding: 12px 22px;
+  border-radius: var(--r-pill);
   text-transform: uppercase;
   transition: color 0.2s, border-color 0.2s;
 }
@@ -580,11 +614,11 @@ html[data-theme="dark"] .tag {
 }
 
 .icon-box {
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   border: 1px solid var(--line);
   background: none;
-  border-radius: 8px;
+  border-radius: var(--r-pill);
   color: var(--muted);
   display: grid;
   place-items: center;
@@ -618,7 +652,7 @@ html[data-theme="dark"] .tag {
   position: fixed;
   inset: 0;
   z-index: 90;
-  background: rgba(8, 14, 27, 0.45);
+  background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(2px);
   border: none;
   padding: 0;
@@ -735,10 +769,9 @@ html[data-theme="dark"] .tag {
 }
 
 .hero-h1 {
-  font-size: 64px;
-  line-height: 1.04;
-  letter-spacing: -0.035em;
-  font-weight: 800;
+  font-size: 78px;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
   margin: 0;
 }
 
@@ -832,7 +865,7 @@ html[data-theme="dark"] .tag {
 .scroll-mouse {
   width: 20px;
   height: 32px;
-  border-radius: 11px;
+  border-radius: var(--r-sm);
   border: 1.5px solid var(--line);
   display: grid;
   place-items: center;
@@ -868,7 +901,7 @@ html[data-theme="dark"] .tag {
 .stat {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: var(--r-md);
   padding: 16px 18px;
   display: flex;
   align-items: center;
@@ -891,10 +924,11 @@ html[data-theme="dark"] .tag {
 }
 
 .stat-v {
-  font-size: 21px;
-  font-weight: 800;
+  font-family: var(--font-head), "IBM Plex Sans Condensed", sans-serif;
+  font-size: 30px;
+  font-weight: 700;
   letter-spacing: -0.02em;
-  line-height: 1.1;
+  line-height: 1.05;
 }
 
 .stat-l {
@@ -907,7 +941,7 @@ html[data-theme="dark"] .tag {
 .facilities {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: var(--r-md);
   box-shadow: var(--elev);
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -972,7 +1006,7 @@ html[data-theme="dark"] .tag {
   cursor: pointer;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: var(--r-md);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -1047,11 +1081,20 @@ html[data-theme="dark"] .tag {
   transform: scaleX(-1);
 }
 
+/* Flèche « précédent » : inversée en LTR, rétablie en RTL. */
+.arw-back {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .lnk svg.arw-back {
+  transform: none;
+}
+
 /* carte visite virtuelle */
 .vr {
   background: linear-gradient(160deg, var(--gold-soft), var(--surface) 62%);
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: var(--r-md);
   padding: 22px 24px;
   position: relative;
   overflow: hidden;
@@ -1089,7 +1132,7 @@ html[data-theme="dark"] .tag {
   bottom: -10px;
   width: 186px;
   height: 150px;
-  border-radius: 14px;
+  border-radius: var(--r-md);
   overflow: hidden;
   opacity: 0.95;
 }
@@ -1159,7 +1202,7 @@ html[data-theme="dark"] .tag {
   inset-inline-start: -12px;
   width: 38px;
   height: 38px;
-  border-radius: 10px;
+  border-radius: var(--r-sm);
   background: var(--accent);
   color: var(--btn-ink);
   display: grid;
@@ -1205,7 +1248,7 @@ html[data-theme="dark"] .tag {
 .ncard-media {
   position: relative;
   height: 96px;
-  border-radius: 11px;
+  border-radius: var(--r-sm);
   overflow: hidden;
 }
 
@@ -1240,7 +1283,7 @@ html[data-theme="dark"] .tag {
   max-width: var(--wrap);
   margin: 0 auto;
   background: var(--accent);
-  border-radius: 18px;
+  border-radius: var(--r-lg);
   padding: 44px 46px;
   display: flex;
   align-items: center;
@@ -1392,7 +1435,7 @@ html[data-theme="dark"] .tag {
 .filters {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: var(--r-md);
   padding: 22px;
   position: sticky;
   top: 96px;
@@ -1437,7 +1480,7 @@ html[data-theme="dark"] .tag {
 .gcard {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: var(--r-md);
   overflow: hidden;
   box-shadow: var(--elev);
   display: flex;
@@ -1520,7 +1563,7 @@ html[data-theme="dark"] .tag {
 
 .detail-photo {
   height: 330px;
-  border-radius: 18px;
+  border-radius: var(--r-lg);
   overflow: hidden;
   box-shadow: var(--elev);
   position: relative;
@@ -1531,7 +1574,7 @@ html[data-theme="dark"] .tag {
   margin: 0 auto;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: var(--r-md);
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   box-shadow: var(--elev);
@@ -1641,7 +1684,7 @@ html[data-theme="dark"] .tag {
 .aside-card {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: var(--r-md);
   padding: 26px;
   box-shadow: var(--elev);
 }
@@ -1668,7 +1711,7 @@ html[data-theme="dark"] .tag {
 .row-i .bx {
   width: 22px;
   height: 22px;
-  border-radius: 6px;
+  border-radius: 8px;
   background: var(--accent-soft);
   color: var(--accent);
   display: grid;
@@ -1694,7 +1737,7 @@ html[data-theme="dark"] .tag {
 .step {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: var(--r-md);
   padding: 26px;
   box-shadow: var(--elev);
 }
@@ -1763,7 +1806,7 @@ html[data-theme="dark"] .tag {
 .help {
   background: var(--accent);
   color: var(--btn-ink);
-  border-radius: 14px;
+  border-radius: var(--r-md);
   padding: 28px;
   display: flex;
   flex-direction: column;
@@ -1796,7 +1839,7 @@ html[data-theme="dark"] .tag {
   margin: 0 auto;
   position: relative;
   height: 440px;
-  border-radius: 18px;
+  border-radius: var(--r-lg);
   overflow: hidden;
   box-shadow: var(--elev);
 }
@@ -1875,7 +1918,7 @@ html[data-theme="dark"] .tag {
 .feat {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: var(--r-md);
   overflow: hidden;
   box-shadow: var(--elev);
   display: block;
@@ -1926,7 +1969,7 @@ html[data-theme="dark"] .tag {
 .lcard {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: var(--r-md);
   overflow: hidden;
   box-shadow: var(--elev);
   display: grid;
@@ -2008,7 +2051,7 @@ html[data-theme="dark"] .tag {
 .note {
   background: var(--gold-soft);
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: var(--r-sm);
   padding: 14px 18px;
   font-size: 13px;
   color: var(--muted);
@@ -2041,7 +2084,7 @@ html[data-theme="dark"] .tag {
 .tile {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: var(--r-md);
   padding: 24px;
   box-shadow: var(--elev);
 }
@@ -2068,7 +2111,7 @@ html[data-theme="dark"] .tag {
 .album {
   position: relative;
   display: block;
-  border-radius: 14px;
+  border-radius: var(--r-md);
   overflow: hidden;
   box-shadow: var(--elev);
   border: 1px solid var(--line);
@@ -2092,9 +2135,87 @@ html[data-theme="dark"] .tag {
 }
 
 .album-t {
-  font-size: 15px;
-  font-weight: 800;
+  font-size: 19px;
+  font-weight: 700;
   margin: 0 0 4px;
+}
+
+/* Compteur en pastille sur la couverture. */
+.album-count {
+  position: absolute;
+  top: 14px;
+  inset-inline-end: 14px;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.62);
+  color: #fff;
+  font-family: var(--font-mono), "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  padding: 7px 13px;
+  border-radius: var(--r-pill);
+  backdrop-filter: blur(6px);
+}
+
+/* ---------- planche-contact d'un album ---------- */
+
+.sheetgrid {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  /* Sans cela, une figure courte s'étire à la hauteur de la rangée et laisse
+     un grand vide sous sa légende. */
+  align-items: start;
+}
+
+/* La première photo occupe deux colonnes : rythme éditorial. */
+.sheetgrid > figure:first-child {
+  grid-column: span 2;
+}
+
+.shot {
+  margin: 0;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.shot-media {
+  position: relative;
+  height: 300px;
+}
+
+.sheetgrid > figure:first-child .shot-media {
+  height: 460px;
+}
+
+.shot figcaption {
+  padding: 16px 20px 18px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.shot figcaption b {
+  display: block;
+  font-family: var(--font-mono), "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+/* Navigation entre albums. */
+.album-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--line);
+  padding-top: 26px;
 }
 
 /* ---------- frise historique ---------- */
@@ -2220,8 +2341,8 @@ html[data-theme="dark"] .tag {
   width: 100%;
   background: var(--bg);
   border: 1px solid var(--line);
-  border-radius: 9px;
-  padding: 13px 14px;
+  border-radius: var(--r-sm);
+  padding: 15px 18px;
   font: inherit;
   font-size: 14px;
   color: var(--ink);
@@ -2260,7 +2381,7 @@ textarea.input {
 .contact-card {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: var(--r-md);
   padding: 26px;
   box-shadow: var(--elev);
 }
@@ -2312,7 +2433,7 @@ textarea.input {
   width: 100%;
   height: 320px;
   border: 0;
-  border-radius: 14px;
+  border-radius: var(--r-md);
   display: block;
 }
 
@@ -2327,7 +2448,7 @@ textarea.input {
 .partner {
   border: 1px solid var(--line);
   background: var(--surface);
-  border-radius: 10px;
+  border-radius: var(--r-sm);
   padding: 14px 18px;
   font-size: 13px;
   font-weight: 700;
@@ -2336,15 +2457,12 @@ textarea.input {
 
 /* ---------- pied de page ---------- */
 
+/* Le pied de page est toujours noir sur blanc — `--ink` s'inverse
+   selon le thème, il ne peut donc pas servir de fond ici. */
 .ftr {
-  background: var(--ink);
-  color: var(--bg);
-  padding: 52px var(--gut) 34px;
-}
-
-html[data-theme="dark"] .ftr {
-  background: #05090f;
-  color: #f2f5fb;
+  background: #050505;
+  color: #ffffff;
+  padding: 64px var(--gut) 40px;
 }
 
 .ftr-grid {
@@ -2595,6 +2713,12 @@ html[data-theme="dark"] .ftr {
   .g4 {
     grid-template-columns: repeat(2, 1fr);
   }
+  .sheetgrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .sheetgrid > figure:first-child .shot-media {
+    height: 340px;
+  }
   .campus-video {
     height: 320px;
   }
@@ -2678,6 +2802,15 @@ html[data-theme="dark"] .ftr {
   }
   .vr p {
     max-width: none;
+  }
+  .sheetgrid,
+  .sheetgrid > figure:first-child {
+    grid-template-columns: 1fr;
+    grid-column: auto;
+  }
+  .shot-media,
+  .sheetgrid > figure:first-child .shot-media {
+    height: 240px;
   }
   .campus-video {
     height: 240px;

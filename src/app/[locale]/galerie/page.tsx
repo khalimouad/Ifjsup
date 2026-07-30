@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, t, type Locale } from "@/lib/i18n";
 import { ui } from "@/lib/ui";
-import { galleryAlbums } from "@/lib/content";
+import Link from "next/link";
+import { albumCount, galleryAlbums } from "@/lib/content";
+import { Icon } from "@/components/Icon";
 import { Photo } from "@/components/Photo";
 import { PageHero } from "@/components/PageHero";
 import { CtaBand } from "@/components/CtaBand";
@@ -37,21 +39,26 @@ export default async function GalleryPage({
       <section className="sec" style={{ padding: "34px var(--gut) 60px" }}>
         <div className="g3" data-reveal>
           {galleryAlbums.map((a) => (
-            <div className="album" key={a.slug}>
+            <Link href={`/${l}/galerie/${a.slug}`} className="album" key={a.slug}>
               <div className="album-media">
                 <Photo
                   src={a.image}
                   alt={t(a.title, l)}
                   sizes="(max-width: 900px) 100vw, 33vw"
                 />
+                <span className="album-count">
+                  {albumCount(a)} {t(ui.labels.photos, l)}
+                </span>
               </div>
               <div className="album-body">
                 <h3 className="album-t">{t(a.title, l)}</h3>
-                <div className="gcard-meta">
-                  {t(a.campus, l)} · {a.count} {t(ui.labels.photos, l)}
-                </div>
+                <div className="gcard-meta">{t(a.campus, l)}</div>
+                <span className="lnk lnk-accent" style={{ marginTop: 14 }}>
+                  {t(ui.gallery.viewAlbum, l)}
+                  <Icon name="arrow" size={14} sw={2} />
+                </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>

@@ -201,6 +201,11 @@ export const ui = {
       fr: "Plateaux TV, régies, studios, événements et projets étudiants : découvrez l'institut en images, campus par campus.",
       ar: "استوديوهات تلفزية وقاعات تحكم وتظاهرات ومشاريع طلابية: اكتشف المعهد بالصور، حرمًا بحرم.",
     },
+    viewAlbum: { fr: "Voir l'album", ar: "شاهد الألبوم" },
+    allAlbums: { fr: "Tous les albums", ar: "كل الألبومات" },
+    prevAlbum: { fr: "Album précédent", ar: "الألبوم السابق" },
+    nextAlbum: { fr: "Album suivant", ar: "الألبوم التالي" },
+    photoOf: { fr: "Photo", ar: "صورة" },
   },
   admission: {
     title: { fr: "Admission", ar: "القبول" },
