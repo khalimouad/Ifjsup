@@ -16,11 +16,20 @@ export const ui = {
     studentLife: { fr: "Vie étudiante", ar: "الحياة الطلابية" },
     media: { fr: "Médias", ar: "الإعلام" },
   },
+  announce: {
+    intake: { fr: "Rentrée 2026-2027 — les inscriptions sont ouvertes", ar: "الدخول 2026-2027 — التسجيل مفتوح" },
+    campuses: { fr: "Deux campus : Casablanca & Marrakech", ar: "حرمان: الدار البيضاء ومراكش" },
+    accredited: { fr: "Filières accréditées", ar: "مسالك معتمدة" },
+    open: { fr: "Portes ouvertes toute l'année", ar: "أبواب مفتوحة طوال السنة" },
+  },
   header: {
     search: { fr: "Rechercher", ar: "بحث" },
     theme: { fr: "Changer de thème", ar: "تغيير المظهر" },
     menu: { fr: "Ouvrir le menu", ar: "افتح القائمة" },
     close: { fr: "Fermer le menu", ar: "أغلق القائمة" },
+    menuLabel: { fr: "Menu", ar: "القائمة" },
+    language: { fr: "Langue", ar: "اللغة" },
+    closeLabel: { fr: "Fermer", ar: "إغلاق" },
     brandSub: { fr: "Institut Supérieur de Journalisme", ar: "المعهد العالي للصحافة" },
   },
   cta: {

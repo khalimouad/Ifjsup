@@ -14,7 +14,8 @@ export function CtaBand({ locale }: { locale: Locale }) {
           <p>{t(ui.home.finalCtaText, locale)}</p>
         </div>
         <div className="cta-btns">
-          <Link href={`${base}/admission`} className="btn btn-gold">
+          {/* Sur le bandeau accent, un bouton accent serait invisible. */}
+          <Link href={`${base}/admission`} className="btn btn-invert">
             {t(ui.cta.applyNow, locale)}
           </Link>
           <Link href={`${base}/contact`} className="btn btn-onaccent">

@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { isLocale, t, type Locale } from "@/lib/i18n";
 import { ui } from "@/lib/ui";
-import { articles, keyFigures, programs, testimonial } from "@/lib/content";
+import { articles, keyFigures, partners, programs, testimonial } from "@/lib/content";
 import { notFound } from "next/navigation";
 import { Icon } from "@/components/Icon";
 import { Photo } from "@/components/Photo";
-import { KeyFigures, Facilities } from "@/components/Strips";
+import { Counter } from "@/components/Counter";
+import { Facilities } from "@/components/Strips";
 import { NewsMiniCard, ProgramCard } from "@/components/Cards";
 import { CtaBand } from "@/components/CtaBand";
 
@@ -23,89 +24,89 @@ export default async function HomePage({
   const latest = [...articles]
     .sort((a, b) => b.date.localeCompare(a.date))
     .slice(0, 3);
-  const graduates = keyFigures[1].value;
 
   return (
     <>
-      {/* ---------- héros ---------- */}
+      {/* ---------- héros pleine page ---------- */}
       <section className="hero">
         <div className="hero-media" aria-hidden="true">
           <div className="hero-photo">
-            <Photo
-              src="/images/hero-plateau.webp"
-              alt=""
-              priority
-              sizes="(max-width: 900px) 100vw, 74vw"
-            />
+            <Photo src="/images/hero-plateau.webp" alt="" priority sizes="100vw" />
           </div>
-          <div className="hero-fade-x" />
-          <div className="hero-fade-y" />
         </div>
+        <div className="hero-scrim" aria-hidden="true" />
+        <span className="blob blob-a" aria-hidden="true" />
+        <span className="blob blob-b" aria-hidden="true" />
 
-        <div className="hero-grid">
-          <div>
+        <div className="hero-in">
+          <div className="hero-copy">
+            <div className="kicker hero-fade hero-fade-1">
+              {t(ui.home.heroKicker, l)}
+            </div>
+
             <h1 className="hero-h1">
-              {t(ui.home.heroLine1, l)}
-              <br />
-              <span>
-                {t(ui.home.heroLine2, l)}
-                <br />
-                {t(ui.home.heroLine3, l)}
+              <span className="hero-line">
+                <span>{t(ui.home.heroLine1, l)}</span>
+              </span>
+              <span className="hero-line">
+                <span>
+                  <em>{t(ui.home.heroLine2, l)}</em>
+                </span>
+              </span>
+              <span className="hero-line">
+                <span>{t(ui.home.heroLine3, l)}</span>
               </span>
             </h1>
-            <div className="hero-rule" />
-            <p className="hero-text">{t(ui.home.heroShort, l)}</p>
 
-            <div className="hero-cta">
+            <p className="hero-text hero-fade hero-fade-1">{t(ui.home.heroShort, l)}</p>
+
+            <div className="hero-cta hero-fade hero-fade-2">
               <Link href={`${base}/admission`} className="btn btn-accent">
                 {t(ui.cta.applyNow, l)}
-                <Icon name="arrow" size={16} sw={2} className="arw" />
+                <Icon name="arrow" size={16} sw={2.2} className="arw" />
               </Link>
-              <Link href={`${base}/formations`} className="btn btn-outline">
+              <Link href={`${base}/formations`} className="btn btn-line">
                 {t(ui.cta.allPrograms, l)}
-                <Icon name="play" size={14} fill className="arw" />
+                <Icon name="arrowNe" size={16} sw={2.2} className="arw-ne" />
               </Link>
             </div>
+          </div>
 
-            <div className="hero-proof">
-              <div className="dots" aria-hidden="true">
-                <span className="dot">S</span>
-                <span className="dot dot-gold">Y</span>
-                <span className="dot">N</span>
-                <span className="dot dot-solid">+</span>
-              </div>
-              <div className="hero-proof-t">
-                <b>
-                  <span dir="ltr">{graduates}</span> {t(keyFigures[1].label, l)}
-                </b>
-                <br />
-                <span className="muted">{t(ui.home.trustLine, l)}</span>
-              </div>
+          <div className="hero-foot hero-fade hero-fade-3">
+            <div className="hero-figs">
+              {keyFigures.map((f) => (
+                <div className="hero-fig" key={f.value + f.label.fr}>
+                  <div className="hero-fig-v">
+                    <Counter value={f.value} />
+                  </div>
+                  <div className="hero-fig-l">{t(f.label, l)}</div>
+                </div>
+              ))}
             </div>
-          </div>
 
-          <KeyFigures locale={l} />
-        </div>
-
-        <div className="wrap hero-layer" style={{ padding: "34px var(--gut) 0" }}>
-          <div className="scroll-hint">
-            <span className="scroll-mouse" aria-hidden="true">
-              <i />
-            </span>
-            {t(ui.home.discover, l)}
-            <span className="credit">{t(ui.home.heroKicker, l)}</span>
+            <a href="#formations" className="scroll-hint">
+              <span className="scroll-mouse" aria-hidden="true">
+                <i />
+              </span>
+              {t(ui.home.discover, l)}
+            </a>
           </div>
         </div>
+      </section>
 
-        <div className="wrap hero-layer" style={{ padding: "26px var(--gut) 46px" }}>
+      {/* ---------- équipements ---------- */}
+      <section className="sec" style={{ padding: "56px var(--gut) 0" }}>
+        <div className="wrap" style={{ padding: 0 }}>
           <h2 className="sr">{t(ui.home.facilitiesTitle, l)}</h2>
-          <Facilities locale={l} />
+          <div data-reveal>
+            <Facilities locale={l} />
+          </div>
         </div>
       </section>
 
       {/* ---------- formations ---------- */}
-      <section className="sec-soft" style={{ padding: "34px var(--gut) 0" }}>
-        <div className="prog-row" data-reveal>
+      <section className="sec" id="formations" style={{ padding: "56px var(--gut) 0" }}>
+        <div className="prog-row" data-stagger>
           <div className="prog-intro">
             <div className="kicker">{t(ui.home.programsTitle, l)}</div>
             <h2 className="h2">{t(ui.home.progTitle, l)}</h2>
@@ -126,7 +127,7 @@ export default async function HomePage({
             <p>{t(ui.home.vrText, l)}</p>
             <Link href={`${base}/galerie`} className="btn btn-accent btn-sm">
               {t(ui.home.vrCta, l)}
-              <Icon name="arrow" size={15} sw={2} className="arw" />
+              <Icon name="arrow" size={15} sw={2.2} className="arw" />
             </Link>
             <div className="vr-media" aria-hidden="true">
               <Photo src="/images/regie.webp" alt="" sizes="200px" />
@@ -138,8 +139,8 @@ export default async function HomePage({
       </section>
 
       {/* ---------- témoignage + actualités ---------- */}
-      <section className="sec-soft" style={{ padding: "18px var(--gut) 46px" }}>
-        <div className="home-bottom" data-reveal>
+      <section className="sec" style={{ padding: "56px var(--gut) 0" }}>
+        <div className="home-bottom" data-stagger>
           <div className="card testi">
             <div>
               <div className="kicker">{t(ui.home.testiKicker, l)}</div>
@@ -161,7 +162,7 @@ export default async function HomePage({
           <div className="card news-panel">
             <div className="news-row">
               <div>
-                <div className="kicker kicker-accent">{t(ui.news.title, l)}</div>
+                <div className="kicker">{t(ui.news.title, l)}</div>
                 <h2>{t(ui.home.newsPanelTitle, l)}</h2>
                 <Link href={`${base}/actualites`} className="lnk-plain">
                   {t(ui.cta.allNews, l)}
@@ -175,6 +176,25 @@ export default async function HomePage({
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ---------- partenaires en bande défilante ---------- */}
+      <section className="sec" style={{ padding: "56px 0" }}>
+        <div className="wrap" style={{ paddingBottom: 22 }}>
+          <div className="kicker">{t(ui.labels.ourPartners, l)}</div>
+        </div>
+        <div className="marquee">
+          <div className="marquee-track" aria-hidden="true">
+            {[...partners, ...partners, ...partners].map((p, i) => (
+              <span className="partner" key={i}>
+                {l === "ar" ? p.nameAr : p.name}
+              </span>
+            ))}
+          </div>
+          <p className="sr">
+            {partners.map((p) => (l === "ar" ? p.nameAr : p.name)).join(", ")}
+          </p>
         </div>
       </section>
 

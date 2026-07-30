@@ -9,6 +9,7 @@ export type IconName =
   | "menu"
   | "close"
   | "arrow"
+  | "arrowNe"
   | "play"
   | "playLg"
   | "cap"
@@ -47,6 +48,7 @@ const PATHS: Record<IconName, React.ReactNode> = {
   menu: <path d="M4 7h16M4 12h16M4 17h16" />,
   close: <path d="M6 6l12 12M18 6L6 18" />,
   arrow: <path d="M4 12h15M13 6l6 6-6 6" />,
+  arrowNe: <path d="M7 17L17 7M8 7h9v9" />,
   play: <path d="M7 4l13 8-13 8z" />,
   playLg: <path d="M8 5l12 7-12 7z" />,
   cap: (

@@ -16,23 +16,39 @@ la charte visuelle a ensuite été refaite sur le modèle demandé (voir Charte)
 
 ## Charte
 
-Langage visuel éditorial noir / blanc / rouge, dans l'esprit des écoles d'arts
-visuels — repris du modèle de référence fourni (esavmarrakech.com) : palette,
-échelle typographique et rythme de mise en page. Aucun code, visuel, logo ni
-texte de ce site n'a été copié.
+Langage visuel éditorial sombre, dans l'esprit des écoles d'arts visuels —
+structure et rythme repris du modèle de référence fourni (esavmarrakech.com) :
+héros pleine page, menu plein écran, titres condensés en capitales, angles très
+arrondis. Aucun code, visuel, logo ni texte de ce site n'a été copié. Les
+couleurs restent celles de l'IFJ : **orange porteur, bleu en accent**.
 
 | Jeton | Sombre (identité) | Clair (variante) |
 | --- | --- | --- |
 | `--bg` | `#0A0A0A` | `#FFFFFF` |
 | `--surface` | `#1A1A1A` | `#FFFFFF` |
 | `--ink` | `#FFFFFF` | `#111111` |
-| `--accent` | `#EB2D2E` | `#EB2D2E` |
+| `--accent` (orange) | `#F0801A` | `#B85400` |
+| `--accent-2` (bleu) | `#1B5FE3` | `#1B5FE3` |
 
-- **Titres** : IBM Plex Sans Condensed 700, **en capitales**, interlignage 1.02
+- **Titres** : IBM Plex Sans Condensed 700, **en capitales**, interlignage 0.94
+  à 1.02 ; le héros monte à `clamp(44px, 7.4vw, 108px)`
 - **Texte** : IBM Plex Sans 17 px / 1.55
 - **Étiquettes** : IBM Plex Mono, préfixées d'un tiret cadratin
 - **Rayons** : pilules (`999rem`) pour boutons et puces, 48 px / 24 px / 16 px
 - **Arabe** : Cairo remplace les trois familles latines
+
+**Contrastes vérifiés** (l'accent porte des étiquettes et des liens de 12 px,
+qui relèvent donc du seuil AA « texte normal », 4,5:1) :
+
+| Paire | Ratio | |
+| --- | --- | --- |
+| `#F0801A` sur `#0A0A0A` (sombre) | 7,36:1 | AA |
+| `#0A0A0A` sur `#F0801A` (bandeau) | 7,36:1 | AA |
+| `#B85400` sur blanc (clair) | 4,88:1 | AA |
+| `#1B5FE3` sur `#0A0A0A` | 3,58:1 | AA grands caractères — réservé aux chiffres 44 px et aux icônes |
+
+L'orange du thème sombre ne descend pas tel quel en thème clair : `#F0801A` sur
+blanc ne donne que 2,69:1.
 
 La police d'affichage du modèle (*Susanna*) est sous licence commerciale : elle
 n'est pas utilisée. Les IBM Plex sont sous licence libre (SIL OFL).
@@ -40,6 +56,37 @@ n'est pas utilisée. Les IBM Plex sont sous licence libre (SIL OFL).
 Le **sombre porte l'identité** : c'est le défaut pour tout le monde, la variante
 claire étant un choix explicite du visiteur (mémorisé). On ne suit donc pas
 `prefers-color-scheme`, sinon la majorité des visiteurs verrait la variante.
+
+## Héros et navigation
+
+- **Héros pleine page** : la photo couvre tout l'écran (`92vh`), l'en-tête
+  transparent la survole et s'opacifie au défilement, le contenu est calé en
+  bas à gauche. Deux halos flous — orange et bleu — flottent en arrière-plan.
+- **Bandeau d'annonce défilant** au-dessus de l'en-tête (piste dupliquée,
+  translation de -50 % : boucle sans saut ; pause au survol).
+- **Menu plein écran** à toutes les largeurs, comme le modèle : entrées en très
+  grandes capitales qui montent en cascade, campus, langue, réseaux et appel à
+  candidature. Il remplace la barre de navigation classique.
+
+## Mouvement
+
+Tout est en CSS ou en `IntersectionObserver` — aucune bibliothèque d'animation.
+
+| Effet | Où |
+| --- | --- |
+| Lignes du titre qui montent derrière un masque | héros |
+| Entrée en cascade du reste du héros | héros |
+| Zoom lent de la photo, puis parallaxe au défilement | héros |
+| Halos orange et bleu en dérive | héros |
+| Compteurs qui s'incrémentent à l'apparition | chiffres clés |
+| Cascade des cartes à l'entrée à l'écran | `[data-stagger]` |
+| Bandes défilantes | annonce, partenaires |
+| Zoom des vignettes, soulignement des liens, flèches | cartes et boutons |
+| Barre de progression de lecture | haut de page |
+
+`prefers-reduced-motion: reduce` coupe l'ensemble : animations désactivées,
+compteurs figés sur leur valeur finale, barre de progression masquée. Vérifié
+en test — aucun élément ne reste invisible ni décalé.
 
 ## Fonctionnalités
 
@@ -110,9 +157,13 @@ src/
 - **Onglets de fiche filière** réduits à trois (Aperçu, Débouchés, Admission) :
   ce sont les sections pour lesquelles il existe du contenu réel. Ils pointent
   vers les ancres de la page au lieu d'être décoratifs.
-- **Barre d'actions mobile supprimée** (Appeler / WhatsApp de l'ancien site) :
-  le concept garde « Candidater » visible dans l'en-tête à toutes les largeurs.
-  Téléphone et WhatsApp restent au pied de page et sur les pages campus.
+- **Barre de navigation classique remplacée** par le menu plein écran, à toutes
+  les largeurs. C'est le parti du modèle ; en contrepartie les rubriques ne sont
+  plus visibles d'un coup d'œil sur grand écran. Le maillage interne reste
+  assuré par le pied de page et les liens en fin de section.
+- **Sous 900 px**, l'en-tête ne garde que le logo, le thème et le menu :
+  « Candidater » et le sélecteur de langue passaient le bouton de menu hors
+  écran. Les deux sont dans le menu plein écran.
 - **Pas de crédits photo Unsplash** : les visuels du concept étaient des
   photos de banque, remplacées ici par les photos de l'institut.
 - **Trois albums de galerie**, pas six : seules dix photographies réelles sont

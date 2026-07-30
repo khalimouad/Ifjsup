@@ -8,6 +8,7 @@ import { campuses } from "@/lib/content";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Reveal } from "@/components/Reveal";
+import { AnnounceBar } from "@/components/AnnounceBar";
 import { themeBootstrap } from "@/components/Theme";
 
 /* IBM Plex : Sans pour le texte, Sans Condensed pour les titres en capitales,
@@ -131,6 +132,8 @@ export default async function LocaleLayout({
         <a href="#main" className="skip">
           {t(ui.skipToContent, l)}
         </a>
+        <span className="progress" aria-hidden="true" />
+        <AnnounceBar locale={l} />
         <Header locale={l} />
         <main id="main">{children}</main>
         <Footer locale={l} />
