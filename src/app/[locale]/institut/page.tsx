@@ -2,119 +2,153 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, t, type Locale } from "@/lib/i18n";
 import { ui } from "@/lib/ui";
-import { partners, services, stats } from "@/lib/content";
-import { Section, SectionHeading } from "@/components/Section";
-import { EditorialVisual } from "@/components/EditorialVisual";
+import { campuses, partners, services } from "@/lib/content";
+import { Icon } from "@/components/Icon";
+import { PageHero } from "@/components/PageHero";
+import { KeyFigures } from "@/components/Strips";
+import { CtaBand } from "@/components/CtaBand";
+import Link from "next/link";
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
   const { locale } = await params;
-  return {
-    title: locale === "ar" ? "المعهد" : "L'Institut",
-    description:
-      locale === "ar"
-        ? "معهد خاص مغربي رائد في التكوين في مهن الصحافة والسمعي البصري منذ 1994."
-        : "Institut privé marocain pionnier de la formation aux métiers du journalisme et de l'audiovisuel depuis 1994.",
-  };
+  const l = (isLocale(locale) ? locale : "fr") as Locale;
+  return { title: t(ui.institute.title, l), description: t(ui.institute.intro, l) };
 }
 
-export default async function InstitutePage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function InstitutePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const l = locale as Locale;
+  const base = `/${l}`;
 
   return (
     <>
-      <Section tone="dark" className="relative overflow-hidden">
-        <div className="absolute inset-0 opacity-30">
-          <EditorialVisual tone={1} src="/images/background.webp" eager />
-        </div>
-        <div className="relative">
-          <SectionHeading dark kicker={t(ui.institute.kicker, l)} title={t(ui.institute.title, l)} text={t(ui.institute.intro, l)} />
-        </div>
-      </Section>
+      <PageHero
+        title={t(ui.institute.title, l)}
+        intro={t(ui.institute.intro, l)}
+        image="/images/presentation.webp"
+      />
 
-      {/* Chiffres */}
-      <section className="border-b border-primary-100 bg-white">
-        <dl className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-primary-100 px-4 sm:px-6 lg:grid-cols-4 lg:px-8">
-          {stats.map((s) => (
-            <div key={s.value} className="flex flex-col items-center gap-1 px-4 py-8 text-center">
-              <dd className="font-display text-4xl font-black text-primary-800">{s.value}</dd>
-              <dt className="text-sm text-ink/60">{t(s.label, l)}</dt>
-            </div>
-          ))}
-        </dl>
+      {/* ---------- chiffres ---------- */}
+      <section className="sec" style={{ padding: "38px var(--gut) 0" }}>
+        <div className="wrap" style={{ padding: "0 0 22px" }}>
+          <div className="kicker">{t(ui.institute.kicker, l)}</div>
+          <h2 className="h2">{t(ui.labels.keyFacts, l)}</h2>
+        </div>
+        <div className="wrap" style={{ padding: 0 }} data-reveal>
+          <KeyFigures locale={l} row />
+        </div>
       </section>
 
-      {/* Mot de la direction */}
-      <Section>
-        <div className="grid items-center gap-10 lg:grid-cols-2">
-          <div className="reveal overflow-hidden rounded-sm">
-            <div className="aspect-[4/3]">
-              <EditorialVisual tone={4} src="/images/presentation.webp" />
-            </div>
-          </div>
-          <div className="reveal">
-            <SectionHeading kicker={t(ui.labels.since1994, l)} title={t(ui.institute.wordTitle, l)} />
-            <blockquote className="mt-6 border-s-4 border-accent-500 ps-5 text-lg leading-relaxed text-ink/80">
+      {/* ---------- mot de la direction ---------- */}
+      <section className="sec" style={{ padding: "46px var(--gut) 0" }}>
+        <div className="wrap" style={{ padding: 0 }}>
+          <h2 className="h2">{t(ui.institute.wordTitle, l)}</h2>
+          <div className="card" style={{ padding: 30, maxWidth: 900 }} data-reveal>
+            <p
+              style={{
+                fontSize: 17,
+                lineHeight: 1.75,
+                margin: 0,
+                color: "var(--ink)",
+              }}
+            >
               {t(ui.institute.word, l)}
-              <footer className="mt-4 font-display text-sm font-bold text-primary-800">
-                — {t(ui.institute.wordAuthor, l)}
-              </footer>
-            </blockquote>
+            </p>
+            <p className="kicker" style={{ marginTop: 18 }}>
+              {t(ui.institute.wordAuthor, l)}
+            </p>
           </div>
         </div>
-      </Section>
+      </section>
 
-      {/* Histoire */}
-      <Section tone="mist">
-        <SectionHeading title={t(ui.institute.historyTitle, l)} />
-        <ol className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {ui.institute.history.map((h) => (
-            <li key={h.year} className="reveal rounded-sm border border-primary-100 bg-white p-6">
-              <span className="font-display text-3xl font-black text-accent-500">{h.year}</span>
-              <p className="mt-3 text-sm leading-relaxed text-ink/70">{t(h.text, l)}</p>
-            </li>
-          ))}
-        </ol>
-      </Section>
-
-      {/* Équipe */}
-      <Section>
-        <SectionHeading title={t(ui.institute.teamTitle, l)} />
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {ui.institute.team.map((m, i) => (
-            <div key={i} className="reveal overflow-hidden rounded-sm border border-primary-100 bg-white">
-              <div className="aspect-square">
-                <EditorialVisual tone={i} />
+      {/* ---------- histoire ---------- */}
+      <section className="sec" style={{ padding: "46px var(--gut) 0" }}>
+        <div className="wrap" style={{ padding: 0 }}>
+          <h2 className="h2">{t(ui.institute.historyTitle, l)}</h2>
+          <div className="timeline" data-reveal>
+            {ui.institute.history.map((h) => (
+              <div className="tl" key={h.year}>
+                <div className="tl-y">
+                  <i aria-hidden="true" />
+                  {h.year}
+                </div>
+                <div className="tl-t">{t(h.text, l)}</div>
               </div>
-              <p className="p-4 font-display text-sm font-bold text-primary-900">{t(m.role, l)}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </Section>
+      </section>
 
-      {/* Atouts + partenaires */}
-      <Section tone="mist">
-        <SectionHeading title={t(ui.home.servicesTitle, l)} />
-        <div className="mt-10 grid gap-px overflow-hidden rounded-sm border border-primary-100 bg-primary-100 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((s, i) => (
-            <div key={i} className="bg-white p-6">
-              <h3 className="font-display text-lg font-bold text-primary-900">{t(s.title, l)}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink/70">{t(s.text, l)}</p>
+      {/* ---------- pourquoi l'IFJ ---------- */}
+      <section className="sec-soft" style={{ padding: "46px var(--gut)" }}>
+        <div className="wrap" style={{ padding: "0 0 26px" }}>
+          <h2 className="h2">{t(ui.home.servicesTitle, l)}</h2>
+        </div>
+        <div className="g3" data-reveal>
+          {services.map((s) => (
+            <div className="tile" key={s.title.fr}>
+              <span className="tile-ico">
+                <Icon name="checkCircle" size={26} />
+              </span>
+              <h3>{t(s.title, l)}</h3>
+              <p>{t(s.text, l)}</p>
             </div>
           ))}
         </div>
-        <h3 className="mt-14 font-display text-sm font-bold uppercase tracking-widest text-ink/40">
-          {t(ui.labels.ourPartners, l)}
-        </h3>
-        <ul className="mt-4 flex flex-wrap gap-3">
-          {partners.map((p) => (
-            <li key={p.name} className="rounded-sm border border-primary-200 bg-white px-4 py-2 font-display text-sm font-bold text-primary-700">
-              {l === "ar" ? p.nameAr : p.name}
-            </li>
+      </section>
+
+      {/* ---------- équipe ---------- */}
+      <section className="sec" style={{ padding: "46px var(--gut) 0" }}>
+        <div className="wrap" style={{ padding: "0 0 22px" }}>
+          <h2 className="h2">{t(ui.institute.teamTitle, l)}</h2>
+        </div>
+        <div className="g4" data-reveal>
+          {ui.institute.team.map((m) => (
+            <div className="tile" key={m.role.fr}>
+              <span className="tile-ico">
+                <Icon name="users" size={26} />
+              </span>
+              <h3 style={{ fontSize: 14 }}>{t(m.role, l)}</h3>
+            </div>
           ))}
-        </ul>
-      </Section>
+        </div>
+      </section>
+
+      {/* ---------- partenaires + campus ---------- */}
+      <section className="sec" style={{ padding: "46px var(--gut) 60px" }}>
+        <div className="wrap" style={{ padding: 0 }}>
+          <h2 className="h2">{t(ui.labels.ourPartners, l)}</h2>
+          <div className="partners" data-reveal>
+            {partners.map((p) => (
+              <span className="partner" key={p.name}>
+                {l === "ar" ? p.nameAr : p.name}
+              </span>
+            ))}
+          </div>
+
+          <h2 className="h2" style={{ marginTop: 46 }}>
+            {t(ui.home.campusTitle, l)}
+          </h2>
+          <div className="chips">
+            {campuses.map((c) => (
+              <Link key={c.slug} href={`${base}/campus/${c.slug}`} className="chip">
+                {t(c.city, l)}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <CtaBand locale={l} />
     </>
   );
 }

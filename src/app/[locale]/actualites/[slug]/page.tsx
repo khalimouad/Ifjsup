@@ -4,12 +4,15 @@ import { notFound } from "next/navigation";
 import { isLocale, locales, t, type Locale } from "@/lib/i18n";
 import { ui } from "@/lib/ui";
 import { articles } from "@/lib/content";
-import { Section, SectionHeading } from "@/components/Section";
-import { NewsCard } from "@/components/Cards";
-import { EditorialVisual } from "@/components/EditorialVisual";
+import { Icon } from "@/components/Icon";
+import { Photo } from "@/components/Photo";
+import { ArticleRow, fmtDate } from "@/components/Cards";
+import { CtaBand } from "@/components/CtaBand";
 
 export function generateStaticParams() {
-  return locales.flatMap((locale) => articles.map((a) => ({ locale, slug: a.slug })));
+  return locales.flatMap((locale) =>
+    articles.map((a) => ({ locale, slug: a.slug }))
+  );
 }
 
 export async function generateMetadata({
@@ -18,9 +21,14 @@ export async function generateMetadata({
   params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
   const { locale, slug } = await params;
-  const article = articles.find((a) => a.slug === slug);
-  if (!article || !isLocale(locale)) return {};
-  return { title: t(article.title, locale), description: t(article.excerpt, locale) };
+  const l = (isLocale(locale) ? locale : "fr") as Locale;
+  const a = articles.find((x) => x.slug === slug);
+  if (!a) return {};
+  return {
+    title: t(a.title, l),
+    description: t(a.excerpt, l),
+    openGraph: { type: "article", publishedTime: a.date },
+  };
 }
 
 export default async function ArticlePage({
@@ -31,69 +39,72 @@ export default async function ArticlePage({
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
   const l = locale as Locale;
-  const index = articles.findIndex((a) => a.slug === slug);
-  if (index === -1) notFound();
-  const article = articles[index];
-  const others = articles.filter((a) => a.slug !== slug).slice(0, 3);
-  const date = new Date(article.date).toLocaleDateString(l === "ar" ? "ar-MA" : "fr-MA", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const base = `/${l}`;
+
+  const a = articles.find((x) => x.slug === slug);
+  if (!a) notFound();
+
+  const more = articles.filter((x) => x.slug !== a.slug).slice(0, 3);
 
   return (
     <>
-      <article>
-        <header className="relative overflow-hidden bg-primary-950 text-white">
-          <div className="absolute inset-0 opacity-40">
-            <EditorialVisual tone={index} src={article.image} eager />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-primary-950 via-primary-950/60 to-transparent" />
-          <div className="relative mx-auto max-w-4xl px-4 pb-14 pt-24 sm:px-6 lg:pb-20 lg:pt-32">
-            <p className="flex flex-wrap items-center gap-3 text-sm">
-              <span className="rounded-sm bg-accent-500 px-2 py-1 font-bold">{t(article.category, l)}</span>
-              {article.archive && (
-                <span className="rounded-sm bg-white/15 px-2 py-1 font-semibold">{t(ui.labels.archive, l)}</span>
-              )}
-              <time dateTime={article.date} className="text-white/70">
-                {date}
-              </time>
-            </p>
-            <h1 className="mt-4 font-display text-3xl font-black leading-tight tracking-tight sm:text-5xl">
-              {t(article.title, l)}
-            </h1>
-          </div>
-        </header>
+      <section className="sec" style={{ padding: "26px 0 0" }}>
+        <nav className="crumbs" aria-label={t(ui.cta.backTo, l)}>
+          <Link href={base}>{t(ui.nav.home, l)}</Link>
+          <span aria-hidden="true">/</span>
+          <Link href={`${base}/actualites`}>{t(ui.nav.news, l)}</Link>
+          <span aria-hidden="true">/</span>
+          <b>{t(a.category, l)}</b>
+        </nav>
+      </section>
 
-        <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:py-16">
-          <p className="font-display text-lg font-bold leading-relaxed text-primary-900 sm:text-xl">
-            {t(article.excerpt, l)}
-          </p>
-          {article.body.map((p, i) => (
-            <p key={i} className="mt-6 text-base leading-relaxed text-ink/80 sm:text-lg">
-              {t(p, l)}
-            </p>
-          ))}
-          {article.archive && (
-            <p className="mt-8 rounded-sm bg-mist px-4 py-3 text-sm text-ink/60">{t(ui.news.archiveNote, l)}</p>
-          )}
-          <Link
-            href={`/${l}/actualites`}
-            className="tap mt-10 inline-flex items-center gap-2 font-display font-bold text-accent-600 hover:text-accent-700"
-          >
-            ← {t(ui.cta.allNews, l)}
-          </Link>
-        </div>
+      <article>
+        <section className="sec" style={{ padding: "20px var(--gut) 0" }}>
+          <div className="wrap" style={{ padding: 0 }}>
+            <div className="feat-d">
+              {fmtDate(a.date, l)} · {t(a.category, l)}
+            </div>
+            <h1 className="h1" style={{ marginTop: 12, maxWidth: 900 }}>
+              {t(a.title, l)}
+            </h1>
+            <div className="detail-photo" style={{ marginTop: 26 }}>
+              <Photo src={a.image} alt={t(a.title, l)} priority sizes="100vw" />
+            </div>
+          </div>
+        </section>
+
+        <section className="sec" style={{ padding: "34px var(--gut) 60px" }}>
+          <div className="wrap" style={{ padding: 0 }}>
+            <div className="prose">
+              {a.archive && <p className="note">{t(ui.news.archiveNote, l)}</p>}
+              <p style={{ fontWeight: 600, color: "var(--ink)" }}>{t(a.excerpt, l)}</p>
+              {a.body.map((par, i) => (
+                <p key={i}>{t(par, l)}</p>
+              ))}
+            </div>
+            <Link href={`${base}/actualites`} className="lnk lnk-accent" style={{ marginTop: 12 }}>
+              {t(ui.cta.allNews, l)}
+              <Icon name="arrow" size={15} sw={2} />
+            </Link>
+          </div>
+        </section>
       </article>
 
-      <Section tone="mist">
-        <SectionHeading title={l === "fr" ? "À lire aussi" : "اقرأ أيضًا"} />
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {others.map((a) => (
-            <NewsCard key={a.slug} article={a} locale={l} tone={articles.indexOf(a)} />
-          ))}
+      <section className="sec-soft" style={{ padding: "46px var(--gut)" }}>
+        <div className="wrap" style={{ padding: 0 }}>
+          <div className="kicker kicker-accent">{t(ui.news.kicker, l)}</div>
+          <h2 className="h2" style={{ marginBottom: 22 }}>
+            {t(ui.cta.allNews, l)}
+          </h2>
+          <div className="news-list" data-reveal>
+            {more.map((m) => (
+              <ArticleRow key={m.slug} article={m} locale={l} />
+            ))}
+          </div>
         </div>
-      </Section>
+      </section>
+
+      <CtaBand locale={l} />
     </>
   );
 }

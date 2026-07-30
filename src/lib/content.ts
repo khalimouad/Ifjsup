@@ -113,6 +113,12 @@ export type Program = {
   access: L;
   degree: L;
   duration: L;
+  /** Durée en années — alimente le filtre de la liste des formations. */
+  years: 2 | 3;
+  /** Cycle — alimente les puces de filtre en tête de liste. */
+  cycle: "superieur" | "professionnel";
+  /** Niveau d'entrée — alimente le filtre latéral. */
+  entry: "niveau-bac" | "bac" | "bac3";
   accredited: boolean;
   image: string;
   excerpt: L;
@@ -128,6 +134,9 @@ export const programs: Program[] = [
     access: { fr: "BAC", ar: "الباكالوريا" },
     degree: { fr: "Diplôme de Journalisme BAC+3", ar: "دبلوم الصحافة باك+3" },
     duration: { fr: "3 ans (système LMD)", ar: "3 سنوات (نظام LMD)" },
+    years: 3,
+    cycle: "superieur",
+    entry: "bac",
     accredited: true,
     excerpt: {
       fr: "Presse écrite, web, radio et télévision : la formation de référence pour devenir journaliste polyvalent.",
@@ -154,6 +163,9 @@ export const programs: Program[] = [
     access: { fr: "BAC", ar: "الباكالوريا" },
     degree: { fr: "Diplôme d'Ingénierie BAC+3", ar: "دبلوم الهندسة باك+3" },
     duration: { fr: "3 ans (système LMD)", ar: "3 سنوات (نظام LMD)" },
+    years: 3,
+    cycle: "superieur",
+    entry: "bac",
     accredited: true,
     excerpt: {
       fr: "Régie, captation, diffusion, streaming : maîtrisez la technologie qui fait tourner les médias.",
@@ -177,6 +189,9 @@ export const programs: Program[] = [
     access: { fr: "BAC+3 / Licence", ar: "باك+3 / الإجازة" },
     degree: { fr: "Diplôme Médias Numériques", ar: "دبلوم الإعلام الرقمي" },
     duration: { fr: "2 ans", ar: "سنتان" },
+    years: 2,
+    cycle: "superieur",
+    entry: "bac3",
     accredited: true,
     excerpt: {
       fr: "Journalisme digital, réseaux sociaux, data et création de contenu : le média à l'ère des plateformes.",
@@ -200,6 +215,9 @@ export const programs: Program[] = [
     access: { fr: "BAC+3 / Licence", ar: "باك+3 / الإجازة" },
     degree: { fr: "Diplôme de Diplomatie Sportive", ar: "دبلوم الدبلوماسية الرياضية" },
     duration: { fr: "2 ans", ar: "سنتان" },
+    years: 2,
+    cycle: "superieur",
+    entry: "bac3",
     accredited: false,
     excerpt: {
       fr: "Communication, événementiel et relations internationales du sport — un cursus unique au Maroc.",
@@ -222,6 +240,9 @@ export const programs: Program[] = [
     access: { fr: "Niveau BAC", ar: "مستوى الباكالوريا" },
     degree: { fr: "Diplôme de Technicien en Journalisme", ar: "دبلوم تقني في الصحافة" },
     duration: { fr: "2 ans", ar: "سنتان" },
+    years: 2,
+    cycle: "professionnel",
+    entry: "niveau-bac",
     accredited: true,
     excerpt: {
       fr: "Une voie professionnalisante accessible dès le niveau bac pour entrer vite dans les rédactions.",
@@ -244,6 +265,9 @@ export const programs: Program[] = [
     access: { fr: "Niveau BAC", ar: "مستوى الباكالوريا" },
     degree: { fr: "Diplôme de Technicien en Audiovisuel", ar: "دبلوم تقني في السمعي البصري" },
     duration: { fr: "2 ans", ar: "سنتان" },
+    years: 2,
+    cycle: "professionnel",
+    entry: "niveau-bac",
     accredited: true,
     excerpt: {
       fr: "Caméra, son, lumière, montage : les métiers techniques des plateaux, en deux ans.",
@@ -482,6 +506,109 @@ export const faq: { q: L; a: L }[] = [
     },
   },
 ];
+
+/* ---------- Chiffres clés (cartes du héros) ---------- */
+
+/** Les quatre cartes flottantes du héros. `icon` renvoie au jeu d'icônes. */
+export const keyFigures: { value: string; label: L; icon: string; gold?: boolean }[] = [
+  { value: "1994", label: { fr: "Année de création", ar: "سنة التأسيس" }, icon: "cap" },
+  { value: "3 250+", label: { fr: "Lauréats diplômés", ar: "خريجًا متخرجًا" }, icon: "users" },
+  { value: "132", label: { fr: "Unités de formation", ar: "وحدة تكوينية" }, icon: "trophy", gold: true },
+  { value: "33", label: { fr: "Formateurs experts", ar: "مكوّنًا خبيرًا" }, icon: "handshake", gold: true },
+];
+
+/* ---------- Bandeau équipements ---------- */
+
+export const facilities: { title: L; sub: L; icon: string; accent?: boolean }[] = [
+  {
+    icon: "tv",
+    title: { fr: "Plateaux TV", ar: "استوديوهات تلفزية" },
+    sub: { fr: "Multi-caméras", ar: "متعددة الكاميرات" },
+  },
+  {
+    icon: "monitor",
+    accent: true,
+    title: { fr: "Régies de direct", ar: "قاعات التحكم" },
+    sub: { fr: "Captation et diffusion", ar: "التصوير والبث" },
+  },
+  {
+    icon: "mic",
+    title: { fr: "Studios radio & son", ar: "استوديوهات إذاعة وصوت" },
+    sub: { fr: "Prise de son, podcast", ar: "التقاط الصوت والبودكاست" },
+  },
+  {
+    icon: "film",
+    accent: true,
+    title: { fr: "Salles de montage", ar: "قاعات المونتاج" },
+    sub: { fr: "Postes professionnels", ar: "محطات احترافية" },
+  },
+  {
+    icon: "newsroom",
+    title: { fr: "Rédactions-écoles", ar: "قاعات تحرير تطبيقية" },
+    sub: { fr: "Presse, web et mobile", ar: "صحافة مكتوبة ورقمية" },
+  },
+  {
+    icon: "ai",
+    accent: true,
+    title: { fr: "Médias numériques", ar: "الإعلام الرقمي" },
+    sub: { fr: "Data et réseaux sociaux", ar: "البيانات والشبكات" },
+  },
+];
+
+/* ---------- Atouts campus (bandeau bas de page campus) ---------- */
+
+export const campusFeatures: { title: L; sub: L; icon: string; gold?: boolean }[] = [
+  {
+    icon: "building",
+    title: { fr: "Campus en centre-ville", ar: "حرم في وسط المدينة" },
+    sub: { fr: "Accessible en transports", ar: "سهل الوصول بالنقل العمومي" },
+  },
+  {
+    icon: "monitor",
+    gold: true,
+    title: { fr: "Équipements professionnels", ar: "تجهيزات احترافية" },
+    sub: { fr: "Plateaux, régies, studios", ar: "استوديوهات وقاعات تحكم" },
+  },
+  {
+    icon: "users",
+    title: { fr: "Accompagnement", ar: "مواكبة" },
+    sub: { fr: "Suivi personnalisé", ar: "تتبع شخصي" },
+  },
+  {
+    icon: "checkCircle",
+    gold: true,
+    title: { fr: "Clubs & vie étudiante", ar: "أندية وحياة طلابية" },
+    sub: { fr: "Activités para-universitaires", ar: "أنشطة موازية" },
+  },
+  {
+    icon: "books",
+    title: { fr: "Médiathèque", ar: "مكتبة إعلامية" },
+    sub: { fr: "Ressources & archives", ar: "موارد وأرشيف" },
+  },
+];
+
+/* ---------- Documents d'inscription ---------- */
+
+export const admissionDocs: L[] = [
+  { fr: "Copie du baccalauréat ou du relevé de notes", ar: "نسخة من الباكالوريا أو بيان النقط" },
+  { fr: "Copies des relevés de notes", ar: "نسخ من بيانات النقط" },
+  { fr: "Copie de la carte d'identité nationale", ar: "نسخة من البطاقة الوطنية للتعريف" },
+  { fr: "Photos d'identité récentes", ar: "صور شخصية حديثة" },
+  { fr: "Curriculum vitæ à jour", ar: "سيرة ذاتية محدّثة" },
+  { fr: "Lettre de motivation", ar: "رسالة تحفيزية" },
+];
+
+/* ---------- Témoignage (carte d'accueil) ---------- */
+
+export const testimonial = {
+  quote: {
+    fr: "« J'ai appris le métier sur un vrai plateau, avec des journalistes en exercice. Le jour de mon premier direct en télévision, je savais déjà quoi faire. »",
+    ar: "«تعلّمت المهنة في استوديو حقيقي مع صحافيين ممارسين. يوم أول بث مباشر لي على التلفزيون، كنت أعرف مسبقًا ما ينبغي فعله.»",
+  } as L,
+  author: { fr: "Lauréate de la filière Journalisme", ar: "خريجة مسلك الصحافة" } as L,
+  meta: { fr: "Campus de Casablanca", ar: "حرم الدار البيضاء" } as L,
+  image: "/images/prompteur.webp",
+};
 
 /* ---------- Galerie ---------- */
 

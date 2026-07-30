@@ -1,18 +1,28 @@
 import type { Metadata } from "next";
-import { Archivo, Cairo, Inter } from "next/font/google";
+import { Cairo, Manrope } from "next/font/google";
 import { notFound } from "next/navigation";
 import "../globals.css";
-import { dir, isLocale, locales, type Locale } from "@/lib/i18n";
+import { dir, isLocale, locales, t, type Locale } from "@/lib/i18n";
+import { ui } from "@/lib/ui";
+import { campuses } from "@/lib/content";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { MobileActionBar } from "@/components/MobileActionBar";
-import { campuses } from "@/lib/content";
-import { ui } from "@/lib/ui";
-import { t } from "@/lib/i18n";
+import { Reveal } from "@/components/Reveal";
+import { themeBootstrap } from "@/components/Theme";
 
-const archivo = Archivo({ subsets: ["latin"], variable: "--font-archivo", display: "swap" });
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-const cairo = Cairo({ subsets: ["arabic", "latin"], variable: "--font-cairo", display: "swap" });
+/* Manrope porte le concept ; Cairo prend le relais pour l'arabe. */
+const manrope = Manrope({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-manrope",
+  display: "swap",
+});
+const cairo = Cairo({
+  subsets: ["arabic", "latin"],
+  weight: ["400", "600", "700", "800"],
+  variable: "--font-cairo",
+  display: "swap",
+});
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -29,37 +39,32 @@ export async function generateMetadata({
     metadataBase: new URL("https://www.ifjsup.ma"),
     title: {
       default: isAr
-        ? "IFJ — المعهد العالي للصحافة والإعلام | الدار البيضاء ومراكش"
-        : "IFJ — Institut Supérieur de Journalisme et d'Information | Casablanca & Marrakech",
-      template: isAr ? "%s | IFJ المعهد العالي للصحافة" : "%s | IFJ Sup",
+        ? "IFJ SUP — المعهد العالي للصحافة والإعلام | الدار البيضاء ومراكش"
+        : "IFJ SUP — Institut Supérieur de Journalisme et d'Information | Casablanca & Marrakech",
+      template: isAr ? "%s | IFJ SUP" : "%s | IFJ SUP",
     },
     description: isAr
       ? "المعهد الرائد في التكوين في مهن الصحافة والسمعي البصري بالمغرب منذ 1994. مسالك معتمدة في حرمين: الدار البيضاء ومراكش."
       : "Institut pionnier de la formation aux métiers du journalisme et de l'audiovisuel au Maroc depuis 1994. Filières accréditées sur deux campus : Casablanca et Marrakech.",
-    alternates: {
-      languages: { fr: "/fr", ar: "/ar" },
-    },
+    alternates: { languages: { fr: "/fr", ar: "/ar" } },
     openGraph: {
       type: "website",
       locale: isAr ? "ar_MA" : "fr_MA",
-      siteName: "IFJ Sup",
+      siteName: "IFJ SUP",
     },
   };
 }
 
-/** Données structurées schema.org — EducationalOrganization + 2 campus (SEO local) */
+/** schema.org — EducationalOrganization + les deux campus (SEO local). */
 function StructuredData() {
   const data = {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
-    name: "Institut Supérieur de Journalisme et d'Information (IFJ)",
+    name: "Institut Supérieur de Journalisme et d'Information (IFJ SUP)",
     foundingDate: "1994",
     url: "https://www.ifjsup.ma",
     email: "contact@ifjsup.ma",
-    sameAs: [
-      "https://www.facebook.com/ifjsup",
-      "https://twitter.com/IfjGroupe",
-    ],
+    sameAs: ["https://www.facebook.com/ifjsup", "https://twitter.com/IfjGroupe"],
     department: campuses.map((c) => ({
       "@type": "EducationalOrganization",
       name: c.slug === "casablanca" ? "IFJ Sup Casablanca" : "IFJ Marrakech",
@@ -92,31 +97,29 @@ export default async function LocaleLayout({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const l = locale as Locale;
-  const isAr = l === "ar";
 
   return (
     <html
       lang={l}
       dir={dir(l)}
-      className={`${archivo.variable} ${inter.variable} ${cairo.variable}`}
+      className={`${manrope.variable} ${cairo.variable}`}
       style={
         {
-          "--font-display": isAr ? "var(--font-cairo)" : "var(--font-archivo)",
-          "--font-body": isAr ? "var(--font-cairo)" : "var(--font-inter)",
+          "--font-ui": l === "ar" ? "var(--font-cairo)" : "var(--font-manrope)",
         } as React.CSSProperties
       }
+      suppressHydrationWarning
     >
       <body>
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:start-2 focus:z-[60] focus:rounded-sm focus:bg-accent-500 focus:px-4 focus:py-2 focus:text-white"
-        >
+        {/* Pose le thème avant peinture pour éviter le clignotement. */}
+        <script dangerouslySetInnerHTML={{ __html: themeBootstrap }} />
+        <a href="#main" className="skip">
           {t(ui.skipToContent, l)}
         </a>
         <Header locale={l} />
         <main id="main">{children}</main>
         <Footer locale={l} />
-        <MobileActionBar locale={l} />
+        <Reveal />
         <StructuredData />
       </body>
     </html>

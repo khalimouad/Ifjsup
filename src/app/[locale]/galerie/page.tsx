@@ -3,43 +3,60 @@ import { notFound } from "next/navigation";
 import { isLocale, t, type Locale } from "@/lib/i18n";
 import { ui } from "@/lib/ui";
 import { galleryAlbums } from "@/lib/content";
-import { Section, SectionHeading } from "@/components/Section";
-import { EditorialVisual } from "@/components/EditorialVisual";
+import { Photo } from "@/components/Photo";
+import { PageHero } from "@/components/PageHero";
+import { CtaBand } from "@/components/CtaBand";
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
   const { locale } = await params;
-  return { title: locale === "ar" ? "المعرض" : "Galerie & médiathèque" };
+  const l = (isLocale(locale) ? locale : "fr") as Locale;
+  return { title: t(ui.gallery.title, l), description: t(ui.gallery.intro, l) };
 }
 
-export default async function GalleryPage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function GalleryPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const l = locale as Locale;
 
   return (
-    <Section tone="mist">
-      <SectionHeading kicker={t(ui.gallery.kicker, l)} title={t(ui.gallery.title, l)} text={t(ui.gallery.intro, l)} />
-      <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {galleryAlbums.map((album) => (
-          <figure
-            key={album.slug}
-            className="reveal group overflow-hidden rounded-sm border border-primary-100 bg-white"
-          >
-            <div className="relative aspect-[4/3] overflow-hidden">
-              <div className="h-full w-full transition-transform duration-500 group-hover:scale-105">
-                <EditorialVisual tone={album.tone} src={album.image} label={t(album.title, l)} />
+    <>
+      <PageHero
+        title={t(ui.gallery.title, l)}
+        intro={t(ui.gallery.intro, l)}
+        image="/images/regie-emission.webp"
+      />
+
+      <section className="sec" style={{ padding: "34px var(--gut) 60px" }}>
+        <div className="g3" data-reveal>
+          {galleryAlbums.map((a) => (
+            <div className="album" key={a.slug}>
+              <div className="album-media">
+                <Photo
+                  src={a.image}
+                  alt={t(a.title, l)}
+                  sizes="(max-width: 900px) 100vw, 33vw"
+                />
               </div>
-              <span className="absolute bottom-3 end-3 rounded-sm bg-primary-950/80 px-2 py-1 text-xs font-semibold text-white">
-                {album.count} {t(ui.labels.photos, l)}
-              </span>
+              <div className="album-body">
+                <h3 className="album-t">{t(a.title, l)}</h3>
+                <div className="gcard-meta">
+                  {t(a.campus, l)} · {a.count} {t(ui.labels.photos, l)}
+                </div>
+              </div>
             </div>
-            <figcaption className="p-5">
-              <p className="text-xs font-semibold uppercase tracking-wider text-accent-600">{t(album.campus, l)}</p>
-              <h2 className="mt-1 font-display text-lg font-bold text-primary-900">{t(album.title, l)}</h2>
-            </figcaption>
-          </figure>
-        ))}
-      </div>
-    </Section>
+          ))}
+        </div>
+      </section>
+
+      <CtaBand locale={l} />
+    </>
   );
 }

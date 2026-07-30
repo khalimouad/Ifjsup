@@ -4,12 +4,15 @@ import { notFound } from "next/navigation";
 import { isLocale, locales, t, type Locale } from "@/lib/i18n";
 import { ui } from "@/lib/ui";
 import { programs } from "@/lib/content";
-import { Section, SectionHeading } from "@/components/Section";
-import { Arrow, ProgramCard } from "@/components/Cards";
-import { EditorialVisual } from "@/components/EditorialVisual";
+import { Icon, type IconName } from "@/components/Icon";
+import { Photo } from "@/components/Photo";
+import { ProgramGridCard } from "@/components/Cards";
+import { CtaBand } from "@/components/CtaBand";
 
 export function generateStaticParams() {
-  return locales.flatMap((locale) => programs.map((p) => ({ locale, slug: p.slug })));
+  return locales.flatMap((locale) =>
+    programs.map((p) => ({ locale, slug: p.slug }))
+  );
 }
 
 export async function generateMetadata({
@@ -18,12 +21,10 @@ export async function generateMetadata({
   params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
   const { locale, slug } = await params;
-  const program = programs.find((p) => p.slug === slug);
-  if (!program || !isLocale(locale)) return {};
-  return {
-    title: t(program.name, locale),
-    description: t(program.excerpt, locale),
-  };
+  const l = (isLocale(locale) ? locale : "fr") as Locale;
+  const p = programs.find((x) => x.slug === slug);
+  if (!p) return {};
+  return { title: t(p.name, l), description: t(p.excerpt, l) };
 }
 
 export default async function ProgramPage({
@@ -34,91 +35,183 @@ export default async function ProgramPage({
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
   const l = locale as Locale;
-  const index = programs.findIndex((p) => p.slug === slug);
-  if (index === -1) notFound();
-  const program = programs[index];
-  const others = programs.filter((p) => p.slug !== slug).slice(0, 3);
+  const base = `/${l}`;
 
-  const facts = [
-    { label: ui.labels.access, value: program.access },
-    { label: ui.labels.degree, value: program.degree },
-    { label: ui.labels.duration, value: program.duration },
+  const p = programs.find((x) => x.slug === slug);
+  if (!p) notFound();
+
+  const others = programs.filter((x) => x.slug !== p.slug).slice(0, 3);
+
+  const meta: { icon: IconName; label: string; value: string; gold?: boolean }[] = [
+    { icon: "cap", label: t(ui.detail.level, l), value: t(p.access, l) },
+    { icon: "globe", label: t(ui.detail.language, l), value: t(ui.detail.languageValue, l) },
+    { icon: "clock", label: t(ui.detail.pace, l), value: t(ui.detail.paceValue, l), gold: true },
+    { icon: "pin", label: t(ui.detail.campus, l), value: t(ui.detail.campusValue, l) },
+    {
+      icon: "calendar",
+      label: t(ui.detail.intake, l),
+      value: t(ui.detail.intakeValue, l),
+      gold: true,
+    },
+  ];
+
+  const tabs = [
+    { href: "#apercu", label: t(ui.tabs.overview, l), on: true },
+    { href: "#debouches", label: t(ui.tabs.careers, l) },
+    { href: "#admission", label: t(ui.tabs.admission, l) },
   ];
 
   return (
     <>
-      <section className="relative overflow-hidden bg-primary-950 text-white">
-        <div className="absolute inset-0 opacity-40">
-          <EditorialVisual tone={index} src={program.image} eager />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-primary-950 via-primary-950/60 to-transparent" />
-        <div className="relative mx-auto max-w-7xl px-4 pb-14 pt-24 sm:px-6 lg:px-8 lg:pb-20 lg:pt-32">
-          <p className="font-display text-sm font-bold uppercase tracking-widest text-accent-400">
-            {t(ui.nav.programs, l)}
-            {program.accredited && <span className="ms-3 rounded-sm bg-gold px-2 py-0.5 text-xs text-primary-950">{t(ui.labels.accredited, l)}</span>}
-          </p>
-          <h1 className="mt-3 max-w-3xl font-display text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl">
-            {t(program.name, l)}
-          </h1>
-          <p className="mt-4 max-w-2xl text-white/80 sm:text-lg">{t(program.excerpt, l)}</p>
-          <Link
-            href={`/${l}/admission`}
-            className="tap mt-8 inline-flex items-center gap-2 rounded-sm bg-accent-500 px-6 py-4 font-display font-bold text-white hover:bg-accent-600"
-          >
-            {t(ui.cta.apply, l)}
-            <Arrow />
-          </Link>
+      <section className="sec" style={{ padding: "26px 0 0" }}>
+        <nav className="crumbs" aria-label={t(ui.cta.backTo, l)}>
+          <Link href={base}>{t(ui.nav.home, l)}</Link>
+          <span aria-hidden="true">/</span>
+          <Link href={`${base}/formations`}>{t(ui.nav.programs, l)}</Link>
+          <span aria-hidden="true">/</span>
+          <b>{t(p.name, l)}</b>
+        </nav>
+      </section>
+
+      {/* ---------- héros de la fiche ---------- */}
+      <section className="sec" style={{ padding: "20px var(--gut) 0" }}>
+        <div className="detail-hero">
+          <div>
+            <h1>{t(p.name, l)}</h1>
+            <div className="detail-tags">
+              <span className="tag">{t(p.access, l)}</span>
+              <span className="muted" style={{ fontSize: 13, fontWeight: 600 }}>
+                {t(p.duration, l)}
+              </span>
+              {p.accredited && (
+                <span className="tag tag-gold">{t(ui.labels.accreditedShort, l)}</span>
+              )}
+            </div>
+            <p className="lead">{t(p.excerpt, l)}</p>
+            <div className="hero-cta" style={{ marginTop: 0 }}>
+              <Link href={`${base}/admission`} className="btn btn-accent btn-sm">
+                {t(ui.cta.apply, l)}
+              </Link>
+              <Link href={`${base}/contact`} className="btn btn-line btn-sm">
+                {t(ui.detail.brochure, l)}
+                <Icon name="download" size={14} sw={2} />
+              </Link>
+            </div>
+          </div>
+          <div className="detail-photo">
+            <Photo
+              src={p.image}
+              alt={t(p.name, l)}
+              priority
+              sizes="(max-width: 900px) 100vw, 55vw"
+            />
+          </div>
         </div>
       </section>
 
-      {/* Fiche synthétique */}
-      <section className="border-b border-primary-100 bg-white">
-        <dl className="mx-auto grid max-w-7xl divide-y divide-primary-100 px-4 sm:grid-cols-3 sm:divide-x sm:divide-y-0 sm:px-6 lg:px-8">
-          {facts.map((f, i) => (
-            <div key={i} className="px-2 py-6 text-center sm:px-6">
-              <dt className="text-xs font-bold uppercase tracking-widest text-accent-600">{t(f.label, l)}</dt>
-              <dd className="mt-2 font-display text-lg font-bold text-primary-900">{t(f.value, l)}</dd>
+      {/* ---------- bandeau méta ---------- */}
+      <section className="sec" style={{ padding: "30px var(--gut) 0" }}>
+        <div className="detail-meta">
+          {meta.map((m) => (
+            <div className="dmeta" key={m.label}>
+              <span style={{ color: m.gold ? "var(--gold)" : "var(--accent)" }}>
+                <Icon name={m.icon} size={22} />
+              </span>
+              <div>
+                <div className="dmeta-t">{m.label}</div>
+                <div className="dmeta-v">{m.value}</div>
+              </div>
             </div>
           ))}
-        </dl>
+        </div>
       </section>
 
-      <Section>
-        <div className="grid gap-12 lg:grid-cols-3">
-          <div className="lg:col-span-2">
-            <h2 className="font-display text-2xl font-black text-primary-900 sm:text-3xl">
-              {l === "fr" ? "La formation" : "التكوين"}
-            </h2>
-            <p className="mt-5 text-base leading-relaxed text-ink/80 sm:text-lg">{t(program.description, l)}</p>
+      {/* ---------- corps ---------- */}
+      <section className="sec" style={{ padding: "34px var(--gut) 60px" }}>
+        <div className="wrap" style={{ padding: 0 }}>
+          <div className="tabs">
+            {tabs.map((tab) => (
+              <a
+                key={tab.href}
+                href={tab.href}
+                className={`tab${tab.on ? " tab-on" : ""}`}
+              >
+                {tab.label}
+              </a>
+            ))}
           </div>
-          <aside className="rounded-sm bg-mist p-6">
-            <h2 className="font-display text-lg font-bold text-primary-900">{t(ui.labels.careers, l)}</h2>
-            <ul className="mt-4 space-y-3">
-              {program.careers.map((c, i) => (
-                <li key={i} className="flex items-start gap-3 text-sm text-ink/80">
-                  <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-accent-500" aria-hidden />
-                  {t(c, l)}
-                </li>
-              ))}
-            </ul>
-            <Link
-              href={`/${l}/admission`}
-              className="tap mt-6 flex items-center justify-center gap-2 rounded-sm bg-primary-700 px-4 py-3 font-display font-bold text-white hover:bg-primary-600"
-            >
-              {t(ui.cta.applyNow, l)}
-            </Link>
-          </aside>
-        </div>
-      </Section>
 
-      <Section tone="mist">
-        <SectionHeading title={l === "fr" ? "Autres formations" : "تكوينات أخرى"} />
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {others.map((p) => (
-            <ProgramCard key={p.slug} program={p} locale={l} tone={programs.indexOf(p)} />
-          ))}
+          <div className="detail-body">
+            <div id="apercu">
+              <p>{t(p.description, l)}</p>
+
+              <h2 className="h2" style={{ fontSize: 19, marginTop: 0 }}>
+                {t(ui.labels.degree, l)}
+              </h2>
+              <div className="checks">
+                <div className="check">
+                  <Icon name="check" size={16} sw={2.4} />
+                  {t(p.degree, l)}
+                </div>
+                <div className="check">
+                  <Icon name="check" size={16} sw={2.4} />
+                  {t(ui.labels.access, l)} : {t(p.access, l)}
+                </div>
+                <div className="check">
+                  <Icon name="check" size={16} sw={2.4} />
+                  {t(ui.labels.duration, l)} : {t(p.duration, l)}
+                </div>
+                {p.accredited && (
+                  <div className="check">
+                    <Icon name="check" size={16} sw={2.4} />
+                    {t(ui.labels.accredited, l)}
+                  </div>
+                )}
+              </div>
+
+              <h2 className="h2" style={{ fontSize: 19 }} id="admission">
+                {t(ui.tabs.admission, l)}
+              </h2>
+              <p>{t(ui.detail.admissionText, l)}</p>
+              <Link href={`${base}/admission`} className="btn btn-accent btn-sm">
+                {t(ui.cta.applyNow, l)}
+                <Icon name="arrow" size={15} sw={2} className="arw" />
+              </Link>
+            </div>
+
+            <div className="aside-card" id="debouches">
+              <h3>{t(ui.labels.careers, l)}</h3>
+              <div className="rows">
+                {p.careers.map((c) => (
+                  <div className="row-i" key={c.fr}>
+                    <span className="bx" aria-hidden="true">
+                      <Icon name="check" size={13} sw={2.6} />
+                    </span>
+                    {t(c, l)}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-      </Section>
+      </section>
+
+      {/* ---------- autres formations ---------- */}
+      <section className="sec-soft" style={{ padding: "46px var(--gut)" }}>
+        <div className="wrap" style={{ padding: 0 }}>
+          <div className="kicker">{t(ui.programs.kicker, l)}</div>
+          <h2 className="h2" style={{ marginBottom: 24 }}>
+            {t(ui.detail.otherPrograms, l)}
+          </h2>
+          <div className="prog-grid" data-reveal>
+            {others.map((o) => (
+              <ProgramGridCard key={o.slug} program={o} locale={l} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <CtaBand locale={l} />
     </>
   );
 }

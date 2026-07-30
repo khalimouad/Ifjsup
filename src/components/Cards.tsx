@@ -1,88 +1,147 @@
 import Link from "next/link";
-import type { Locale } from "@/lib/i18n";
-import { t } from "@/lib/i18n";
+import { t, type Locale } from "@/lib/i18n";
 import { ui } from "@/lib/ui";
 import type { Article, Program } from "@/lib/content";
-import { EditorialVisual } from "./EditorialVisual";
+import { Icon } from "./Icon";
+import { Photo } from "./Photo";
 
-export function ProgramCard({ program, locale, tone }: { program: Program; locale: Locale; tone: number }) {
-  return (
-    <Link
-      href={`/${locale}/formations/${program.slug}`}
-      className="reveal group flex flex-col overflow-hidden rounded-xl border border-white/10 bg-primary-900 transition-all hover:shadow-xl hover:shadow-white/10 hover:-translate-y-1"
-    >
-      <div className="relative aspect-[8/5] overflow-hidden">
-        <div className="h-full w-full transition-transform duration-500 group-hover:scale-105">
-          <EditorialVisual tone={tone} src={program.image} label={t(program.name, locale)} />
-        </div>
-        {program.accredited && (
-          <span className="absolute top-3 start-3 rounded-sm bg-gold px-2 py-1 text-xs font-bold text-primary-950">
-            {t(ui.labels.accreditedShort, locale)}
-          </span>
-        )}
-      </div>
-      <div className="flex flex-1 flex-col p-5">
-        <p className="text-xs font-semibold uppercase tracking-wider text-accent-400">
-          {t(program.access, locale)} · {t(program.duration, locale)}
-        </p>
-        <h3 className="mt-2 font-display text-lg font-bold leading-snug text-white group-hover:text-accent-400">
-          {t(program.name, locale)}
-        </h3>
-        <p className="mt-2 flex-1 text-sm leading-relaxed text-white/70">{t(program.excerpt, locale)}</p>
-        <span className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-white group-hover:text-accent-400">
-          {t(ui.cta.discover, locale)}
-          <Arrow />
-        </span>
-      </div>
-    </Link>
-  );
-}
-
-export function NewsCard({ article, locale, tone }: { article: Article; locale: Locale; tone: number }) {
-  const date = new Date(article.date).toLocaleDateString(locale === "ar" ? "ar-MA" : "fr-MA", {
-    year: "numeric",
-    month: "long",
+/** Date localisée, en clair. */
+export function fmtDate(iso: string, locale: Locale) {
+  return new Date(iso).toLocaleDateString(locale === "ar" ? "ar-MA" : "fr-MA", {
     day: "numeric",
+    month: "long",
+    year: "numeric",
   });
+}
+
+/* ---------- formations ---------- */
+
+/** Carte haute de la rangée d'accueil (photo, badge, flèche ronde). */
+export function ProgramCard({
+  program: p,
+  locale,
+}: {
+  program: Program;
+  locale: Locale;
+}) {
   return (
-    <Link
-      href={`/${locale}/actualites/${article.slug}`}
-      className="reveal group flex flex-col overflow-hidden rounded-xl border border-white/10 bg-primary-900 transition-all hover:shadow-xl hover:shadow-white/10 hover:-translate-y-1"
-    >
-      <div className="relative aspect-video overflow-hidden">
-        <div className="h-full w-full transition-transform duration-500 group-hover:scale-105">
-          <EditorialVisual tone={tone} src={article.image} label={t(article.title, locale)} />
-        </div>
-        <span className="absolute top-3 start-3 rounded-sm bg-accent-500 px-2 py-1 text-xs font-bold text-white">
-          {t(article.category, locale)}
-        </span>
-        {article.archive && (
-          <span className="absolute top-3 end-3 rounded-sm bg-white/20 px-2 py-1 text-xs font-semibold text-white">
-            {t(ui.labels.archive, locale)}
-          </span>
-        )}
+    <Link href={`/${locale}/formations/${p.slug}`} className="pcard">
+      <div className="pcard-media">
+        <Photo src={p.image} alt={t(p.name, locale)} sizes="(max-width: 900px) 100vw, 25vw" />
       </div>
-      <div className="flex flex-1 flex-col p-5">
-        <time dateTime={article.date} className="text-xs text-white/50">
-          {date}
-        </time>
-        <h3 className="mt-2 font-display text-lg font-bold leading-snug text-white group-hover:text-accent-400">
-          {t(article.title, locale)}
-        </h3>
-        <p className="mt-2 flex-1 text-sm leading-relaxed text-white/70">{t(article.excerpt, locale)}</p>
-        <span className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-white group-hover:text-accent-400">
-          {t(ui.cta.readMore, locale)}
-          <Arrow />
+      <div className="pcard-body">
+        <span className="tag">{t(p.access, locale)}</span>
+        <h3 className="pcard-t">{t(p.name, locale)}</h3>
+        <div className="pcard-meta">{t(p.duration, locale)}</div>
+        <p className="pcard-x">{t(p.excerpt, locale)}</p>
+        <div className="grow" />
+        <span className="pcard-arrow" aria-hidden="true">
+          <Icon name="arrow" size={16} sw={2.2} />
         </span>
       </div>
     </Link>
   );
 }
 
-export function Arrow() {
+/** Carte de la grille de la page « Formations ». */
+export function ProgramGridCard({
+  program: p,
+  locale,
+}: {
+  program: Program;
+  locale: Locale;
+}) {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="rtl:-scale-x-100">
-      <path d="M5 12h14M13 6l6 6-6 6" />
-    </svg>
+    <Link href={`/${locale}/formations/${p.slug}`} className="gcard">
+      <div className="gcard-media">
+        <Photo src={p.image} alt={t(p.name, locale)} sizes="(max-width: 900px) 100vw, 33vw" />
+      </div>
+      <div className="gcard-body">
+        <h3 className="gcard-t">{t(p.name, locale)}</h3>
+        <div className="gcard-meta">
+          {t(p.degree, locale)} — {t(p.duration, locale)}
+        </div>
+        <p className="gcard-x">{t(p.excerpt, locale)}</p>
+        <div className="grow" />
+        <span className="lnk lnk-accent">
+          {t(ui.cta.readMore, locale)}
+          <Icon name="arrow" size={14} sw={2} />
+        </span>
+      </div>
+    </Link>
+  );
+}
+
+/* ---------- actualités ---------- */
+
+/** Vignette compacte du panneau d'accueil. */
+export function NewsMiniCard({
+  article: a,
+  locale,
+  gold = false,
+}: {
+  article: Article;
+  locale: Locale;
+  gold?: boolean;
+}) {
+  return (
+    <Link href={`/${locale}/actualites/${a.slug}`} className="ncard">
+      <div className="ncard-media">
+        <Photo src={a.image} alt={t(a.title, locale)} sizes="220px" />
+        <span className={`tag${gold ? " tag-gold" : ""}`}>{t(a.category, locale)}</span>
+      </div>
+      <h4 className="ncard-t">{t(a.title, locale)}</h4>
+      <div className="ncard-d">{fmtDate(a.date, locale)}</div>
+    </Link>
+  );
+}
+
+/** Article vedette de la page « Actualités ». */
+export function FeaturedArticle({
+  article: a,
+  locale,
+}: {
+  article: Article;
+  locale: Locale;
+}) {
+  return (
+    <Link href={`/${locale}/actualites/${a.slug}`} className="feat">
+      <div className="feat-media">
+        <Photo src={a.image} alt={t(a.title, locale)} priority sizes="(max-width: 1400px) 100vw, 55vw" />
+      </div>
+      <div className="feat-body">
+        <div className="feat-d">{fmtDate(a.date, locale)}</div>
+        <h2>{t(a.title, locale)}</h2>
+        <span className="lnk-plain">
+          {t(ui.cta.readMore, locale)}
+          <Icon name="arrow" size={15} sw={2} />
+        </span>
+      </div>
+    </Link>
+  );
+}
+
+/** Ligne de la liste d'actualités (photo à gauche, texte à droite). */
+export function ArticleRow({
+  article: a,
+  locale,
+}: {
+  article: Article;
+  locale: Locale;
+}) {
+  return (
+    <Link href={`/${locale}/actualites/${a.slug}`} className="lcard">
+      <div className="lcard-media">
+        <Photo src={a.image} alt={t(a.title, locale)} sizes="200px" />
+      </div>
+      <div className="lcard-body">
+        <div className="lcard-d">{fmtDate(a.date, locale)}</div>
+        <h3>{t(a.title, locale)}</h3>
+        <span className="lnk-plain lnk-sm">
+          {t(ui.cta.readMore, locale)}
+          <Icon name="arrow" size={13} sw={2} />
+        </span>
+      </div>
+    </Link>
   );
 }

@@ -1,5 +1,2 @@
-export default {
-  plugins: {
-    "@tailwindcss/postcss": {},
-  },
-};
+/* Aucun pré-processeur : globals.css est du CSS natif. */
+export default { plugins: {} };
