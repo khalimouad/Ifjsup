@@ -314,6 +314,7 @@ export const ui = {
       ar: "يُودَع الملف إلكترونيًا أو عبر الهاتف أو واتساب. يتصل بك فريق الحرم المختار لإجراء مقابلة توجيهية.",
     },
     otherPrograms: { fr: "Autres formations", ar: "تكوينات أخرى" },
+    posterAlt: { fr: "Affiche de la filière", ar: "ملصق المسلك" },
   },
   contact: {
     title: { fr: "Contact", ar: "اتصل بنا" },

@@ -31,6 +31,7 @@ export default async function GalleryPage({
   return (
     <>
       <PageHero
+        index="03"
         title={t(ui.gallery.title, l)}
         intro={t(ui.gallery.intro, l)}
         image="/images/regie-emission.webp"

@@ -31,6 +31,7 @@ export default async function ContactPage({
   return (
     <>
       <PageHero
+        index="06"
         title={t(ui.contact.title, l)}
         intro={t(ui.contact.intro, l)}
         image="/images/partenariat.webp"

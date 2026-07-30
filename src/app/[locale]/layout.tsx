@@ -9,6 +9,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Reveal } from "@/components/Reveal";
 import { AnnounceBar } from "@/components/AnnounceBar";
+import { Tilt } from "@/components/Tilt";
 import { themeBootstrap } from "@/components/Theme";
 
 /* IBM Plex : Sans pour le texte, Sans Condensed pour les titres en capitales,
@@ -138,6 +139,7 @@ export default async function LocaleLayout({
         <main id="main">{children}</main>
         <Footer locale={l} />
         <Reveal />
+        <Tilt />
         <StructuredData />
       </body>
     </html>

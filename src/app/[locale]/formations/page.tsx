@@ -32,6 +32,7 @@ export default async function ProgramsPage({
   return (
     <>
       <PageHero
+        index="02"
         light
         title={t(ui.programs.title, l)}
         intro={t(ui.programs.intro, l)}

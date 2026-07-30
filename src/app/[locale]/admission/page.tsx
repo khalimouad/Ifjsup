@@ -36,7 +36,7 @@ export default async function AdmissionPage({
       <PageHero
         title={t(ui.admission.title, l)}
         intro={t(ui.admission.intro, l)}
-        image="/images/presentation.webp"
+        index="04"
       />
 
       {/* ---------- les 4 étapes ---------- */}

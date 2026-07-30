@@ -86,11 +86,15 @@ Tout est en CSS ou en `IntersectionObserver` — aucune bibliothèque d'animatio
 | Cascade des cartes à l'entrée à l'écran | `[data-stagger]` |
 | Bandes défilantes | annonce, partenaires |
 | Zoom des vignettes, soulignement des liens, flèches | cartes et boutons |
+| Inclinaison vers le curseur, lueur d'accent qui le suit | cartes (pointeur fin) |
+| Balayage d'accent sur la photo, filet qui se déploie, flèche qui pivote | cartes de contenu |
 | Barre de progression de lecture | haut de page |
 
 `prefers-reduced-motion: reduce` coupe l'ensemble : animations désactivées,
-compteurs figés sur leur valeur finale, barre de progression masquée. Vérifié
-en test — aucun élément ne reste invisible ni décalé.
+compteurs figés sur leur valeur finale, barre de progression masquée,
+inclinaison et lueurs neutralisées. L'inclinaison ne s'active de toute façon
+que sur pointeur fin (`hover: hover and pointer: fine`) — jamais au tactile.
+Vérifié en test, survol compris : aucun élément ne reste invisible ni décalé.
 
 ## Fonctionnalités
 
@@ -124,7 +128,24 @@ Les textes et les photos sont ceux de l'institut, repris de l'ancien site
   étaient des valeurs de remplissage et n'ont pas été reprises.
 - **Coordonnées réelles** des deux campus (adresses, téléphones, emails)
 - **10 photographies** des plateaux, régies et studios dans `public/images/`
-  (plus sept affiches de filière, non utilisées en galerie — voir plus bas)
+- **6 affiches de filière** (`filiere-*.webp`) : ce sont des documents, pas des
+  photos. Elles sont affichées comme telles sur chaque fiche filière, en entier
+  (`object-fit: contain`) et légendées « Affiche de la filière » — une par
+  filière, la correspondance est exacte.
+
+### Emploi des images
+
+Deux fichiers ne sont plus employés comme photographies :
+
+- `background.webp` est un bandeau-collage : il servait de visuel à la filière
+  Diplomatie Sportive et à l'article de une.
+- `presentation.webp` est un portrait personnel : il servait de héros aux pages
+  Institut **et** Admission.
+
+Ces deux pages passent au **héros typographique** — sans photo, sur aplat et
+halos. Avec dix photographies pour douze pages, un héros assumé sans image vaut
+mieux qu'une photo qui ne parle pas du sujet. Les pages Formations, Galerie,
+Actualités, Contact et Campus gardent une vraie photo, chacune distincte.
 
 ## Développement
 

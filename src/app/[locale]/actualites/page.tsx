@@ -32,6 +32,7 @@ export default async function NewsPage({
   return (
     <>
       <PageHero
+        index="05"
         title={t(ui.news.title, l)}
         intro={t(ui.news.intro, l)}
         image="/images/news-saadni.webp"

@@ -121,6 +121,8 @@ export type Program = {
   entry: "niveau-bac" | "bac" | "bac3";
   accredited: boolean;
   image: string;
+  /** Affiche officielle de la filière — document réel, présenté comme tel. */
+  poster: string;
   excerpt: L;
   description: L;
   careers: L[];
@@ -130,6 +132,7 @@ export const programs: Program[] = [
   {
     slug: "journalisme",
     image: "/images/plateau-tp.webp",
+    poster: "/images/filiere-journalisme.webp",
     name: { fr: "Journalisme", ar: "الصحافة" },
     access: { fr: "BAC", ar: "الباكالوريا" },
     degree: { fr: "Diplôme de Journalisme BAC+3", ar: "دبلوم الصحافة باك+3" },
@@ -156,6 +159,7 @@ export const programs: Program[] = [
   {
     slug: "ingenierie-audiovisuelle",
     image: "/images/regie.webp",
+    poster: "/images/filiere-ingenierie.webp",
     name: {
       fr: "Ingénierie en Technologie de l'Information Audiovisuelle",
       ar: "هندسة تكنولوجيا المعلومات السمعية البصرية",
@@ -185,6 +189,7 @@ export const programs: Program[] = [
   {
     slug: "medias-numeriques",
     image: "/images/montage.webp",
+    poster: "/images/filiere-medias.webp",
     name: { fr: "Médias Numériques", ar: "الإعلام الرقمي" },
     access: { fr: "BAC+3 / Licence", ar: "باك+3 / الإجازة" },
     degree: { fr: "Diplôme Médias Numériques", ar: "دبلوم الإعلام الرقمي" },
@@ -210,7 +215,8 @@ export const programs: Program[] = [
   },
   {
     slug: "diplomatie-sportive",
-    image: "/images/background.webp",
+    image: "/images/news-saadni.webp",
+    poster: "/images/filiere-diplomatie.webp",
     name: { fr: "Diplomatie Sportive", ar: "الدبلوماسية الرياضية" },
     access: { fr: "BAC+3 / Licence", ar: "باك+3 / الإجازة" },
     degree: { fr: "Diplôme de Diplomatie Sportive", ar: "دبلوم الدبلوماسية الرياضية" },
@@ -236,6 +242,7 @@ export const programs: Program[] = [
   {
     slug: "technicien-journalisme",
     image: "/images/prompteur.webp",
+    poster: "/images/filiere-tech-journalisme.webp",
     name: { fr: "Technicien en Journalisme", ar: "تقني في الصحافة" },
     access: { fr: "Niveau BAC", ar: "مستوى الباكالوريا" },
     degree: { fr: "Diplôme de Technicien en Journalisme", ar: "دبلوم تقني في الصحافة" },
@@ -261,6 +268,7 @@ export const programs: Program[] = [
   {
     slug: "technicien-audiovisuel",
     image: "/images/plateau-tav.webp",
+    poster: "/images/filiere-tav.webp",
     name: { fr: "Technicien en Audiovisuel", ar: "تقني في السمعي البصري" },
     access: { fr: "Niveau BAC", ar: "مستوى الباكالوريا" },
     degree: { fr: "Diplôme de Technicien en Audiovisuel", ar: "دبلوم تقني في السمعي البصري" },
@@ -302,7 +310,7 @@ export type Article = {
 export const articles: Article[] = [
   {
     slug: "nouveau-site-ifj-2026",
-    image: "/images/background.webp",
+    image: "/images/hero-plateau.webp",
     title: {
       fr: "L'IFJ fait peau neuve : nouveau site, nouvelle ambition pour ses deux campus",
       ar: "المعهد العالي للصحافة يتجدد: موقع جديد وطموح جديد لحرميه",
@@ -347,7 +355,7 @@ export const articles: Article[] = [
   },
   {
     slug: "conseil-national-presse",
-    image: "/images/plateau-tav.webp",
+    image: "/images/news-saadni.webp",
     title: {
       fr: "L'IFJ partenaire des travaux du Conseil national de la presse",
       ar: "المعهد شريك في أشغال المجلس الوطني للصحافة",
@@ -389,7 +397,7 @@ export const articles: Article[] = [
   },
   {
     slug: "soutenances-pfe",
-    image: "/images/montage.webp",
+    image: "/images/regie-emission.webp",
     title: {
       fr: "Soutenances des projets de fin d'études : le grand oral des futurs journalistes",
       ar: "مناقشات مشاريع نهاية الدراسة: الاختبار الكبير لصحافيي الغد",
@@ -607,7 +615,7 @@ export const testimonial = {
   } as L,
   author: { fr: "Lauréate de la filière Journalisme", ar: "خريجة مسلك الصحافة" } as L,
   meta: { fr: "Campus de Casablanca", ar: "حرم الدار البيضاء" } as L,
-  image: "/images/prompteur.webp",
+  image: "/images/news-aljazeera.webp",
 };
 
 /* ---------- Galerie ---------- */

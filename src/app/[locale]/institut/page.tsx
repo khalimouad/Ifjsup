@@ -34,7 +34,7 @@ export default async function InstitutePage({
       <PageHero
         title={t(ui.institute.title, l)}
         intro={t(ui.institute.intro, l)}
-        image="/images/presentation.webp"
+        index="01"
       />
 
       {/* ---------- chiffres ---------- */}

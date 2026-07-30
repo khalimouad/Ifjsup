@@ -179,18 +179,33 @@ export default async function ProgramPage({
               </Link>
             </div>
 
-            <div className="aside-card" id="debouches">
-              <h3>{t(ui.labels.careers, l)}</h3>
-              <div className="rows">
-                {p.careers.map((c) => (
-                  <div className="row-i" key={c.fr}>
-                    <span className="bx" aria-hidden="true">
-                      <Icon name="check" size={13} sw={2.6} />
-                    </span>
-                    {t(c, l)}
-                  </div>
-                ))}
+            <div style={{ display: "grid", gap: 18 }}>
+              <div className="aside-card" id="debouches">
+                <h3>{t(ui.labels.careers, l)}</h3>
+                <div className="rows">
+                  {p.careers.map((c) => (
+                    <div className="row-i" key={c.fr}>
+                      <span className="bx" aria-hidden="true">
+                        <Icon name="check" size={13} sw={2.6} />
+                      </span>
+                      {t(c, l)}
+                    </div>
+                  ))}
+                </div>
               </div>
+
+              {/* L'affiche officielle de la filière : un document, présenté
+                  comme tel plutôt que recadré en photo d'illustration. */}
+              <figure className="poster">
+                <div className="poster-media">
+                  <Photo
+                    src={p.poster}
+                    alt={`${t(ui.detail.posterAlt, l)} — ${t(p.name, l)}`}
+                    sizes="(max-width: 900px) 100vw, 360px"
+                  />
+                </div>
+                <figcaption>{t(ui.detail.posterAlt, l)}</figcaption>
+              </figure>
             </div>
           </div>
         </div>
