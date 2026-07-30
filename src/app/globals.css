@@ -214,6 +214,17 @@ html[lang="ar"] .overlay-link {
   transform: none;
 }
 
+/* Sans JavaScript, l'observateur ne bascule jamais ces blocs sur « in » :
+   ils resteraient invisibles. La classe `no-js` est retirée par le script
+   d'amorçage, donc cette règle ne s'applique que si rien ne s'exécute. */
+.no-js [data-reveal],
+.no-js [data-stagger],
+.no-js [data-stagger] > * {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] {
     opacity: 1;
@@ -3101,6 +3112,80 @@ textarea.input {
   height: 100%;
   object-fit: cover;
   display: block;
+  /* Monte en fondu depuis l'aperçu flou. */
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 0.6s var(--ease-out), transform 0.9s var(--ease-out);
+}
+
+.ph[data-loaded="1"] img {
+  opacity: 1;
+  transform: none;
+}
+
+/* Lueur qui balaie le cadre tant que rien n'est arrivé. */
+.ph::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    var(--accent-soft) 45%,
+    transparent 70%
+  );
+  background-size: 240% 100%;
+  animation: shimmer 1.5s linear infinite;
+  transition: opacity 0.45s var(--ease-out);
+}
+
+.ph[data-loaded="1"]::after {
+  opacity: 0;
+  animation: none;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 140% 0;
+  }
+  to {
+    background-position: -60% 0;
+  }
+}
+
+[dir="rtl"] .ph::after {
+  animation-direction: reverse;
+}
+
+/* Sans JavaScript, `onLoad` ne se déclenche jamais : la photo doit rester
+   visible et la lueur ne doit pas tourner indéfiniment. */
+.no-js .ph img {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+.no-js .ph::after {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Le fondu d'opacité reste (ce n'est pas du mouvement) ; l'échelle et la
+     lueur disparaissent. `html:not(.no-js)` : sans JavaScript `onLoad` ne se
+     déclenche jamais, l'image resterait alors atténuée pour toujours. */
+  .ph img {
+    transform: none;
+    transition: opacity 0.25s linear;
+  }
+  html:not(.no-js) .ph[data-loaded="0"] img {
+    opacity: 0.3;
+  }
+  .ph::after {
+    animation: none;
+    background: none;
+  }
 }
 
 .credit {
@@ -3692,5 +3777,115 @@ textarea.input {
   .gcard::after,
   .album::after {
     display: none;
+  }
+}
+
+
+/* =========================================================
+   Squelettes de chargement et rendu différé hors écran
+   ========================================================= */
+
+.sk-page {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: calc(var(--hdr-h) + 56px) var(--gut) 80px;
+}
+
+.sk {
+  display: block;
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Même lueur que les photos en cours de chargement : un seul vocabulaire. */
+.sk::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    var(--accent-soft) 45%,
+    transparent 70%
+  );
+  background-size: 240% 100%;
+  animation: shimmer 1.5s linear infinite;
+}
+
+[dir="rtl"] .sk::after {
+  animation-direction: reverse;
+}
+
+.sk-hero {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 56px;
+}
+
+.sk-kicker {
+  width: 120px;
+  height: 12px;
+  border-radius: var(--r-pill);
+}
+
+.sk-title {
+  width: min(680px, 100%);
+  height: 58px;
+}
+
+.sk-title-short {
+  width: min(420px, 80%);
+}
+
+.sk-line {
+  width: min(560px, 100%);
+  height: 14px;
+  border-radius: var(--r-pill);
+}
+
+.sk-line-short {
+  width: min(360px, 70%);
+}
+
+.sk-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.sk-card {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+}
+
+.sk-media {
+  height: 170px;
+  border-radius: var(--r-sm);
+}
+
+@media (max-width: 900px) {
+  .sk-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .sk-title {
+    height: 40px;
+  }
+}
+
+@media (max-width: 620px) {
+  .sk-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sk::after {
+    animation: none;
+    background: none;
   }
 }

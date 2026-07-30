@@ -89,12 +89,44 @@ Tout est en CSS ou en `IntersectionObserver` — aucune bibliothèque d'animatio
 | Inclinaison vers le curseur, lueur d'accent qui le suit | cartes (pointeur fin) |
 | Balayage d'accent sur la photo, filet qui se déploie, flèche qui pivote | cartes de contenu |
 | Barre de progression de lecture | haut de page |
+| Aperçu flou, lueur de chargement puis fondu montant | toutes les photos |
+| Squelette scintillant pendant la navigation | `loading.tsx` |
 
 `prefers-reduced-motion: reduce` coupe l'ensemble : animations désactivées,
 compteurs figés sur leur valeur finale, barre de progression masquée,
 inclinaison et lueurs neutralisées. L'inclinaison ne s'active de toute façon
 que sur pointeur fin (`hover: hover and pointer: fine`) — jamais au tactile.
 Vérifié en test, survol compris : aucun élément ne reste invisible ni décalé.
+
+## Chargement des images
+
+Les photos ne surgissent pas : elles se construisent.
+
+1. Un **aperçu flou de 12 px** encodé en base64 tient la place dès le HTML
+   (`placeholder="blur"` de `next/image`, données dans `src/lib/blur.ts`).
+2. Une **lueur d'accent balaie le cadre** tant que rien n'est arrivé.
+3. La photo **monte en fondu** depuis une légère surdimension.
+
+Les dix-huit aperçus pèsent **2,9 Kio au total** et sont versionnés ; ils se
+régénèrent avec `node scripts/gen-blur.mjs` après tout ajout de photo.
+
+**Chargement différé** — vérifié sur le HTML servi, pas supposé : sur l'accueil,
+9 des 10 images portent `loading="lazy"`. La dixième est la photo du héros, qui
+reçoit un `<link rel="preload" as="image">` : c'est le seul visuel du premier
+écran, il ne doit pas attendre. Même règle sur les autres pages — une seule
+image prioritaire, tout le reste différé.
+
+Le squelette de `loading.tsx` reprend la même lueur : un seul vocabulaire
+visuel pour tout ce qui n'est pas encore là.
+
+### Sans JavaScript
+
+Le fondu des photos repose sur `onLoad`, et l'apparition au défilement sur un
+`IntersectionObserver` : ni l'un ni l'autre ne se déclenche sans JavaScript. La
+classe `no-js`, posée sur `<html>` puis retirée par le script d'amorçage,
+rétablit dans ce cas l'opacité pleine des photos **et des blocs animés** — sans
+quoi une partie de la page resterait invisible. Les quatre combinaisons
+(JavaScript actif ou non × mouvement normal ou réduit) sont vérifiées en test.
 
 ## Fonctionnalités
 

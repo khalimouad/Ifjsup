@@ -117,7 +117,7 @@ export default async function LocaleLayout({
     <html
       lang={l}
       dir={dir(l)}
-      className={`${plex.variable} ${plexCondensed.variable} ${plexMono.variable} ${cairo.variable}`}
+      className={`no-js ${plex.variable} ${plexCondensed.variable} ${plexMono.variable} ${cairo.variable}`}
       style={
         {
           "--font-ui": l === "ar" ? "var(--font-cairo)" : "var(--font-plex)",
