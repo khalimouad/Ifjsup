@@ -522,6 +522,78 @@ html[lang="ar"] .overlay-link {
   color: var(--btn-ink);
 }
 
+
+/* =========================================================
+   Bandeaux de tête toujours sombres
+   Le héros et les en-têtes de page restent sur fond noir même en thème clair :
+   redéfinir les jetons sur la section suffit, tous les descendants suivent.
+   ========================================================= */
+
+/* L'en-tête transparent flotte sur ce bandeau : il doit suivre les mêmes
+   jetons, sinon son texte devient sombre sur fond sombre en thème clair. */
+.dark-scope,
+.hdr[data-stuck="0"] {
+  --bg: #0a0a0a;
+  --soft: #141414;
+  --surface: #1a1a1a;
+  --ink: #ffffff;
+  --muted: #a3a3a3;
+  --line: rgba(255, 255, 255, 0.14);
+  /* L'orange vif reprend ses droits : 7,36:1 sur noir. */
+  --accent: #f0801a;
+  --accent-soft: rgba(240, 128, 26, 0.14);
+  --gold: #f0801a;
+  --gold-soft: rgba(240, 128, 26, 0.14);
+  --btn-ink: #0a0a0a;
+  --hero-bg: #0a0a0a;
+  --elev: 0 18px 48px rgba(0, 0, 0, 0.55);
+}
+
+.dark-scope {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.hdr[data-stuck="0"] {
+  color: var(--ink);
+}
+
+/* Le voile du héros ne dépend plus du thème : il est toujours sombre. */
+html[data-theme="light"] .hero-scrim {
+  background:
+    linear-gradient(
+      to top,
+      var(--hero-bg) 2%,
+      rgba(10, 10, 10, 0.72) 34%,
+      rgba(10, 10, 10, 0.24) 66%,
+      rgba(10, 10, 10, 0.5) 100%
+    ),
+    linear-gradient(
+      to right,
+      rgba(10, 10, 10, 0.82) 0%,
+      rgba(10, 10, 10, 0.35) 46%,
+      transparent 78%
+    );
+}
+
+html[data-theme="light"] .phero-fade {
+  background:
+    linear-gradient(to top, var(--soft) 4%, rgba(10, 10, 10, 0.55) 46%, rgba(10, 10, 10, 0.3) 100%),
+    linear-gradient(to right, var(--soft) 0%, rgba(10, 10, 10, 0.4) 44%, transparent 76%);
+}
+
+[dir="rtl"] /* En thème clair, la transition du bandeau sombre vers la page claire. */
+html[data-theme="light"] .phero::after,
+html[data-theme="light"] .hero::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--line);
+  z-index: 4;
+}
+
 /* ---------- en-tête ---------- */
 
 /* Superposé au héros, il devient opaque une fois la page défilée. */
@@ -1044,23 +1116,6 @@ html[lang="ar"] .overlay-link {
     );
 }
 
-html[data-theme="light"] .hero-scrim {
-  background:
-    linear-gradient(
-      to top,
-      var(--hero-bg) 2%,
-      rgba(255, 255, 255, 0.86) 30%,
-      rgba(255, 255, 255, 0.42) 66%,
-      rgba(255, 255, 255, 0.2) 100%
-    ),
-    linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0.94) 0%,
-      rgba(255, 255, 255, 0.55) 46%,
-      transparent 78%
-    );
-}
-
 /* Halos colorés flottants — orange et bleu. */
 .blob {
   position: absolute;
@@ -1511,7 +1566,9 @@ html[data-theme="light"] .hero-scrim {
 
 /* carte visite virtuelle */
 .vr {
-  min-height: 230px;
+  max-width: var(--wrap);
+  margin: 0 auto;
+  min-height: 300px;
   justify-content: center;
   background: linear-gradient(110deg, var(--accent-soft), var(--surface) 52%, var(--accent-2-soft));
   border: 1px solid var(--line);
@@ -1802,12 +1859,6 @@ html[data-theme="light"] .hero-scrim {
   background:
     linear-gradient(to top, var(--soft) 4%, rgba(10, 10, 10, 0.55) 46%, rgba(10, 10, 10, 0.3) 100%),
     linear-gradient(to left, var(--soft) 0%, rgba(10, 10, 10, 0.4) 44%, transparent 76%);
-}
-
-html[data-theme="light"] .phero-fade {
-  background:
-    linear-gradient(to top, var(--soft) 4%, rgba(255, 255, 255, 0.8) 46%, rgba(255, 255, 255, 0.45) 100%),
-    linear-gradient(to right, var(--soft) 0%, rgba(255, 255, 255, 0.7) 44%, transparent 76%);
 }
 
 .phero-light .phero-fade {
@@ -3887,5 +3938,371 @@ textarea.input {
   .sk::after {
     animation: none;
     background: none;
+  }
+}
+
+
+/* =========================================================
+   Accueil — pièces créatives
+   ========================================================= */
+
+/* ---------- révélation mot à mot ---------- */
+
+[data-words] .word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  /* L'espace entre mots vient d'ici : un espace textuel serait rogné par
+     `overflow: hidden`. */
+  margin-inline-end: 0.26em;
+}
+
+[data-words] .word > span {
+  display: inline-block;
+  transform: translateY(105%);
+  opacity: 0;
+  transition: transform 0.8s var(--ease-out), opacity 0.8s var(--ease-out);
+}
+
+[data-words="in"] .word > span {
+  transform: none;
+  opacity: 1;
+}
+
+.no-js [data-words] .word > span {
+  transform: none;
+  opacity: 1;
+  transition: none;
+}
+
+/* ---------- manifeste ---------- */
+
+.manifesto {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(80px, 12vw, 160px) var(--gut);
+  isolation: isolate;
+}
+
+.manifesto-in {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.manifesto-q {
+  display: block;
+  margin: 0;
+  font-family: var(--font-head), "IBM Plex Sans Condensed", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(30px, 5.2vw, 74px);
+  line-height: 1.03;
+  letter-spacing: -0.02em;
+}
+
+/* Un mot sur trois passe en accent : le texte respire sans être bariolé. */
+.manifesto .word:nth-child(3n) > span {
+  color: var(--accent);
+}
+
+.manifesto-by {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 38px;
+  font-family: var(--font-mono), "IBM Plex Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.manifesto-by::before {
+  content: "";
+  width: 54px;
+  height: 1px;
+  background: var(--accent);
+  flex: none;
+}
+
+/* ---------- panneaux empilés (formations) ---------- */
+
+.stack {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  display: grid;
+  gap: 26px;
+}
+
+.stack-item {
+  position: sticky;
+  /* Chaque panneau s'arrête un cran plus bas : ils se superposent en escalier. */
+  top: calc(var(--hdr-h) + 26px + var(--i, 0) * 16px);
+}
+
+.panel {
+  position: relative;
+  display: grid;
+  grid-template-columns: 46% 1fr;
+  align-items: stretch;
+  min-height: 420px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: var(--elev);
+  color: inherit;
+  transition: border-color 0.4s var(--ease-out);
+}
+
+.panel:hover {
+  border-color: var(--accent);
+  color: inherit;
+}
+
+.panel-media {
+  position: relative;
+  overflow: hidden;
+}
+
+.panel-media .ph {
+  transition: transform 0.9s var(--ease-out);
+}
+
+.panel:hover .panel-media .ph {
+  transform: scale(1.06);
+}
+
+.panel-body {
+  padding: clamp(28px, 3.4vw, 52px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+}
+
+.panel-n {
+  font-family: var(--font-mono), "IBM Plex Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+}
+
+.panel h3 {
+  font-size: clamp(26px, 3.4vw, 46px);
+  line-height: 1.02;
+  margin: 0;
+}
+
+.panel-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.panel p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 0;
+  max-width: 46ch;
+}
+
+/* Grand numéro en filigrane, au fond du panneau. */
+.panel-ghost {
+  position: absolute;
+  inset-inline-end: 28px;
+  bottom: -18px;
+  font-family: var(--font-head), "IBM Plex Sans Condensed", sans-serif;
+  font-size: clamp(90px, 13vw, 180px);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ink);
+  opacity: 0.05;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ---------- ruban de section ---------- */
+
+.ribbon {
+  overflow: hidden;
+  padding: 10px 0;
+  border-block: 1px solid var(--line);
+  background: var(--soft);
+}
+
+.ribbon-track {
+  display: flex;
+  gap: 34px;
+  width: max-content;
+  animation: tickerRun 30s linear infinite;
+  will-change: transform;
+}
+
+[dir="rtl"] .ribbon-track {
+  animation-name: tickerRunRtl;
+}
+
+.ribbon span {
+  font-family: var(--font-head), "IBM Plex Sans Condensed", sans-serif;
+  font-size: clamp(28px, 4vw, 52px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--muted);
+}
+
+.ribbon span:nth-child(even) {
+  color: var(--accent);
+  -webkit-text-stroke: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ribbon-track {
+    animation: none;
+  }
+}
+
+
+/* =========================================================
+   Mobile — mouvement pensé pour le tactile
+   L'inclinaison au curseur n'existe pas ici : le relief vient du défilement.
+   ========================================================= */
+
+@media (max-width: 900px) {
+  /* Les panneaux passent en pile verticale, image au-dessus, et continuent
+     de s'empiler en escalier — l'effet fonctionne mieux au doigt qu'à la
+     souris, on le garde. */
+  .panel {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .panel-media {
+    height: 220px;
+  }
+
+  .stack {
+    gap: 18px;
+  }
+
+  .stack-item {
+    top: calc(var(--hdr-h) + 14px + var(--i, 0) * 10px);
+  }
+
+  /* Les cartes entrent alternativement par la gauche et par la droite. */
+  [data-stagger] > *:nth-child(odd) {
+    transform: translate3d(-26px, 20px, 0);
+  }
+
+  [data-stagger] > *:nth-child(even) {
+    transform: translate3d(26px, 20px, 0);
+  }
+
+  [data-stagger="in"] > * {
+    transform: none;
+  }
+
+  /* Les actualités défilent au doigt, avec calage par carte. */
+  .news-mini {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gut);
+    margin-inline: calc(-1 * var(--gut));
+    padding-inline: var(--gut);
+    padding-bottom: 8px;
+    scrollbar-width: none;
+  }
+
+  .news-mini::-webkit-scrollbar {
+    display: none;
+  }
+
+  .news-mini > * {
+    flex: 0 0 78%;
+    scroll-snap-align: start;
+  }
+
+  .ncard-media {
+    height: 150px;
+  }
+
+  /* Le bandeau équipements devient lui aussi une bande calée. */
+  .facilities {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .facilities::-webkit-scrollbar {
+    display: none;
+  }
+
+  .facility {
+    flex: 0 0 74%;
+    scroll-snap-align: start;
+    border-inline-end: 1px solid var(--line);
+  }
+
+  .facility:last-child {
+    border-inline-end: none;
+  }
+
+  /* Indice visuel : il y a autre chose à droite. */
+  .swipe-hint {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+    font-family: var(--font-mono), "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .swipe-hint i {
+    display: block;
+    width: 26px;
+    height: 1px;
+    background: var(--accent);
+    animation: swipeNudge 1.8s ease-in-out infinite;
+  }
+}
+
+@media (min-width: 901px) {
+  .swipe-hint {
+    display: none;
+  }
+}
+
+@keyframes swipeNudge {
+  0%,
+  100% {
+    transform: translateX(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateX(10px);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .swipe-hint i {
+    animation: none;
+  }
+  @media (max-width: 900px) {
+    [data-stagger] > *:nth-child(odd),
+    [data-stagger] > *:nth-child(even) {
+      transform: none;
+    }
   }
 }

@@ -6,8 +6,9 @@ import { notFound } from "next/navigation";
 import { Icon } from "@/components/Icon";
 import { Photo } from "@/components/Photo";
 import { Counter } from "@/components/Counter";
+import { SplitWords } from "@/components/SplitWords";
 import { Facilities } from "@/components/Strips";
-import { NewsMiniCard, ProgramCard } from "@/components/Cards";
+import { NewsMiniCard } from "@/components/Cards";
 import { CtaBand } from "@/components/CtaBand";
 
 export default async function HomePage({
@@ -24,11 +25,12 @@ export default async function HomePage({
   const latest = [...articles]
     .sort((a, b) => b.date.localeCompare(a.date))
     .slice(0, 3);
+  const ribbon = t(ui.home.ribbon, l);
 
   return (
     <>
-      {/* ---------- héros pleine page ---------- */}
-      <section className="hero">
+      {/* ---------- héros pleine page, toujours sombre ---------- */}
+      <section className="hero dark-scope">
         <div className="hero-media" aria-hidden="true">
           <div className="hero-photo">
             <Photo src="/images/hero-plateau.webp" alt="" priority sizes="100vw" />
@@ -84,7 +86,7 @@ export default async function HomePage({
               ))}
             </div>
 
-            <a href="#formations" className="scroll-hint">
+            <a href="#manifeste" className="scroll-hint">
               <span className="scroll-mouse" aria-hidden="true">
                 <i />
               </span>
@@ -94,52 +96,115 @@ export default async function HomePage({
         </div>
       </section>
 
+      {/* ---------- ruban défilant ---------- */}
+      <div className="ribbon" aria-hidden="true">
+        <div className="ribbon-track">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <span key={i}>{ribbon}</span>
+          ))}
+        </div>
+      </div>
+
+      {/* ---------- manifeste ---------- */}
+      <section className="manifesto" id="manifeste">
+        <span className="blob blob-b" aria-hidden="true" style={{ opacity: 0.16 }} />
+        <div className="manifesto-in">
+          <SplitWords as="h2" text={t(ui.home.manifesto, l)} className="manifesto-q" />
+          <div className="manifesto-by">{t(ui.home.manifestoBy, l)}</div>
+        </div>
+      </section>
+
       {/* ---------- équipements ---------- */}
-      <section className="sec" style={{ padding: "56px var(--gut) 0" }}>
-        <div className="wrap" style={{ padding: 0 }}>
-          <h2 className="sr">{t(ui.home.facilitiesTitle, l)}</h2>
-          <div data-reveal>
-            <Facilities locale={l} />
+      <section className="sec" style={{ padding: "0 var(--gut) 64px" }}>
+        <div className="wrap" style={{ padding: "0 0 24px" }}>
+          <div className="kicker">{t(ui.home.facilitiesTitle, l)}</div>
+        </div>
+        <div className="wrap" style={{ padding: 0 }} data-reveal>
+          <Facilities locale={l} />
+          <div className="swipe-hint">
+            <i aria-hidden="true" />
+            {t(ui.home.swipe, l)}
           </div>
         </div>
       </section>
 
-      {/* ---------- formations ---------- */}
-      <section className="sec" id="formations" style={{ padding: "56px var(--gut) 0" }}>
-        <div className="prog-row" data-stagger>
-          <div className="prog-intro">
-            <div className="kicker">{t(ui.home.programsTitle, l)}</div>
-            <h2 className="h2">{t(ui.home.progTitle, l)}</h2>
-            <p>{t(ui.home.progText, l)}</p>
-            <Link href={`${base}/formations`} className="lnk">
-              {t(ui.cta.allPrograms, l)}
-              <Icon name="arrow" size={15} sw={2} />
-            </Link>
-          </div>
-
-          {featured.map((p) => (
-            <ProgramCard key={p.slug} program={p} locale={l} />
-          ))}
-
-          <article className="vr">
-            <span className="tag tag-gold">{t(ui.home.vrBadge, l)}</span>
-            <h3>{t(ui.home.vrTitle, l)}</h3>
-            <p>{t(ui.home.vrText, l)}</p>
-            <Link href={`${base}/galerie`} className="btn btn-accent btn-sm">
-              {t(ui.home.vrCta, l)}
-              <Icon name="arrow" size={15} sw={2.2} className="arw" />
-            </Link>
-            <div className="vr-media" aria-hidden="true">
-              <Photo src="/images/regie.webp" alt="" sizes="200px" />
-            </div>
-            <div className="vr-grow" />
-            <div className="vr-360">360°</div>
-          </article>
+      {/* ---------- formations en panneaux empilés ---------- */}
+      <section className="sec" id="formations" style={{ padding: "0 var(--gut) 80px" }}>
+        <div className="wrap" style={{ padding: "0 0 34px" }} data-reveal>
+          <div className="kicker">{t(ui.home.programsTitle, l)}</div>
+          <h2 className="h2">{t(ui.home.progTitle, l)}</h2>
+          <p className="lead" style={{ maxWidth: "58ch" }}>
+            {t(ui.home.progText, l)}
+          </p>
         </div>
+
+        <div className="stack">
+          {featured.map((p, i) => (
+            <div
+              className="stack-item"
+              key={p.slug}
+              style={{ "--i": i } as React.CSSProperties}
+            >
+              <Link href={`${base}/formations/${p.slug}`} className="panel">
+                <div className="panel-media">
+                  <Photo
+                    src={p.image}
+                    alt={t(p.name, l)}
+                    sizes="(max-width: 900px) 100vw, 46vw"
+                  />
+                </div>
+                <div className="panel-body">
+                  <div className="panel-n">
+                    {String(i + 1).padStart(2, "0")} / {String(featured.length).padStart(2, "0")}
+                  </div>
+                  <h3>{t(p.name, l)}</h3>
+                  <div className="panel-meta">
+                    <span className="tag">{t(p.access, l)}</span>
+                    <span className="muted" style={{ fontSize: 14 }}>
+                      {t(p.duration, l)}
+                    </span>
+                  </div>
+                  <p>{t(p.excerpt, l)}</p>
+                  <span className="lnk" style={{ marginTop: 6 }}>
+                    {t(ui.cta.readMore, l)}
+                    <Icon name="arrow" size={15} sw={2} />
+                  </span>
+                </div>
+                <span className="panel-ghost" aria-hidden="true">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+              </Link>
+            </div>
+          ))}
+        </div>
+
+        <div className="wrap" style={{ padding: "40px 0 0" }} data-reveal>
+          <Link href={`${base}/formations`} className="btn btn-line">
+            {t(ui.cta.allPrograms, l)}
+            <Icon name="arrow" size={16} sw={2.2} className="arw" />
+          </Link>
+        </div>
+      </section>
+
+      {/* ---------- visite en images ---------- */}
+      <section className="sec" style={{ padding: "0 var(--gut) 80px" }}>
+        <article className="vr" data-reveal>
+          <span className="tag tag-gold">{t(ui.home.vrBadge, l)}</span>
+          <h3>{t(ui.home.vrTitle, l)}</h3>
+          <p>{t(ui.home.vrText, l)}</p>
+          <Link href={`${base}/galerie`} className="btn btn-accent btn-sm">
+            {t(ui.home.vrCta, l)}
+            <Icon name="arrow" size={15} sw={2.2} className="arw" />
+          </Link>
+          <div className="vr-media" aria-hidden="true">
+            <Photo src="/images/regie.webp" alt="" sizes="(max-width: 900px) 60vw, 620px" />
+          </div>
+          <div className="vr-360">360°</div>
+        </article>
       </section>
 
       {/* ---------- témoignage + actualités ---------- */}
-      <section className="sec" style={{ padding: "56px var(--gut) 0" }}>
+      <section className="sec" style={{ padding: "0 var(--gut) 80px" }}>
         <div className="home-bottom" data-stagger>
           <div className="card testi">
             <div>
@@ -175,13 +240,17 @@ export default async function HomePage({
                 ))}
               </div>
             </div>
+            <div className="swipe-hint">
+              <i aria-hidden="true" />
+              {t(ui.home.swipe, l)}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ---------- partenaires en bande défilante ---------- */}
-      <section className="sec" style={{ padding: "56px 0" }}>
-        <div className="wrap" style={{ paddingBottom: 22 }}>
+      {/* ---------- partenaires ---------- */}
+      <section className="sec" style={{ padding: "0 0 80px" }}>
+        <div className="wrap" style={{ paddingBottom: 22 }} data-reveal>
           <div className="kicker">{t(ui.labels.ourPartners, l)}</div>
         </div>
         <div className="marquee">

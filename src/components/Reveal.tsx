@@ -5,13 +5,22 @@ import { usePathname } from "next/navigation";
 
 /**
  * Couche de mouvement liée au défilement :
- *  - `data-reveal` et `data-stagger` basculent sur « in » à l'entrée à l'écran ;
+ *  - `data-reveal`, `data-stagger` et `data-words` basculent sur « in » quand
+ *    l'élément est franchement entré dans l'écran ;
  *  - la barre de progression suit l'avancement de la lecture ;
- *  - la photo du héros défile plus lentement que la page (parallaxe).
+ *  - la photo du héros défile plus lentement que la page, et le contenu du
+ *    héros s'efface à mesure qu'on le quitte.
  *
- * Filet de sécurité à 2,6 s : si l'observateur ne se déclenche jamais, rien ne
- * reste invisible. Tout est coupé si le visiteur demande moins d'animation.
+ * Le déclenchement est volontairement tardif — 22 % du bas de l'écran — pour
+ * que l'animation se joue sous les yeux du visiteur plutôt qu'en dehors.
+ *
+ * Filet de sécurité : au bout de 4 s, seuls les blocs *déjà atteints par le
+ * défilement* sont révélés d'office. Un blanc-seing sur toute la page ferait
+ * apparaître d'un coup des sections jamais atteintes, et l'animation ne serait
+ * plus jamais vue. Le cas « sans JavaScript » est traité en CSS (`.no-js`).
  */
+const SEL = "[data-reveal], [data-stagger], [data-words]";
+
 export function Reveal() {
   const pathname = usePathname();
 
@@ -20,22 +29,24 @@ export function Reveal() {
       typeof window.matchMedia === "function" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    const nodes = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-reveal], [data-stagger]")
-    );
+    const nodes = Array.from(document.querySelectorAll<HTMLElement>(SEL));
     const mark = (el: HTMLElement) => {
-      if (el.hasAttribute("data-stagger")) el.setAttribute("data-stagger", "in");
-      else el.setAttribute("data-reveal", "in");
+      for (const a of ["data-stagger", "data-words", "data-reveal"]) {
+        if (el.hasAttribute(a)) {
+          el.setAttribute(a, "in");
+          return;
+        }
+      }
     };
 
-    if (reduce) {
+    if (reduce || typeof IntersectionObserver === "undefined") {
       nodes.forEach(mark);
       return;
     }
 
-    let io: IntersectionObserver | undefined;
     let raf = 0;
     let fallback = 0;
+    let io: IntersectionObserver | undefined;
 
     if (nodes.length) {
       io = new IntersectionObserver(
@@ -47,15 +58,22 @@ export function Reveal() {
             }
           });
         },
-        { rootMargin: "0px 0px -6% 0px", threshold: 0.04 }
+        // L'élément doit avoir dépassé le bas de l'écran de 22 % pour s'animer.
+        { rootMargin: "0px 0px -22% 0px", threshold: 0.01 }
       );
       raf = requestAnimationFrame(() => nodes.forEach((el) => io!.observe(el)));
-      fallback = window.setTimeout(() => nodes.forEach(mark), 2600);
+
+      fallback = window.setTimeout(() => {
+        nodes.forEach((el) => {
+          // Seulement ce que le visiteur a déjà eu l'occasion de voir.
+          if (el.getBoundingClientRect().top < window.innerHeight) mark(el);
+        });
+      }, 4000);
     }
 
-    // Barre de progression + parallaxe, regroupées dans une seule frame.
     const bar = document.querySelector<HTMLElement>(".progress");
     const photo = document.querySelector<HTMLElement>(".hero-photo");
+    const heroIn = document.querySelector<HTMLElement>(".hero-in");
     let ticking = false;
 
     const onScroll = () => {
@@ -63,13 +81,19 @@ export function Reveal() {
       ticking = true;
       requestAnimationFrame(() => {
         const y = window.scrollY;
+        const vh = window.innerHeight;
         if (bar) {
-          const max = document.documentElement.scrollHeight - window.innerHeight;
+          const max = document.documentElement.scrollHeight - vh;
           bar.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
         }
-        // La photo ne bouge que tant que le héros est à l'écran.
-        if (photo && y < window.innerHeight) {
-          photo.style.translate = `0 ${y * 0.22}px`;
+        if (y < vh) {
+          // Parallaxe de la photo et effacement du contenu du héros.
+          if (photo) photo.style.translate = `0 ${y * 0.22}px`;
+          if (heroIn) {
+            const p = Math.min(1, y / (vh * 0.72));
+            heroIn.style.opacity = String(1 - p);
+            heroIn.style.translate = `0 ${p * -60}px`;
+          }
         }
         ticking = false;
       });

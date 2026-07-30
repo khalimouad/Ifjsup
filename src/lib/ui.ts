@@ -94,6 +94,17 @@ export const ui = {
     testiTitle: { fr: "Ils parlent de leur expérience à l'IFJ", ar: "يتحدثون عن تجربتهم في المعهد" },
     newsPanelTitle: { fr: "Restez informé", ar: "ابقَ على اطلاع" },
     facilitiesTitle: { fr: "Nos équipements", ar: "تجهيزاتنا" },
+    /* Manifeste — repris du mot de la direction, pas inventé. */
+    manifesto: {
+      fr: "Le journalisme s'apprend en le pratiquant, auprès de ceux qui l'exercent.",
+      ar: "الصحافة تُتعلَّم بالممارسة، إلى جانب من يمارسونها.",
+    },
+    manifestoBy: { fr: "Le mot de la direction", ar: "كلمة الإدارة" },
+    swipe: { fr: "Faites glisser", ar: "مرّر" },
+    ribbon: {
+      fr: "Journalisme · Audiovisuel · Médias numériques · Depuis 1994",
+      ar: "صحافة · سمعي بصري · إعلام رقمي · منذ 1994",
+    },
     heroText: {
       fr: "Institut pionnier de la formation aux métiers du journalisme et de l'audiovisuel au Maroc. Filières accréditées, plateaux professionnels, enseignants du métier — sur deux campus, à Casablanca et Marrakech.",
       ar: "المعهد الرائد في التكوين في مهن الصحافة والسمعي البصري بالمغرب. مسالك معتمدة، استوديوهات احترافية، وأساتذة ممارسون — في حرمين جامعيين بالدار البيضاء ومراكش.",

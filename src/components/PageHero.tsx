@@ -8,6 +8,9 @@ import { Photo } from "./Photo";
  *  - typographique (`image` omis), sur fond d'aplat et de halos. Le fonds ne
  *    compte que dix photographies : mieux vaut un héros assumé sans image
  *    qu'une photo qui ne parle pas du sujet.
+ *
+ * Le bandeau reste sombre dans les deux thèmes (`dark-scope`) : les en-têtes
+ * font une bande noire constante au-dessus du contenu.
  */
 export function PageHero({
   title,
@@ -29,7 +32,7 @@ export function PageHero({
 }) {
   return (
     <section
-      className={`phero${light ? " phero-light" : ""}${image ? "" : " phero-type"}`}
+      className={`phero dark-scope${light ? " phero-light" : ""}${image ? "" : " phero-type"}`}
     >
       {image ? (
         <div className="phero-media" aria-hidden="true">

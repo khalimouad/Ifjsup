@@ -57,6 +57,19 @@ Le **sombre porte l'identité** : c'est le défaut pour tout le monde, la varian
 claire étant un choix explicite du visiteur (mémorisé). On ne suit donc pas
 `prefers-color-scheme`, sinon la majorité des visiteurs verrait la variante.
 
+## Bandeaux de tête toujours sombres
+
+Le héros et tous les en-têtes de page restent sur fond noir, **y compris en
+thème clair** : une bande sombre constante ouvre chaque page, le contenu clair
+vient dessous. La classe `.dark-scope` redéfinit les jetons sur la section —
+tous les descendants suivent, sans exception à écrire.
+
+L'en-tête transparent qui survole ces bandes emprunte les mêmes jetons. Mais
+il ne le fait que si une bande démarre bien à sa hauteur : sur les pages qui
+ouvrent par un fil d'Ariane (fiche filière, article, album) ou sans bandeau du
+tout (pages légales), il reste opaque — sinon son texte clair se poserait sur
+un fond clair. La décision est mesurée au montage, pas devinée.
+
 ## Héros et navigation
 
 - **Héros pleine page** : la photo couvre tout l'écran (`92vh`), l'en-tête
@@ -71,6 +84,18 @@ claire étant un choix explicite du visiteur (mémorisé). On ne suit donc pas
   le parti « menu seul » du modèle rendait les rubriques invisibles d'un coup
   d'œil sur grand écran, ce qui pénalise un site d'école où l'on vient d'abord
   parcourir les formations.
+
+## Accueil
+
+L'accueil suit un déroulé éditorial plutôt qu'un empilement de grilles :
+
+1. **Héros pleine page**, dont le contenu s'efface à mesure qu'on le quitte
+2. **Ruban défilant** en lettres évidées
+3. **Manifeste** — le mot de la direction, révélé mot à mot, un mot sur trois
+   en accent
+4. **Formations en panneaux empilés** : chaque panneau se fige sous l'en-tête
+   pendant que le suivant glisse par-dessus, avec son numéro en filigrane
+5. **Visite en images**, témoignage et actualités, partenaires, appel
 
 ## Mouvement
 
@@ -91,12 +116,26 @@ Tout est en CSS ou en `IntersectionObserver` — aucune bibliothèque d'animatio
 | Barre de progression de lecture | haut de page |
 | Aperçu flou, lueur de chargement puis fondu montant | toutes les photos |
 | Squelette scintillant pendant la navigation | `loading.tsx` |
+| Révélation mot à mot | manifeste |
+| Panneaux qui s'empilent au défilement | formations (accueil) |
+| Effacement du héros quand on le quitte | héros |
+| Lettres évidées défilantes | ruban |
 
 `prefers-reduced-motion: reduce` coupe l'ensemble : animations désactivées,
 compteurs figés sur leur valeur finale, barre de progression masquée,
 inclinaison et lueurs neutralisées. L'inclinaison ne s'active de toute façon
 que sur pointeur fin (`hover: hover and pointer: fine`) — jamais au tactile.
 Vérifié en test, survol compris : aucun élément ne reste invisible ni décalé.
+
+## Mobile
+
+L'inclinaison au curseur n'existe pas au doigt : le relief vient du défilement.
+
+- Les **panneaux empilés** fonctionnent mieux encore au tactile qu'à la souris
+- Les cartes entrent **alternativement par la gauche et par la droite**
+- **Actualités et équipements deviennent des bandes calées** (`scroll-snap`),
+  avec un repère « faites glisser » qui signale qu'il y a autre chose à droite
+- L'en-tête se réduit au logo, au thème et au menu
 
 ## Chargement des images
 
@@ -144,8 +183,10 @@ quoi une partie de la page resterait invisible. Les quatre combinaisons
   `EducationalOrganization` à deux entités, sitemap + robots
 - **Accessibilité** : skip-link, `aria-current` sur la navigation, focus
   visible, zones tactiles ≥ 44 px, `prefers-reduced-motion` respecté
-- **Apparition au défilement** avec filet de sécurité : si l'observateur ne se
-  déclenche pas, tout redevient visible au bout de 2,6 s
+- **Apparition au défilement**, déclenchée tard (22 % du bas de l'écran) pour
+  que l'animation se joue sous les yeux du visiteur. Le filet de sécurité à 4 s
+  ne révèle que les blocs *déjà atteints par le défilement* : un blanc-seing
+  sur toute la page ferait apparaître d'un coup des sections jamais atteintes
 
 ## Contenus
 

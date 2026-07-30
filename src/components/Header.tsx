@@ -31,15 +31,34 @@ export function Header({ locale }: { locale: Locale }) {
 
   useEffect(() => setOpen(false), [pathname]);
 
-  // Fond opaque dès que la page quitte le haut.
+  /* Fond opaque dès que la page quitte le haut.
+     Transparent, l'en-tête emprunte les jetons sombres du bandeau qu'il
+     survole ; encore faut-il qu'il y en ait un. Sur les pages qui n'ouvrent
+     pas sur un héros (fil d'Ariane, pages légales), il reste donc opaque —
+     sinon son texte clair se poserait sur un fond clair. */
   useEffect(() => {
+    const el = hdr.current;
+    if (!el) return;
+    // Le bandeau ne protège l'en-tête que s'il démarre à sa hauteur. Sur une
+    // page qui ouvre par un fil d'Ariane, il arrive plus bas et l'en-tête
+    // transparent se retrouverait clair sur clair. On compare au placement
+    // naturel de l'en-tête dans le flux (`offsetTop`), pas au haut du document :
+    // le bandeau d'annonce le décale, et le héros remonte sous lui.
+    const band = document.querySelector("main .hero, main .phero");
+    const covered =
+      !!band &&
+      band.getBoundingClientRect().top + window.scrollY <= el.offsetTop + 4;
+    if (!covered) {
+      el.dataset.stuck = "1";
+      return;
+    }
     const onScroll = () => {
-      if (hdr.current) hdr.current.dataset.stuck = window.scrollY > 40 ? "1" : "0";
+      el.dataset.stuck = window.scrollY > 40 ? "1" : "0";
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     if (!open) return;
