@@ -581,6 +581,60 @@ html[lang="ar"] .overlay-link {
   max-width: 132px;
 }
 
+/* Barre de rubriques : masquée sous 1200 px, où le menu prend le relais. */
+.nav {
+  display: none;
+  align-items: center;
+  gap: 26px;
+  margin-inline-start: 12px;
+}
+
+@media (min-width: 1200px) {
+  .nav {
+    display: flex;
+  }
+}
+
+.nav-link {
+  position: relative;
+  font-family: var(--font-head), "IBM Plex Sans Condensed", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  opacity: 0.78;
+  padding: 6px 0;
+  white-space: nowrap;
+  transition: opacity 0.2s, color 0.2s;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background: var(--accent);
+  transition: width 0.3s var(--ease-out);
+}
+
+.nav-link:hover {
+  opacity: 1;
+  color: var(--accent);
+}
+
+.nav-link:hover::after,
+.nav-link[aria-current="page"]::after {
+  width: 100%;
+}
+
+.nav-link[aria-current="page"] {
+  opacity: 1;
+  color: var(--accent);
+}
+
 .hdr-spacer {
   flex: 1;
 }

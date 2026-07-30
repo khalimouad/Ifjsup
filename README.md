@@ -64,9 +64,13 @@ claire étant un choix explicite du visiteur (mémorisé). On ne suit donc pas
   bas à gauche. Deux halos flous — orange et bleu — flottent en arrière-plan.
 - **Bandeau d'annonce défilant** au-dessus de l'en-tête (piste dupliquée,
   translation de -50 % : boucle sans saut ; pause au survol).
-- **Menu plein écran** à toutes les largeurs, comme le modèle : entrées en très
-  grandes capitales qui montent en cascade, campus, langue, réseaux et appel à
-  candidature. Il remplace la barre de navigation classique.
+- **Menu plein écran** ouvrable à toutes les largeurs, comme le modèle :
+  entrées en très grandes capitales qui montent en cascade, campus, langue,
+  réseaux et appel à candidature.
+- **Barre de rubriques** visible à partir de 1200 px, en complément du menu :
+  le parti « menu seul » du modèle rendait les rubriques invisibles d'un coup
+  d'œil sur grand écran, ce qui pénalise un site d'école où l'on vient d'abord
+  parcourir les formations.
 
 ## Mouvement
 
@@ -157,10 +161,9 @@ src/
 - **Onglets de fiche filière** réduits à trois (Aperçu, Débouchés, Admission) :
   ce sont les sections pour lesquelles il existe du contenu réel. Ils pointent
   vers les ancres de la page au lieu d'être décoratifs.
-- **Barre de navigation classique remplacée** par le menu plein écran, à toutes
-  les largeurs. C'est le parti du modèle ; en contrepartie les rubriques ne sont
-  plus visibles d'un coup d'œil sur grand écran. Le maillage interne reste
-  assuré par le pied de page et les liens en fin de section.
+- **Navigation à deux niveaux**, là où le modèle n'a que le menu plein écran :
+  une barre de rubriques apparaît à partir de 1200 px. Écart assumé — la
+  découvrabilité des formations prime ici sur la pureté du parti pris.
 - **Sous 900 px**, l'en-tête ne garde que le logo, le thème et le menu :
   « Candidater » et le sélecteur de langue passaient le bouton de menu hors
   écran. Les deux sont dans le menu plein écran.

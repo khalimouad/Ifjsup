@@ -85,6 +85,22 @@ export function Header({ locale }: { locale: Locale }) {
             <span className="brand-sub">{t(ui.header.brandSub, locale)}</span>
           </Link>
 
+          {/* Barre visible à partir de 1200 px : les rubriques restent
+              repérables d'un coup d'œil sur grand écran. Le menu plein écran
+              reste ouvert à toutes les largeurs. */}
+          <nav className="nav" aria-label={t(ui.header.sections, locale)}>
+            {links.slice(1, 6).map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="nav-link"
+                aria-current={current(l.href) ? "page" : undefined}
+              >
+                {l.label}
+              </Link>
+            ))}
+          </nav>
+
           <span className="hdr-spacer" />
 
           <div className="hdr-actions">
