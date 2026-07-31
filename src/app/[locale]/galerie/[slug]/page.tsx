@@ -75,7 +75,7 @@ export default async function AlbumPage({
 
       {/* ---------- planche-contact ---------- */}
       <section className="sec" style={{ padding: "40px var(--gut) 60px" }}>
-        <div className="sheetgrid" data-reveal>
+        <div className="sheetgrid" data-stagger>
           {album.photos.map((ph, n) => (
             <figure className="shot" key={ph.src}>
               <div className="shot-media">

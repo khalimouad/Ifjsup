@@ -4306,3 +4306,43 @@ textarea.input {
     }
   }
 }
+
+
+/* ---------- déclaration en grand (pages intérieures) ---------- */
+
+/* Même traitement que le manifeste de l'accueil, à une échelle plus sobre :
+   les pages intérieures ont déjà un bandeau de tête au-dessus. */
+.statement {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-inline: var(--gut);
+}
+
+/* Plus sobre que le manifeste de l'accueil : ces déclarations sont des
+   paragraphes entiers, pas une accroche de six mots. */
+.statement-q {
+  display: block;
+  margin: 0;
+  font-size: clamp(22px, 2.5vw, 34px);
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+}
+
+.statement .word:nth-child(4n) > span {
+  color: var(--accent);
+}
+
+.statement .manifesto-by {
+  margin-top: 28px;
+}
+
+/* La FAQ se déplie ligne à ligne. */
+.faq[data-stagger] > * {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.faq[data-stagger="in"] > * {
+  opacity: 1;
+  transform: none;
+}

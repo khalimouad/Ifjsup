@@ -10,6 +10,7 @@ import { PageHero } from "@/components/PageHero";
 import { CampusFeatures } from "@/components/Strips";
 import { ContactForm } from "@/components/ContactForm";
 import { CtaBand } from "@/components/CtaBand";
+import { SectionHead } from "@/components/SectionHead";
 
 export function generateStaticParams() {
   return locales.flatMap((locale) =>
@@ -84,16 +85,13 @@ export default async function CampusPage({
 
       {/* ---------- atouts ---------- */}
       <section className="sec" style={{ padding: "34px var(--gut) 60px" }}>
-        <div className="wrap" style={{ padding: "0 0 26px" }}>
-          <div className="kicker">{t(ui.campus.kicker, l)}</div>
-          <h2 className="h2">{t(ui.campus.featuresTitle, l)}</h2>
-        </div>
+        <SectionHead n="01" title={t(ui.campus.featuresTitle, l)} intro={t(ui.campus.intro, l)} />
         <CampusFeatures locale={l} city={t(c.city, l)} />
       </section>
 
       {/* ---------- coordonnées + formulaire ---------- */}
       <section className="sec-soft" style={{ padding: "46px var(--gut) 60px" }}>
-        <div className="g2" data-reveal style={{ alignItems: "start" }}>
+        <div className="g2" data-stagger style={{ alignItems: "start" }}>
           <div className="contact-card">
             <h3>{t(ui.campus.contactTitle, l)}</h3>
             <p className="lead" style={{ marginBottom: 12 }}>
@@ -170,7 +168,10 @@ export default async function CampusPage({
       {/* ---------- carte ---------- */}
       <section className="sec" style={{ padding: "46px var(--gut)" }}>
         <div className="wrap" style={{ padding: 0 }}>
-          <h2 className="h2">{t(ui.campus.mapTitle, l)}</h2>
+          <div className="sec-head" style={{ padding: 0 }} data-reveal>
+            <span className="sec-head-n" aria-hidden="true">02</span>
+            <div><h2>{t(ui.campus.mapTitle, l)}</h2></div>
+          </div>
           <iframe
             className="map"
             title={t(ui.campus.mapTitle, l)}

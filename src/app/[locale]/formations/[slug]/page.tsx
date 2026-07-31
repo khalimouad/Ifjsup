@@ -218,7 +218,7 @@ export default async function ProgramPage({
           <h2 className="h2" style={{ marginBottom: 24 }}>
             {t(ui.detail.otherPrograms, l)}
           </h2>
-          <div className="prog-grid" data-reveal>
+          <div className="prog-grid" data-stagger>
             {others.map((o) => (
               <ProgramGridCard key={o.slug} program={o} locale={l} />
             ))}

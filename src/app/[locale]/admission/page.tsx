@@ -7,6 +7,7 @@ import { admissionDocs, faq } from "@/lib/content";
 import { Icon } from "@/components/Icon";
 import { PageHero } from "@/components/PageHero";
 import { ContactForm } from "@/components/ContactForm";
+import { SectionHead } from "@/components/SectionHead";
 
 export async function generateMetadata({
   params,
@@ -41,11 +42,8 @@ export default async function AdmissionPage({
 
       {/* ---------- les 4 étapes ---------- */}
       <section className="sec" style={{ padding: "38px var(--gut) 0" }}>
-        <div className="wrap" style={{ padding: "0 0 22px" }}>
-          <div className="kicker">{t(ui.admission.kicker, l)}</div>
-          <h2 className="h2">{t(ui.admission.stepsTitle, l)}</h2>
-        </div>
-        <div className="steps steps-4" data-reveal>
+        <SectionHead n="01" title={t(ui.admission.stepsTitle, l)} intro={t(ui.admission.kicker, l)} />
+        <div className="steps steps-4" data-stagger>
           {ui.admission.steps.map((s, i) => (
             <div className="step" key={s.title.fr}>
               <span className={`step-n${STEP_TONE[i] ?? ""}`}>{i + 1}</span>
@@ -58,7 +56,7 @@ export default async function AdmissionPage({
 
       {/* ---------- documents + aide ---------- */}
       <section className="sec" style={{ padding: "22px var(--gut) 0" }}>
-        <div className="adm-bottom" data-reveal>
+        <div className="adm-bottom" data-stagger>
           <div className="card card-r14" style={{ padding: 28 }}>
             <h3 style={{ fontSize: 18, margin: "0 0 20px" }}>
               {t(ui.admission.docsTitle, l)}
@@ -85,10 +83,8 @@ export default async function AdmissionPage({
 
       {/* ---------- niveaux acceptés ---------- */}
       <section className="sec" style={{ padding: "46px var(--gut) 0" }} id="niveaux">
-        <div className="wrap" style={{ padding: "0 0 22px" }}>
-          <h2 className="h2">{t(ui.admission.levelsTitle, l)}</h2>
-        </div>
-        <div className="g3" data-reveal>
+        <SectionHead n="02" title={t(ui.admission.levelsTitle, l)} />
+        <div className="g3" data-stagger>
           {ui.admission.levels.map((lv) => (
             <div className="tile" key={lv.level.fr}>
               <span className="tile-ico">
@@ -104,8 +100,11 @@ export default async function AdmissionPage({
       {/* ---------- FAQ ---------- */}
       <section className="sec" style={{ padding: "46px var(--gut) 0" }} id="faq">
         <div className="wrap" style={{ padding: 0 }}>
-          <h2 className="h2">{t(ui.admission.faqTitle, l)}</h2>
-          <div className="faq">
+          <div className="sec-head" style={{ padding: 0 }} data-reveal>
+            <span className="sec-head-n" aria-hidden="true">03</span>
+            <div><h2>{t(ui.admission.faqTitle, l)}</h2></div>
+          </div>
+          <div className="faq" data-stagger>
             {faq.map((f) => (
               <details key={f.q.fr}>
                 <summary>{t(f.q, l)}</summary>

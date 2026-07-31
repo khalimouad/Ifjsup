@@ -96,7 +96,7 @@ export default async function ArticlePage({
           <h2 className="h2" style={{ marginBottom: 22 }}>
             {t(ui.cta.allNews, l)}
           </h2>
-          <div className="news-list" data-reveal>
+          <div className="news-list" data-stagger>
             {more.map((m) => (
               <ArticleRow key={m.slug} article={m} locale={l} />
             ))}

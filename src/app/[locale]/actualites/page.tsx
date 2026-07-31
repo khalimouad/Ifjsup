@@ -39,7 +39,7 @@ export default async function NewsPage({
       />
 
       <section className="sec" style={{ padding: "30px var(--gut) 20px" }}>
-        <div className="news-page" data-reveal>
+        <div className="news-page" data-stagger>
           <FeaturedArticle article={lead} locale={l} />
           <div className="news-list">
             {rest.slice(0, 3).map((a) => (
@@ -53,7 +53,7 @@ export default async function NewsPage({
         <section className="sec" style={{ padding: "0 var(--gut) 60px" }}>
           <div className="wrap" style={{ padding: 0 }}>
             <h2 className="h2">{t(ui.labels.archive, l)}</h2>
-            <div className="news-list-2" data-reveal>
+            <div className="news-list-2" data-stagger>
               {rest.slice(3).map((a) => (
                 <ArticleRow key={a.slug} article={a} locale={l} />
               ))}

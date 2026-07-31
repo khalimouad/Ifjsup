@@ -7,6 +7,7 @@ import { campuses, site } from "@/lib/content";
 import { Icon } from "@/components/Icon";
 import { PageHero } from "@/components/PageHero";
 import { ContactForm } from "@/components/ContactForm";
+import { SectionHead } from "@/components/SectionHead";
 
 export async function generateMetadata({
   params,
@@ -39,11 +40,8 @@ export default async function ContactPage({
 
       {/* ---------- les deux campus ---------- */}
       <section className="sec" style={{ padding: "34px var(--gut) 0" }}>
-        <div className="wrap" style={{ padding: "0 0 22px" }}>
-          <div className="kicker">{t(ui.contact.kicker, l)}</div>
-          <h2 className="h2">{t(ui.labels.chooseCampus, l)}</h2>
-        </div>
-        <div className="g2" data-reveal style={{ alignItems: "start" }}>
+        <SectionHead n="01" title={t(ui.labels.chooseCampus, l)} intro={t(ui.contact.kicker, l)} />
+        <div className="g2" data-stagger style={{ alignItems: "start" }}>
           {campuses.map((c) => (
             <div className="contact-card" key={c.slug}>
               <h3>{t(c.city, l)}</h3>
@@ -122,9 +120,10 @@ export default async function ContactPage({
       {/* ---------- formulaire ---------- */}
       <section className="sec-soft" style={{ padding: "46px var(--gut) 60px", marginTop: 46 }}>
         <div className="wrap" style={{ padding: 0, maxWidth: 820 }}>
-          <h2 className="h2" style={{ marginBottom: 24 }}>
-            {t(ui.campus.formTitle, l)}
-          </h2>
+          <div className="sec-head" style={{ padding: 0 }} data-reveal>
+            <span className="sec-head-n" aria-hidden="true">02</span>
+            <div><h2>{t(ui.campus.formTitle, l)}</h2></div>
+          </div>
           <div className="card" style={{ padding: 28 }}>
             <ContactForm locale={l} />
           </div>

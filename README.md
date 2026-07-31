@@ -97,6 +97,21 @@ L'accueil suit un déroulé éditorial plutôt qu'un empilement de grilles :
    pendant que le suivant glisse par-dessus, avec son numéro en filigrane
 5. **Visite en images**, témoignage et actualités, partenaires, appel
 
+## Pages intérieures
+
+Elles partagent le vocabulaire de l'accueil plutôt qu'une mise en page à part :
+
+- **En-tête de section numéroté** (`SectionHead`) — un numéro en monospace, le
+  titre condensé, une accroche. Il remplace les couples « étiquette + titre »
+  qui variaient d'une page à l'autre.
+- **Cascade des enfants** : les grilles portent `data-stagger` et non plus
+  `data-reveal`, donc les cartes entrent l'une après l'autre au lieu que le
+  bloc entier apparaisse d'un coup. Quinze conteneurs convertis.
+- **Déclaration révélée mot à mot** sur les pages qui portent une citation
+  (`.statement`), à une échelle plus sobre que le manifeste de l'accueil : ce
+  sont des paragraphes entiers, pas une accroche de six mots.
+- **Frise et FAQ** se déplient ligne à ligne.
+
 ## Mouvement
 
 Tout est en CSS ou en `IntersectionObserver` — aucune bibliothèque d'animation.
@@ -120,6 +135,8 @@ Tout est en CSS ou en `IntersectionObserver` — aucune bibliothèque d'animatio
 | Panneaux qui s'empilent au défilement | formations (accueil) |
 | Effacement du héros quand on le quitte | héros |
 | Lettres évidées défilantes | ruban |
+| En-têtes de section numérotés | toutes les pages intérieures |
+| Cascade des cartes, frises et FAQ | grilles `data-stagger` |
 
 `prefers-reduced-motion: reduce` coupe l'ensemble : animations désactivées,
 compteurs figés sur leur valeur finale, barre de progression masquée,

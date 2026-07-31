@@ -38,7 +38,7 @@ export default async function GalleryPage({
       />
 
       <section className="sec" style={{ padding: "34px var(--gut) 60px" }}>
-        <div className="g3" data-reveal>
+        <div className="g3" data-stagger>
           {galleryAlbums.map((a) => (
             <Link href={`/${l}/galerie/${a.slug}`} className="album" key={a.slug}>
               <div className="album-media">
